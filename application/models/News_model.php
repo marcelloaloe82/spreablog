@@ -9,7 +9,7 @@ class News_model extends CI_Model {
 
 	public function all(){
 
-		return $this->db->get('news');
+		return $this->db->get('news')->result_array();
 	}
 
 	public function paged_news($start){
@@ -18,6 +18,17 @@ class News_model extends CI_Model {
 		return $this->db->get('news')->result_array();
 	}
 
+
+	public function last_news(){
+
+		$last_id = $this->db->insert_id();
+
+
+		$this->db->select('content');
+		$this->db->where('id', $last_id);
+
+		return $this->db->get('news')->result_array()[0];
+	}
 
 	public function create($news_data){
 

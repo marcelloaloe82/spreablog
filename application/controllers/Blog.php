@@ -13,6 +13,7 @@ class Blog extends CI_Controller {
         // Ensure you have created the 'limits' table and enabled 'limits' within application/config/rest.php
        
         $this->load->model('user');
+        $this->load->model('news_model');
         $this->load->library('session');
     }
 
@@ -26,6 +27,8 @@ class Blog extends CI_Controller {
 			$ruolo_utente = $this->user->get_ruolo( $this->session->user['role_id']);
 			$page_data['ruolo_utente'] = $ruolo_utente;
 		}
+
+		$page_data['news'] = $this->news_model->all();
 		
 		$this->load->view('blog_page', $page_data);
 	}
