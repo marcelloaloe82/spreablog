@@ -41,9 +41,10 @@
       position: fixed;
       z-index: 100;
       border: 1px solid;
-      /*background-color: blue;*/
-      width: 0%;
-      height: 0%;
+      background-color: white;
+      
+      width: 0;
+      height: 0;
     }
 
     .modal-body > img{
@@ -56,6 +57,17 @@
     .publish-draft-button{
 
       margin-left: 10px;
+    }
+
+    #utenti_wrapper{
+
+      width: 80%;
+      margin: 50px auto;
+    }
+
+    .news-buttons{
+
+      margin-top: 20px;
     }
     
   </style>
@@ -78,16 +90,84 @@
 </head>
 <body>
 
+<?php if($this->session->user && $ruolo_utente == 'admin'): ?>
 <div id="aggiungi-utente"><!-- maschera per inserire nuovo utente -->
   <div style="border:1px solid; width: 500px; height: 500px;"></div>
 </div>
+
 <div id="pannello-utenti"><!-- tabella con gli utenti approvati -->
-  
+  <table id="utenti" class="cell-border compact stripe">
+    <thead>
+      <th>id</th>
+      <th>Nome</th>
+      <th>Cognome</th>
+      <th>Email</th>
+      <th>Ruolo</th>
+      <th>Operazioni</th>
+      
+    </thead>
+    <tbody>
+
+      <?php foreach ($utenti as $utente): ?>
+        <tr>
+          <td><?php echo $utente['id']; ?></td>
+          <td><?php echo $utente['nome']; ?></td>
+          <td><?php echo $utente['cognome']; ?></td>
+          <td><?php echo $utente['email']; ?></td>
+          <td><?php echo $utente['ruolo']; ?></td>
+          <td><span class="glyphicon glyphicon-pencil"></span>
+              <span class="glyphicon glyphicon-remove"></span></td>
+        </tr>
+      <?php endforeach; ?>
+    </tbody>
+  </table>
 </div>
+
+
+<div id="user-modal" class="modal fade" role="dialog">
+      
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Dati utente</h4>
+          </div>
+          
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <input type="text" class="form-control" name="nome" id="nome" placeholder="nome" required="required">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="cognome" id="cognome" placeholder="cognome"  required="required">
+              </div> 
+              <div class="form-group">
+                <input type="email" class="form-control" name="email" id="email" placeholder="email" required="required">
+              </div>
+              <div class="form-group">
+                <select class="form-control" name="ruolo" id="ruolo">
+                  <option value="">-----------</option>
+                  <?php foreach($ruoli as $ruolo): ?>
+                    <option value="<?php echo $ruolo['id']; ?>"><?php echo $ruolo['name']; ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <input type="hidden" name="idutente" id="idutente">
+              <div><button class="btn btn-primary btn-lg" id="invia-dati-utente">Invia</button></div>
+             </form>
+          </div>
+          
+        </div>
+
+      </div>
+</div>
+<?php endif; ?>
 
 <div class="container">
   <div class="admin-ops">
-    <div><span  class="glyphicon glyphicon-plus"></span></div>
+    <div id="nuovo-utente"><span  class="glyphicon glyphicon-plus"></span></div>
     <div id="apri-tabella-utenti"><span class="glyphicon glyphicon-th-list"></span></div>
     <div id="login-button"  data-target="#login-modal"><span class="glyphicon glyphicon glyphicon-user"></span></div>
     <div id="logout-button"><span class="glyphicon glyphicon-log-out"></span></div>
@@ -102,7 +182,7 @@
     </div>
     <div class="col-sm-12">
       <textarea id="news-text" name="content" class="form-control" rows="5"></textarea>
-      <div>
+      <div class="news-buttons">
         <button class="btn btn-default" id="save-draft">Salva bozza</button> 
         <button id="publish" class="btn btn-primary">Pubblica</button>
       </div>
@@ -198,6 +278,7 @@
       </div>
   </div>
 
+
   <ul class="pagination">
     <li class="active"><a href="#">1</a></li>
     <li><a href="#">2</a></li>
@@ -209,14 +290,75 @@
 </div>    
 </body>
 <script type="text/javascript">
+  
   $(document).ready(function(){
-    
+
+
+    <?php if($this->session->user && $ruolo_utente == 'admin'): ?>
+
+    datatable= $("#utenti").DataTable({
+      language: {
+        "sEmptyTable":     "Nessun dato presente nella tabella",
+        "sInfo":           "Vista da _START_ a _END_ di _TOTAL_ elementi",
+        "sInfoEmpty":      "Vista da 0 a 0 di 0 elementi",
+        "sInfoFiltered":   "(filtrati da _MAX_ elementi totali)",
+        "sInfoPostFix":    "",
+        "sInfoThousands":  ".",
+        "sLengthMenu":     "Visualizza _MENU_ elementi",
+        "sLoadingRecords": "Caricamento...",
+        "sProcessing":     "Elaborazione...",
+        "sSearch":         "Cerca:",
+        "sZeroRecords":    "La ricerca non ha portato alcun risultato.",
+        "oPaginate": {
+          "sFirst":      "Inizio",
+          "sPrevious":   "Precedente",
+          "sNext":       "Successivo",
+          "sLast":       "Fine"
+        }
+      },
+
+      columnDefs:[
+      
+        {
+          "targets": [0],
+          "visible": false
+        }
+      ] ,
+
+      dom: 'Bfrtip',
+      pageLength: 30
+    });
+
+    $("#utenti").css("width", "100%");
+
     $("#apri-tabella-utenti").click( function(){
       $("#pannello-utenti").show();
       $("#pannello-utenti").animate({width: "+=" + window.innerWidth + 'px', height: "+=" + window.innerHeight + 'px'}, 500, "swing");
       //$("#pannello-utenti").fadeIn('slow');
     });
 
+
+    $("#nuovo-utente").click(function(){
+
+      $("#user-modal").modal('show');
+    });
+
+
+    $("#utenti .glyphicon.glyphicon-pencil").on('click', function () {
+      
+
+        var rowdata = datatable.row( this.parentElement.parentElement ).data();
+
+        $("#idutente").val(rowdata[0]);
+        $("#nome").val(rowdata[1]);
+        $("#cognome").val(rowdata[2]);
+        $("#email").val(rowdata[3]);
+
+        $("#user-modal").modal('show');
+        //$("#ruolo").val();
+    });
+  
+  <?php endif; ?>
 
     $("#login-button").click( function(){
 

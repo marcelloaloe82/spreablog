@@ -26,6 +26,13 @@ class Blog extends CI_Controller {
 
 			$ruolo_utente = $this->user->get_ruolo( $this->session->user['role_id']);
 			$page_data['ruolo_utente'] = $ruolo_utente;
+
+			if($ruolo_utente == 'admin'){
+
+				$page_data['utenti']	= $this->user->all();
+				$page_data['ruoli']		= $this->user->ruoli();
+
+			}
 		}
 
 		$page_data['news'] = $this->news_model->all();

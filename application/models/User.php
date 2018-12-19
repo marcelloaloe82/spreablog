@@ -9,7 +9,13 @@ class User extends CI_Model {
 
 	public function all(){
 
-		return $this->db->get('users')->result();
+		$this->db->select('users.id, nome, cognome, email, name as ruolo');
+		
+		$this->db->from('users');
+		
+		$this->db->join('roles', 'users.role_id = roles.id');
+
+		return $this->db->get()->result_array(); 
 	}
 
 	public function find($username, $password){
