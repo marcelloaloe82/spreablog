@@ -9,7 +9,7 @@ class User extends CI_Model {
 
 	public function all(){
 
-		$this->db->select('users.id, nome, cognome, email, name as ruolo');
+		$this->db->select('users.id as id, nome, cognome, email, name as ruolo');
 		
 		$this->db->from('users');
 		

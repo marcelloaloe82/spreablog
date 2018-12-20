@@ -44,7 +44,7 @@ class Users extends REST_Controller {
 
         if( $this->auth->check_ruolo("admin")){
 
-            $users = $this->user->all();
+            $users = ['data' => $this->user->all() ];
 
             
 

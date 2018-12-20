@@ -98,27 +98,23 @@
 <div id="pannello-utenti"><!-- tabella con gli utenti approvati -->
   <table id="utenti" class="cell-border compact stripe">
     <thead>
-      <th>id</th>
-      <th>Nome</th>
-      <th>Cognome</th>
-      <th>Email</th>
-      <th>Ruolo</th>
-      <th>Operazioni</th>
       
+      <tr>
+        
+        <th>id</th>
+        <th>Nome</th>
+        <th>Cognome</th>
+        <th>Email</th>
+        <th>Ruolo</th>
+        <th>Operazioni</th>
+        
+        
+        
+      </tr>
     </thead>
     <tbody>
 
-      <?php foreach ($utenti as $utente): ?>
-        <tr>
-          <td><?php echo $utente['id']; ?></td>
-          <td><?php echo $utente['nome']; ?></td>
-          <td><?php echo $utente['cognome']; ?></td>
-          <td><?php echo $utente['email']; ?></td>
-          <td><?php echo $utente['ruolo']; ?></td>
-          <td><span class="glyphicon glyphicon-pencil"></span>
-              <span class="glyphicon glyphicon-remove"></span></td>
-        </tr>
-      <?php endforeach; ?>
+      
     </tbody>
   </table>
 </div>
@@ -278,6 +274,31 @@
       </div>
   </div>
 
+  <div id="delete-confirm-modal" class="modal fade" role="dialog">
+        
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Conferma cancellazione</h4>
+            </div>
+            
+            <div class="modal-body">
+              <p>Sei sicuro di voler cancellare questo utente?</p>
+            </div>
+            <div>
+             <div style="width: 50%; margin: 0 auto;">
+              <button class="btn btn-primary btn-lg" id="canc-ok">OK</button>
+              <button class="btn btn-lg" id="canc-annulla">Annulla</button>
+            </div>
+           </div>
+          </div>
+
+        </div>
+    </div>
+
 
   <ul class="pagination">
     <li class="active"><a href="#">1</a></li>
@@ -290,6 +311,15 @@
 </div>    
 </body>
 <script type="text/javascript">
+
+  function aggiungi_pulsanti(json){
+
+    for(i in json.data){
+      json.data[i]['operazioni'] = "<span class=\"glyphicon glyphicon-pencil\"></span><span class=\"glyphicon glyphicon-remove\"></span>";
+    }
+
+    return json.data;
+  }
   
   $(document).ready(function(){
 
@@ -317,13 +347,27 @@
         }
       },
 
-      columnDefs:[
+      ajax: {
+        
+        url: '<?php echo base_url(); ?>index.php/api/users',
+        contentType: false,
+        processData: false,
+        dataSrc: aggiungi_pulsanti
+        
+      },
+
+      columns:  [
+            { "data": "id" },
+            { "data": "nome" },
+            { "data": "cognome" },
+            { "data": "email" },
+            { "data": "ruolo" },
+            { "data": "operazioni" }
+        ],
       
-        {
-          "targets": [0],
-          "visible": false
-        }
-      ] ,
+      columnDefs: [
+        { targets: [0], visible: false}
+      ],
 
       dom: 'Bfrtip',
       pageLength: 30
@@ -355,6 +399,12 @@
         $("#email").val(rowdata[3]);
 
         $("#user-modal").modal('show');
+        //$("#ruolo").val();
+    });
+
+    $("#utenti .glyphicon.glyphicon-remove").on('click', function () {
+      
+        $("#delete-confirm-modal").modal('show');
         //$("#ruolo").val();
     });
   
