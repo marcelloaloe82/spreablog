@@ -11,7 +11,13 @@ require APPPATH . 'libraries/Format.php';
 
 class Users extends REST_Controller {
 
-    private $valid_keys = ["nome", "cognome", "email", "role_id", "password"];
+    private $valid_keys = ["nome"       =>"nome", 
+                           "cognome"    =>"cognome", 
+                           "email"      =>"email", 
+                           "ruolo"      =>"role_id", 
+                           "password"   =>"password",
+                           "idutente"   =>"id"
+                       ];
 
     function __construct()
     {
@@ -31,14 +37,7 @@ class Users extends REST_Controller {
 
     public function index_get($id=NULL)
     {
-        // Users from a data store e.g. database
-        /*$users = [
-            ['id' => 1, 'name' => 'John', 'email' => 'john@example.com', 'fact' => 'Loves coding'],
-            ['id' => 2, 'name' => 'Jim', 'email' => 'jim@example.com', 'fact' => 'Developed on CodeIgniter'],
-            ['id' => 3, 'name' => 'Jane', 'email' => 'jane@example.com', 'fact' => 'Lives in the USA', ['hobbies' => ['guitar', 'cycling']]],
-        ];*/
-
-
+    
         $message_no_users = "Nessun utente trovato";
 
 
@@ -139,20 +138,32 @@ class Users extends REST_Controller {
 
             $parametri_utente   = $this->post();
             $message_error      = "Valore non valido per il parametro ";
+            $message_exists     = "È già presente un utente con questa email ";
             $message_ok         = "Utente creato correttamente";
 
             foreach ($parametri_utente as $key => $value) {
             
+                
+                if(in_array($key, array_keys($this->valid_keys))){
 
-                if(in_array($key, $this->valid_keys)){
-
-                    if(empty($value)){
+                    if(empty($value) && $key!= "idutente"){
                         $this->response(['message' => $message_error. $key ], REST_Controller::HTTP_BAD_REQUEST);
                     }
 
-                    if($key == 'email' && !filter_var($value, FILTER_VALIDATE_EMAIL)){
-                        $this->response(['message' => $message_error . $key ], REST_Controller::HTTP_BAD_REQUEST);
+                    if($key == 'email' ){
+                        
+                        if(!filter_var($value, FILTER_VALIDATE_EMAIL)){
+                            $this->response(['message' => $message_error . $key ], REST_Controller::HTTP_BAD_REQUEST);
+                        }
+
+                        if($this->user->find($value)){
+                            $this->response(['message' => $message_exists ], REST_Controller::HTTP_BAD_REQUEST);
+                        }
+
                     }
+
+                    unset($parametri_utente[ $key ]);
+                    $parametri_utente[ $this->valid_keys[ $key ] ] = $value;
 
                     
                 }
@@ -160,6 +171,7 @@ class Users extends REST_Controller {
                 else unset($parametri_utente[ $key ]);
             }
 
+            
             
             $this->user->create($parametri_utente);
 
@@ -181,14 +193,22 @@ class Users extends REST_Controller {
 
             foreach ($arr_parametri as $key => $value) {
                         
-                if(in_array($key, $this->valid_keys)){
+                if(in_array($key, array_keys($this->valid_keys))) {
 
                     if(empty($value))
                         unset($arr_parametri[ $key ]);
+
+                     if($key == 'email' && !filter_var($value, FILTER_VALIDATE_EMAIL)){
+                        $this->response(['message' => $message_error . $key ], REST_Controller::HTTP_BAD_REQUEST);
+                    }
+
+
+                    $arr_parametri[ $this->valid_keys[$key] ] = $value;
+                    unset($arr_parametri[$key]);
                 }
             }
             
-            $update_result = $this->user->update($this->post("id"), $arr_parametri);
+            $update_result = $this->user->update($this->post("idutente"), $arr_parametri);
 
             if($update_result === 1)
                 $message = "Dati utente aggiornati";
@@ -215,7 +235,7 @@ class Users extends REST_Controller {
 
         if( $this->auth->check_ruolo("admin")){
 
-            $id = (int) $this->post('id');
+            $id = (int) $this->post('userid');
 
             $message = "Utente cancellato";
 

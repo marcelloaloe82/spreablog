@@ -132,7 +132,7 @@
           </div>
           
           <div class="modal-body">
-            <form>
+            <form id="user-form">
               <div class="form-group">
                 <input type="text" class="form-control" name="nome" id="nome" placeholder="nome" required="required">
               </div>
@@ -141,6 +141,9 @@
               </div> 
               <div class="form-group">
                 <input type="email" class="form-control" name="email" id="email" placeholder="email" required="required">
+              </div>
+              <div class="form-group">
+                <input type="password" class="form-control" name="password" id="password" placeholder="password" required="required">
               </div>
               <div class="form-group">
                 <select class="form-control" name="ruolo" id="ruolo">
@@ -247,8 +250,9 @@
             <input type="password" class="form-control" name="password" id="password" placeholder="password">
           </div>
           <div><button class="btn btn-primary btn-lg" id="login">Login</button></div>
-        </form>
+        
         </div>
+        </form>
         
       </div>
 
@@ -274,7 +278,7 @@
       </div>
   </div>
 
-  <div id="delete-confirm-modal" class="modal fade" role="dialog">
+  <div id="confirm-modal" class="modal fade" role="dialog">
         
         <div class="modal-dialog">
 
@@ -282,23 +286,21 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Conferma cancellazione</h4>
+              <h4 class="modal-title">Finestra di messaggio</h4>
             </div>
             
             <div class="modal-body">
-              <p>Sei sicuro di voler cancellare questo utente?</p>
+              
             </div>
-            <div>
-             <div style="width: 50%; margin: 0 auto;">
-              <button class="btn btn-primary btn-lg" id="canc-ok">OK</button>
-              <button class="btn btn-lg" id="canc-annulla">Annulla</button>
-            </div>
+            <div class="modal-footer">
+            
            </div>
           </div>
 
         </div>
     </div>
 
+    <input type="hidden" id="user_delete" />
 
   <ul class="pagination">
     <li class="active"><a href="#">1</a></li>
@@ -312,6 +314,36 @@
 </body>
 <script type="text/javascript">
 
+  function finestra_messaggio(messaggio, conferma){
+
+    var html_messaggio = "<p>" + messaggio + "</p>";
+    var html_bottoni = "";
+
+    $("#confirm-modal .modal-body").html(html_messaggio);
+
+    if(conferma){
+       html_bottoni = "<div style=\"width: 50%; margin: 0 auto;\">" +
+                        "<button class=\"btn btn-primary btn-lg\" id=\"butt-ok\">OK</button>" +
+                        "<button class=\"btn btn-lg\" id=\"butt-annulla\" data-dismiss=\"modal\">Annulla</button>" +
+                      "</div>";  
+
+    }
+
+    else{
+      html_bottoni = "<div style=\"width: 50%; float: right;\">" +
+                        "<button class=\"btn btn-primary btn-lg\" id=\"butt-ok\" data-dismiss=\"modal\">OK</button>" +
+                      "</div>";
+    }
+
+    $("#confirm-modal .modal-footer").html(html_bottoni);
+
+    $("#confirm-modal").modal('show');
+
+    
+
+
+  }
+
   function aggiungi_pulsanti(json){
 
     for(i in json.data){
@@ -320,11 +352,46 @@
 
     return json.data;
   }
+
+  function aggancia_callback(){
+
+    $("#utenti .glyphicon.glyphicon-pencil").on('click', function () {
+      
+
+        var rowdata = datatable.row( this.parentElement.parentElement ).data();
+
+        $("#idutente").val(rowdata['id']);
+        $("#nome").val(rowdata['nome']);
+        $("#cognome").val(rowdata['cognome']);
+        $("#email").val(rowdata['email']);
+
+        $("#user-modal").modal('show');
+        //$("#ruolo").val();
+    });
+
+    $("#utenti .glyphicon.glyphicon-remove").on('click', function () {
+        
+        var rowdata = datatable.row( this.parentElement.parentElement ).data();
+
+        $("#user_delete").val(rowdata['id']);
+        
+        finestra_messaggio("Vuoi cancellare questo utente?", true);
+        
+        $("#butt-ok").on('click', function(){
+
+        $.post("<?php echo base_url(); ?>index.php/api/users/delete", "&userid=" + $("#user_delete").val(),
+          function (response) {
+            $("#confirm-modal").modal('hide');
+            finestra_messaggio("Utente cancellato");
+            datatable.ajax.reload();
+          });
+        });
+    });
+    
+  }
   
   $(document).ready(function(){
 
-
-    <?php if($this->session->user && $ruolo_utente == 'admin'): ?>
 
     datatable= $("#utenti").DataTable({
       language: {
@@ -373,6 +440,13 @@
       pageLength: 30
     });
 
+
+    datatable.on("draw.dt", function(){
+    
+      aggancia_callback();
+    });
+
+
     $("#utenti").css("width", "100%");
 
     $("#apri-tabella-utenti").click( function(){
@@ -382,33 +456,44 @@
     });
 
 
+    $("#invia-dati-utente").click(function(event){
+
+      event.preventDefault();
+
+      var operazione;
+      
+      if($("#idutente").val())
+        operazione = 'update';
+      else operazione = 'create';
+
+      $.post("<?php echo base_url(); ?>index.php/api/users/" + operazione, $("#user-form").serialize(), 
+        
+        function(response){
+          
+          $("#user-modal").modal('hide');
+          finestra_messaggio(response.message);
+          datatable.ajax.reload();
+          datatable.draw();
+        })
+        .fail( function(response){
+          $("#user-modal").modal('hide');
+          response = JSON.parse(response.responseText);
+          finestra_messaggio(response.message);
+        });
+    });
+
+
+    
+
+
     $("#nuovo-utente").click(function(){
 
+      $("#idutente").val("");
       $("#user-modal").modal('show');
+
     });
 
 
-    $("#utenti .glyphicon.glyphicon-pencil").on('click', function () {
-      
-
-        var rowdata = datatable.row( this.parentElement.parentElement ).data();
-
-        $("#idutente").val(rowdata[0]);
-        $("#nome").val(rowdata[1]);
-        $("#cognome").val(rowdata[2]);
-        $("#email").val(rowdata[3]);
-
-        $("#user-modal").modal('show');
-        //$("#ruolo").val();
-    });
-
-    $("#utenti .glyphicon.glyphicon-remove").on('click', function () {
-      
-        $("#delete-confirm-modal").modal('show');
-        //$("#ruolo").val();
-    });
-  
-  <?php endif; ?>
 
     $("#login-button").click( function(){
 

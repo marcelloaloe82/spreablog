@@ -18,10 +18,19 @@ class User extends CI_Model {
 		return $this->db->get()->result_array(); 
 	}
 
-	public function find($username, $password){
+	public function find($username, $password=""){
 
 		$this->db->select('id, nome, cognome, email, role_id');
-		return $this->db->get_where('users', array('email' => $username, 'password' => $password))->result_array();
+		
+		if(!empty($password))
+			
+			$params = ['email' => $username, 'password' => $password];
+
+		else $params = ['email' => $username ];
+		
+		
+		return $this->db->get_where('users', $params)->result_array();
+		
 	}
 
 	public function ruoli(){
@@ -59,7 +68,8 @@ class User extends CI_Model {
 
 	public function delete($id){
 
-		return $this->db->delete("users", array('id' => $id ));
+		$this->db->delete("users", array('id' => $id ));
+		return  $this->db->affected_rows();
 	}
 
 }
