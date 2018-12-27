@@ -7,9 +7,15 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/datatables.min.css">
   <style>
-    .admin-ops{
+
+    #menu{
+      padding: 10px;
+      height: 50px;
+    }
+
+    /*.admin-ops{
       position: fixed;
-      right: 0;
+      left: 0;
       top: 300px;
       width: 50px;
       height: 100px;
@@ -20,6 +26,7 @@
       border: 2px solid black;
       width: 50px;
       height: 50px;
+      margin-top: 10px;
     }
 
     .admin-ops > div > span{
@@ -35,16 +42,59 @@
       display: none;
     }
 
+    #apri-tabella-utenti{
+
+      border: 2px solid black;
+      float:right;
+      width: 50px;
+      height: 50px;
+      margin-top: 10px;
+    }
+    #tabella-utenti-wrapper{
+      left:-804px;
+      width: 750px;
+      height: 750px;
+      background-color: white; 
+      border: 1px solid;
+      position: relative;
+    }*/
+
     #pannello-utenti{
 
-      display: none;
-      position: fixed;
+      /*display: none;*/
+      position: relative;
       z-index: 100;
       border: 1px solid;
       background-color: white;
-      
-      width: 0;
-      height: 0;
+      /*float:left;*/
+      width: 900px;
+      height: 600px;
+      display: none;
+      margin: auto; 
+    }
+
+    #chiudi-pannello-utenti{
+
+      margin:10px;
+      float: right;
+      height: 10px;
+      cursor: pointer;
+    }
+
+    #utenti_wrapper{
+
+      width: 80%;
+      margin: 50px auto;
+    }
+
+    #overlayer{
+      height: 1200px;
+      width: 1400px;
+      background: black;
+      opacity: 0.7;
+      display: none;
+      position: fixed;
+      z-index: 1;
     }
 
     .modal-body > img{
@@ -59,11 +109,6 @@
       margin-left: 10px;
     }
 
-    #utenti_wrapper{
-
-      width: 80%;
-      margin: 50px auto;
-    }
 
     .news-buttons{
 
@@ -91,33 +136,7 @@
 <body>
 
 <?php if($this->session->user && $ruolo_utente == 'admin'): ?>
-<div id="aggiungi-utente"><!-- maschera per inserire nuovo utente -->
-  <div style="border:1px solid; width: 500px; height: 500px;"></div>
-</div>
 
-<div id="pannello-utenti"><!-- tabella con gli utenti approvati -->
-  <table id="utenti" class="cell-border compact stripe">
-    <thead>
-      
-      <tr>
-        
-        <th>id</th>
-        <th>Nome</th>
-        <th>Cognome</th>
-        <th>Email</th>
-        <th>Ruolo</th>
-        <th>Operazioni</th>
-        
-        
-        
-      </tr>
-    </thead>
-    <tbody>
-
-      
-    </tbody>
-  </table>
-</div>
 
 
 <div id="user-modal" class="modal fade" role="dialog">
@@ -143,7 +162,7 @@
                 <input type="email" class="form-control" name="email" id="email" placeholder="email" required="required">
               </div>
               <div class="form-group">
-                <input type="password" class="form-control" name="password" id="password" placeholder="password" required="required">
+                <input type="password" class="form-control" name="password" placeholder="password" required="required">
               </div>
               <div class="form-group">
                 <select class="form-control" name="ruolo" id="ruolo">
@@ -164,13 +183,61 @@
 </div>
 <?php endif; ?>
 
+<div id="overlayer"></div>
+
 <div class="container">
-  <div class="admin-ops">
-    <div id="nuovo-utente"><span  class="glyphicon glyphicon-plus"></span></div>
-    <div id="apri-tabella-utenti"><span class="glyphicon glyphicon-th-list"></span></div>
-    <div id="login-button"  data-target="#login-modal"><span class="glyphicon glyphicon glyphicon-user"></span></div>
-    <div id="logout-button"><span class="glyphicon glyphicon-log-out"></span></div>
+  <div id="menu">
+     <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Area riservata
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+        <?php if($this->session->user && $ruolo_utente == 'admin'): ?>
+
+          <li id="menu-nuovo-utente" role="presentation"><a role="menuitem" tabindex="-1" href="#">Aggiungi utente</a></li>
+          <li id="menu-tabella-utenti" role="presentation"><a role="menuitem" tabindex="-1" href="#">Elenco utenti</a></li>
+        <?php endif; ?>
+          <li id="menu-login" role="presentation"><a role="menuitem" tabindex="-1" href="#">Login</a></li>
+          
+        </ul>
+      </div>
+    </div>
   </div>
+  <!--div class="admin-ops">
+    < !--div id="nuovo-utente"><span  class="glyphicon glyphicon-plus"></span></div-->
+   
+     
+
+    <div id="pannello-utenti"><!-- tabella con gli utenti approvati -->
+      <div>
+        <button id="chiudi-pannello-utenti" class="close">x</button>
+      </div>
+      <table id="utenti" class="cell-border compact stripe">
+        <thead>
+          
+          <tr>
+            
+            <th>id</th>
+            <th>Nome</th>
+            <th>Cognome</th>
+            <th>Email</th>
+            <th>Ruolo</th>
+            <th>Operazioni</th>
+            
+            
+            
+          </tr>
+        </thead>
+        <tbody>
+
+          
+        </tbody>
+      </table>
+    </div>
+      
+    
+    <!--div id="login-button"  data-target="#login-modal"><span class="glyphicon glyphicon glyphicon-user"></span></div>
+    <div id="logout-button"><span class="glyphicon glyphicon-log-out"></span></div-->
+  <!--/div-->
   <?php if($this->session->user && $ruolo_utente == 'editor'): ?>
   <div class="row" id="editor">
     <h2>Scrivi articolo</h2>
@@ -247,7 +314,7 @@
             <input type="text" class="form-control" name="username" id="username" placeholder="username">
           </div>
           <div class="form-group">
-            <input type="password" class="form-control" name="password" id="password" placeholder="password">
+            <input type="password" class="form-control" name="password"  placeholder="password">
           </div>
           <div><button class="btn btn-primary btn-lg" id="login">Login</button></div>
         
@@ -302,13 +369,7 @@
 
     <input type="hidden" id="user_delete" />
 
-  <ul class="pagination">
-    <li class="active"><a href="#">1</a></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-  </ul>
+  
   
 </div>    
 </body>
@@ -449,11 +510,7 @@
 
     $("#utenti").css("width", "100%");
 
-    $("#apri-tabella-utenti").click( function(){
-      $("#pannello-utenti").show();
-      $("#pannello-utenti").animate({width: "+=" + window.innerWidth + 'px', height: "+=" + window.innerHeight + 'px'}, 500, "swing");
-      //$("#pannello-utenti").fadeIn('slow');
-    });
+    
 
 
     $("#invia-dati-utente").click(function(event){
@@ -483,10 +540,20 @@
     });
 
 
+    $("#menu-tabella-utenti").click( function(){
+      
+      $("#pannello-utenti").fadeIn();
+      $("#overlayer").fadeIn();
+      //$("#pannello-utenti").fadeIn('slow');
+    });
     
+    $("#chiudi-pannello-utenti").click( function(){
+      $("#pannello-utenti").fadeOut();
+      $("#overlayer").fadeOut();
+    });
 
 
-    $("#nuovo-utente").click(function(){
+    $("#menu-nuovo-utente").click(function(){
 
       $("#idutente").val("");
       $("#user-modal").modal('show');
@@ -495,7 +562,7 @@
 
 
 
-    $("#login-button").click( function(){
+    $("#menu-login").click( function(){
 
       $("#login-modal").modal('show');
     })
