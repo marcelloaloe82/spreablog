@@ -11,12 +11,12 @@ require APPPATH . 'libraries/Format.php';
 
 class Users extends REST_Controller {
 
-    private $valid_keys = ["nome"       =>"nome", 
-                           "cognome"    =>"cognome", 
-                           "email"      =>"email", 
-                           "ruolo"      =>"role_id", 
-                           "password"   =>"password",
-                           "idutente"   =>"id"
+    private $valid_keys = ["name"           =>"nome", 
+                           "surname"        =>"cognome", 
+                           "email_address"  =>"email", 
+                           "ruolo"          =>"role_id", 
+                           "passwd"         =>"password",
+                           "idutente"       =>"id"
                        ];
 
     function __construct()
@@ -195,11 +195,19 @@ class Users extends REST_Controller {
                         
                 if(in_array($key, array_keys($this->valid_keys))) {
 
-                    if(empty($value))
+                    if(empty($value)){
+
                         unset($arr_parametri[ $key ]);
+                        continue;
+                    }
 
                      if($key == 'email' && !filter_var($value, FILTER_VALIDATE_EMAIL)){
                         $this->response(['message' => $message_error . $key ], REST_Controller::HTTP_BAD_REQUEST);
+                    }
+
+                    if($key == 'passwd'){
+
+                        $value = hash("sha256", SALT . $value);
                     }
 
 

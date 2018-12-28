@@ -59,27 +59,7 @@
       position: relative;
     }*/
 
-    #pannello-utenti{
-
-      /*display: none;*/
-      position: relative;
-      z-index: 100;
-      border: 1px solid;
-      background-color: white;
-      /*float:left;*/
-      width: 900px;
-      height: 600px;
-      display: none;
-      margin: auto; 
-    }
-
-    #chiudi-pannello-utenti{
-
-      margin:10px;
-      float: right;
-      height: 10px;
-      cursor: pointer;
-    }
+   
 
     #utenti_wrapper{
 
@@ -99,7 +79,8 @@
 
     .modal-body > img{
 
-      max-width: 200px;
+      max-width: 150px;
+      max-height: 150px;
       display: block;
       margin: auto;
     }
@@ -137,7 +118,47 @@
 
 <?php if($this->session->user && $ruolo_utente == 'admin'): ?>
 
+<div id="pannello-utenti" class="modal fade" role="dialog">
+        
+      <div class="modal-dialog modal-lg">
 
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Elenco utenti</h4>
+          </div>
+          
+          <div class="modal-body">
+            <table id="utenti" class="cell-border compact stripe">
+              <thead>
+                
+                <tr>
+                  
+                  <th>id</th>
+                  <th>Nome</th>
+                  <th>Cognome</th>
+                  <th>Email</th>
+                  <th>Ruolo</th>
+                  <th>Operazioni</th>
+                  
+                  
+                  
+                </tr>
+              </thead>
+              <tbody>
+
+                
+              </tbody>
+            </table>
+          </div>
+          
+        </div>
+
+      </div>
+  </div>
+
+  <input type="hidden" id="user_delete" />
 
 <div id="user-modal" class="modal fade" role="dialog">
       
@@ -153,16 +174,16 @@
           <div class="modal-body">
             <form id="user-form">
               <div class="form-group">
-                <input type="text" class="form-control" name="nome" id="nome" placeholder="nome" required="required">
+                <input type="text" class="form-control" name="name" id="nome" placeholder="nome" required="required">
               </div>
               <div class="form-group">
-                <input type="text" class="form-control" name="cognome" id="cognome" placeholder="cognome"  required="required">
+                <input type="text" class="form-control" name="surname" id="cognome" placeholder="cognome"  required="required">
               </div> 
               <div class="form-group">
-                <input type="email" class="form-control" name="email" id="email" placeholder="email" required="required">
+                <input type="email" class="form-control" name="email_address" id="email" placeholder="email" required="required">
               </div>
               <div class="form-group">
-                <input type="password" class="form-control" name="password" placeholder="password" required="required">
+                <input type="password" class="form-control" name="passwd" placeholder="password" required="required">
               </div>
               <div class="form-group">
                 <select class="form-control" name="ruolo" id="ruolo">
@@ -173,7 +194,7 @@
                 </select>
               </div>
               <input type="hidden" name="idutente" id="idutente">
-              <div><button class="btn btn-primary btn-lg" id="invia-dati-utente">Invia</button></div>
+              <div><button class="btn btn-primary" id="invia-dati-utente">Invia</button></div>
              </form>
           </div>
           
@@ -183,7 +204,6 @@
 </div>
 <?php endif; ?>
 
-<div id="overlayer"></div>
 
 <div class="container">
   <div id="menu">
@@ -196,43 +216,20 @@
           <li id="menu-nuovo-utente" role="presentation"><a role="menuitem" tabindex="-1" href="#">Aggiungi utente</a></li>
           <li id="menu-tabella-utenti" role="presentation"><a role="menuitem" tabindex="-1" href="#">Elenco utenti</a></li>
         <?php endif; ?>
+         <?php if(empty($this->session->user)): ?>
           <li id="menu-login" role="presentation"><a role="menuitem" tabindex="-1" href="#">Login</a></li>
+        <?php else: ?>
+          <li id="menu-logout" role="presentation"><a role="menuitem" tabindex="-1" href="#">Logout</a></li>
+        <?php endif; ?>
           
         </ul>
       </div>
     </div>
-  </div>
+  
   <!--div class="admin-ops">
     < !--div id="nuovo-utente"><span  class="glyphicon glyphicon-plus"></span></div-->
    
      
-
-    <div id="pannello-utenti"><!-- tabella con gli utenti approvati -->
-      <div>
-        <button id="chiudi-pannello-utenti" class="close">x</button>
-      </div>
-      <table id="utenti" class="cell-border compact stripe">
-        <thead>
-          
-          <tr>
-            
-            <th>id</th>
-            <th>Nome</th>
-            <th>Cognome</th>
-            <th>Email</th>
-            <th>Ruolo</th>
-            <th>Operazioni</th>
-            
-            
-            
-          </tr>
-        </thead>
-        <tbody>
-
-          
-        </tbody>
-      </table>
-    </div>
       
     
     <!--div id="login-button"  data-target="#login-modal"><span class="glyphicon glyphicon glyphicon-user"></span></div>
@@ -244,7 +241,9 @@
 
     <form id="news-form">
     <div class="col-sm-12">
-      <div class="form-group"><input type="text" name="title" class="form-control" placeholder="Titolo"></div>
+      <div class="form-group">
+        <input type="text" name="title" id="title" class="form-control" placeholder="Titolo">
+      </div>
     </div>
     <div class="col-sm-12">
       <textarea id="news-text" name="content" class="form-control" rows="5"></textarea>
@@ -254,7 +253,7 @@
       </div>
     </form>
     </div>
-  </div>
+  
 <? endif; ?>
 
 <?php foreach($news as $single_news): ?>
@@ -278,7 +277,7 @@
 
       $button_modifica = "";
       $button_pubblica = "";
-      $data_pubblicazione = "<h4>Pubblicato il: ". strftime("%d %B %Y %H:%M",  strtotime($single_news['last_modified'])) . "</h4>";
+      $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($single_news['last_modified'])) . " alle " . @strftime("%H:%M", $single_news['last_modified']) . "</h4>";
       
   }
 
@@ -296,7 +295,7 @@
   </div>
   <hr>
 <?php endforeach; ?>
-  
+</div>
 
 
   <div id="login-modal" class="modal fade" role="dialog">
@@ -316,7 +315,7 @@
           <div class="form-group">
             <input type="password" class="form-control" name="password"  placeholder="password">
           </div>
-          <div><button class="btn btn-primary btn-lg" id="login">Login</button></div>
+          <div><button class="btn btn-primary" id="login">Login</button></div>
         
         </div>
         </form>
@@ -367,7 +366,29 @@
         </div>
     </div>
 
-    <input type="hidden" id="user_delete" />
+    <div id="confirm-cancel-modal" class="modal fade" role="dialog">
+        
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Finestra di messaggio</h4>
+            </div>
+            
+            <div class="modal-body">
+              Vuoi davvero cancellare l'utente?
+            </div>
+            <div class="modal-footer">
+              <div style="width: 25%;margin: 0 auto;"><button class="btn btn-primary" id="butt-ok">OK</button><button class="btn" id="butt-annulla" data-dismiss="modal">Annulla</button></div>
+           </div>
+          </div>
+
+        </div>
+    </div>
+
+    
 
   
   
@@ -384,15 +405,15 @@
 
     if(conferma){
        html_bottoni = "<div style=\"width: 50%; margin: 0 auto;\">" +
-                        "<button class=\"btn btn-primary btn-lg\" id=\"butt-ok\">OK</button>" +
-                        "<button class=\"btn btn-lg\" id=\"butt-annulla\" data-dismiss=\"modal\">Annulla</button>" +
+                        "<button class=\"btn btn-primary\" id=\"butt-ok\">OK</button>" +
+                        "<button class=\"btn\" id=\"butt-annulla\" data-dismiss=\"modal\">Annulla</button>" +
                       "</div>";  
 
     }
 
     else{
       html_bottoni = "<div style=\"width: 50%; float: right;\">" +
-                        "<button class=\"btn btn-primary btn-lg\" id=\"butt-ok\" data-dismiss=\"modal\">OK</button>" +
+                        "<button class=\"btn btn-primary\" id=\"butt-ok\" data-dismiss=\"modal\">OK</button>" +
                       "</div>";
     }
 
@@ -401,14 +422,15 @@
     $("#confirm-modal").modal('show');
 
     
-
-
   }
+
+
+ 
 
   function aggiungi_pulsanti(json){
 
     for(i in json.data){
-      json.data[i]['operazioni'] = "<span class=\"glyphicon glyphicon-pencil\"></span><span class=\"glyphicon glyphicon-remove\"></span>";
+      json.data[i]['operazioni'] = "<span class=\"glyphicon glyphicon-pencil\" style=\"cursor:pointer; margin: 0 10px;\"></span><span class=\"glyphicon glyphicon-remove\" style=\"cursor:pointer; margin: 0 10px;\"></span>";
     }
 
     return json.data;
@@ -426,34 +448,29 @@
         $("#cognome").val(rowdata['cognome']);
         $("#email").val(rowdata['email']);
 
+        $("#pannello-utenti").modal('hide');
         $("#user-modal").modal('show');
         //$("#ruolo").val();
     });
 
     $("#utenti .glyphicon.glyphicon-remove").on('click', function () {
         
+
         var rowdata = datatable.row( this.parentElement.parentElement ).data();
+
 
         $("#user_delete").val(rowdata['id']);
         
-        finestra_messaggio("Vuoi cancellare questo utente?", true);
+        $("#confirm-cancel-modal").modal('show');
         
-        $("#butt-ok").on('click', function(){
-
-        $.post("<?php echo base_url(); ?>index.php/api/users/delete", "&userid=" + $("#user_delete").val(),
-          function (response) {
-            $("#confirm-modal").modal('hide');
-            finestra_messaggio("Utente cancellato");
-            datatable.ajax.reload();
-          });
-        });
+        
     });
     
   }
   
   $(document).ready(function(){
 
-
+<?php if($this->session->user && $ruolo_utente == 'admin'): ?>
     datatable= $("#utenti").DataTable({
       language: {
         "sEmptyTable":     "Nessun dato presente nella tabella",
@@ -506,12 +523,20 @@
     
       aggancia_callback();
     });
-
+<?php endif; ?>
 
     $("#utenti").css("width", "100%");
 
     
+   $("#butt-ok").on('click', function(){
 
+          
+          $.post("<?php echo base_url(); ?>index.php/api/users/delete", "&userid=" + $("#user_delete").val(),
+            function (response) {
+              $("#confirm-cancel-modal").modal('hide');
+              datatable.ajax.reload();
+            });
+    });
 
     $("#invia-dati-utente").click(function(event){
 
@@ -542,16 +567,12 @@
 
     $("#menu-tabella-utenti").click( function(){
       
-      $("#pannello-utenti").fadeIn();
-      $("#overlayer").fadeIn();
+      $("#pannello-utenti").modal('show');
+      
       //$("#pannello-utenti").fadeIn('slow');
     });
     
-    $("#chiudi-pannello-utenti").click( function(){
-      $("#pannello-utenti").fadeOut();
-      $("#overlayer").fadeOut();
-    });
-
+    
 
     $("#menu-nuovo-utente").click(function(){
 
@@ -577,7 +598,7 @@
       });
     });
 
-    $("#logout-button").click(function(event){
+    $("#menu-logout").click(function(event){
 
           event.preventDefault();
           $.post("<?php echo base_url(); ?>index.php/api/auth/logout", function(response){
@@ -592,7 +613,7 @@
       event.preventDefault();
       $("#salvataggio-news-modal").modal("show");
 
-      $.post("<?php echo base_url(); ?>index.php/api/news/create_news", {"content": tinyMCE.activeEditor.getContent()}, function(response){
+      $.post("<?php echo base_url(); ?>index.php/api/news/create_news", {"content": tinyMCE.activeEditor.getContent(), "title": $("#title").val()}, function(response){
           
           $("#salvataggio-news-modal").modal("hide");
 

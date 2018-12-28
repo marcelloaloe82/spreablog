@@ -24,7 +24,7 @@ class News_model extends CI_Model {
 		$last_id = $this->db->insert_id();
 
 
-		$this->db->select('content');
+		$this->db->select('content, title');
 		$this->db->where('id', $last_id);
 
 		return $this->db->get('news')->result_array()[0];

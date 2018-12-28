@@ -57,7 +57,7 @@ class User extends CI_Model {
 	}
 
 	public function update($id, $user_data){
-
+		
 		$this->db->set($user_data);
 		$this->db->where('id', $id);
 		

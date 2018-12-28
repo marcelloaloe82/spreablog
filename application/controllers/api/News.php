@@ -98,7 +98,7 @@ class News extends REST_Controller {
             $message_ok = "Bozza salvata";
             
 
-            if($this->news_model->create( $news_data ){
+            if($this->news_model->create( $news_data )) {
                 
                 $last_news = $this->news_model->last_news();
                 
@@ -160,23 +160,24 @@ class News extends REST_Controller {
             $news_data = [
                 'title'     => $this->post('title'),
                 'content'   => $this->post('content'),
-                'author_id' => $this->session->user['id']
+                'author_id' => $this->session->user['id'],
+                'status'    => 'published'
             ];
 
             $message_ok         = "News pubblicata";
             $message_ko         = "Non è stato possibile salvare. Errore interno del server";
             $message_no_content = "Manca il contenuto della news";
 
-            if(empty($content)){
+            if(empty($news_data['content'])){
                 $this->response(["message"=>$message_no_content], REST_Controller::HTTP_BAD_REQUEST);
             }
             
 
-            if($this->news_model->create( $news_data ){
+            if($this->news_model->create( $news_data )){
 
                 $last_news = $this->news_model->last_news();
 
-                $this->set_response(['message'  => $message, 
+                $this->set_response(['message'  => $message_ok, 
                                     'content'   => $last_news['content'],
                                     'title'     => $last_news['title']
                                     ],  
