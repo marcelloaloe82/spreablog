@@ -11,6 +11,8 @@ require APPPATH . 'libraries/Format.php';
 
 class News extends REST_Controller {
 
+    
+
     function __construct()
     {
         // Construct the parent class
@@ -25,27 +27,67 @@ class News extends REST_Controller {
         $this->load->library('session');
         $this->load->model("news_model");
 
-        $this->session->set_userdata('offset', 0);
+       
     }
 
     
 
-    public function nextpage(){
+    public function nextpage_get($start){
 
-        $this->session->set_userdata('offset', $this->session->offset + 10);
 
-        $news = $this->news_model->paged_news($this->session->offset);
+        $news = $this->news_model->paged_news($start);
 
-        if (!empty($news))
-        {
-            $this->set_response($news, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
-        }
-        else
-        {
-            $this->set_response([
-                
-                'message' => 'Nessuna news trovata'
-            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        $html_news = "<div class=\"row\">
+            <div class=\"col-sm-12\">
+              <h2>%s</h2>
+              %s
+              <div class=\"news-content\" data-post-id=\"%s\">
+              %s
+              </div>
+              %s %s
+            </div>
+          </div>
+          <hr>";
+
+        $arr_html_news = []; 
+
+        if (count($news) > 0){
+            
+            foreach($news as $single_news) {
+
+
+                $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($single_news['last_modified'])) . "</h4>";
+      
+                if(!empty($ruolo_utente) && $ruolo_utente == 'editor'){
+
+                  $button_modifica = "<button class='btn btn-primary edit-button'>Modifica</button>";
+                  $button_elimina  = "<button class='btn btn-primary btn-danger delete-news-button'>Elimina</button>";
+        
+                } else{
+
+                    $button_modifica = "";
+                    $button_elimina  = "";
+          
+                }
+
+                $arr_html_news[] = sprintf($html_news, 
+                                           $single_news['title'], 
+                                           $data_pubblicazione, 
+                                           $single_news['id'],
+                                           $single_news['content'],
+                                           $button_modifica,
+                                           $button_elimina);
+          
+            }
+
+
+            $str_html_news = implode("", $arr_html_news);
+            
+            $this->set_response($str_html_news, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        
+        } else {
+            
+            $this->set_response("", REST_Controller::HTTP_OK); 
         }
         
     }

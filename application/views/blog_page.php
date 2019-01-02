@@ -258,13 +258,15 @@
 
   $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($single_news['last_modified'])) . "</h4>";
   
-  if(!empty($ruolo_utente && $ruolo_utente == 'editor')){
+  if(!empty($ruolo_utente) && $ruolo_utente == 'editor'){
 
       $button_modifica = "<button class='btn btn-primary edit-button'>Modifica</button>";
+      $button_elimina  = "<button class='btn btn-primary btn-danger delete-news-button'>Elimina</button>";
     
   } else{
 
       $button_modifica = "";
+      $button_elimina  = "";
       
   }
 
@@ -277,7 +279,7 @@
       <div class="news-content" data-post-id="<?php echo $single_news['id']; ?>">
       <?php echo $single_news['content']; ?>
       </div>
-      <?php echo $button_modifica ?>
+      <?php echo $button_modifica . $button_elimina ?>
     </div>
   </div>
   <hr>
@@ -353,7 +355,7 @@
         </div>
     </div>
 
-    <div id="confirm-cancel-modal" class="modal fade" role="dialog">
+    <div id="confirm-delete-modal" class="modal fade" role="dialog">
         
         <div class="modal-dialog">
 
@@ -383,28 +385,13 @@
 </body>
 <script type="text/javascript">
 
+  news_offset = 0;
+
   function finestra_messaggio(messaggio, conferma){
 
     var html_messaggio = "<p>" + messaggio + "</p>";
-    var html_bottoni = "";
-
+    
     $("#confirm-modal .modal-body").html(html_messaggio);
-
-    if(conferma){
-       html_bottoni = "<div style=\"width: 50%; margin: 0 auto;\">" +
-                        "<button class=\"btn btn-primary\" id=\"butt-ok\">OK</button>" +
-                        "<button class=\"btn\" id=\"butt-annulla\" data-dismiss=\"modal\">Annulla</button>" +
-                      "</div>";  
-
-    }
-
-    else{
-      html_bottoni = "<div style=\"width: 50%; float: right;\">" +
-                        "<button class=\"btn btn-primary\" id=\"butt-ok\" data-dismiss=\"modal\">OK</button>" +
-                      "</div>";
-    }
-
-    $("#confirm-modal .modal-footer").html(html_bottoni);
 
     $("#confirm-modal").modal('show');
 
@@ -445,10 +432,13 @@
 
         var rowdata = datatable.row( this.parentElement.parentElement ).data();
 
+        confirm_caller = 'user';
 
         $("#user_delete").val(rowdata['id']);
+
+        $("#confirm-delete-modal modal-body").text("Vuoi davvero cancellare questo utente?");
         
-        $("#confirm-cancel-modal").modal('show');
+        $("#confirm-delete-modal").modal('show');
         
         
     });
@@ -509,20 +499,40 @@
     datatable.on("draw.dt", function(){
     
       aggancia_callback();
+
     });
 <?php endif; ?>
 
-    $("#utenti").css("width", "100%");
+  $("#utenti").css("width", "100%");
 
+  $("#confirm-modal").on('hidden.bs.modal', function(){
+    if(confirm_caller == 'news')
+      location.reload();
+  });
     
-   $("#butt-ok").on('click', function(){
+  $("#butt-ok").on('click', function(){
 
-          
-          $.post("<?php echo base_url(); ?>index.php/api/users/delete", "&userid=" + $("#user_delete").val(),
-            function (response) {
-              $("#confirm-cancel-modal").modal('hide');
-              datatable.ajax.reload();
-            });
+      if(confirm_caller == 'user'){
+
+        $.post("<?php echo base_url(); ?>index.php/api/users/delete", "&userid=" + $("#user_delete").val(),
+          function (response) {
+            $("#confirm-delete-modal").modal('hide');
+            datatable.ajax.reload();
+          });
+        
+      }
+
+      if(confirm_caller == 'news'){
+
+        $.post("<?php echo base_url(); ?>index.php/api/news/delete", "&id=" + $("#post-id").val(),
+          function (response) {
+            
+            $("#confirm-delete-modal").modal('hide');
+            finestra_messaggio('News cancellata correttamente');
+            
+          });
+      }          
+
     });
 
     $("#invia-dati-utente").click(function(event){
@@ -635,23 +645,9 @@
 
     });
 
-    $("#save-draft").click( function(event){
-
-          event.preventDefault();
-          $("#salvataggio-news-modal").modal("show");
-
-          $.post("<?php echo base_url(); ?>index.php/api/news/create_draft", {"content": tinyMCE.activeEditor.getContent()}, function(response){
-              
-              $("#salvataggio-news-modal").modal("hide");
-
-              var new_entry_content = "<div class='row'><div class='col-sm-12'><h2>" + response.title + "</h2><div  class='news-content'>" + response.content + "</div></div></div>";        
-              var new_item = $(new_entry_content).hide();
-              $("#editor").after($(new_item).fadeIn(2000));
-          })
-    });
-
-
+    
     $(".edit-button").click( function(){
+        
         $(this).parent().children().each( function(index, elem){
           
           if($(elem).attr('class') == 'news-content'){
@@ -666,9 +662,37 @@
         $('html, body').animate({scrollTop: 0}, 500);
     });
 
+
+    $(".delete-news-button").click( function(){
+
+      $(this).parent().children().each( function(index, elem){
+         
+        if($(elem).attr('class') == 'news-content'){
+              
+            $('#post-id').val( $(elem).data('post-id') );
+        }
+
+      });
+
+      confirm_caller = 'news';
+
+      $("#confirm-delete-modal modal-body").text("Vuoi davvero cancellare questa news?");
+      $("#confirm-delete-modal").modal('show');
+
+    });
+
+
     $(window).scroll( function (event) {
-     if ($(document).height() <= $(window).scrollTop() + $(window).height()) 
-            alert("End Of The Page");
+      
+      if ($(document).height() <= $(window).scrollTop() + $(window).height()){
+
+        $.get("<?php echo base_url(); ?>index.php/api/news/nextpage/" + news_offset, function(data){
+            $('.container').append( data );
+        });
+
+        news_offset += 10;
+     } 
+            
     });
 
 

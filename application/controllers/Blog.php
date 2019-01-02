@@ -15,6 +15,8 @@ class Blog extends CI_Controller {
         $this->load->model('user');
         $this->load->model('news_model');
         $this->load->library('session');
+
+        $this->session->set_userdata('news_offset', 0);
     }
 
 	public function index()
@@ -35,7 +37,7 @@ class Blog extends CI_Controller {
 			}
 		}
 
-		$page_data['news'] = $this->news_model->all();
+		$page_data['news'] = $this->news_model->paged_news(0);
 		
 		$this->load->view('blog_page', $page_data);
 	}
