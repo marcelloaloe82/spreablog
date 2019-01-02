@@ -28,18 +28,7 @@ class News extends REST_Controller {
         $this->session->set_userdata('offset', 0);
     }
 
-    public function all_get($id)
-    {
-        
-        $news = json_encode($this->news_model->all());
-
-
-        if (!empty($news))
-        {
-            $this->set_response($news, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
-        }
-        
-    }
+    
 
     public function nextpage(){
 
@@ -153,7 +142,7 @@ class News extends REST_Controller {
     }
 
 
-    public function create_news_post(){
+    public function create_post(){
 
         if($this->session->user){
 
@@ -215,7 +204,7 @@ class News extends REST_Controller {
 
             
             if($this->news_model->update( $id, $news_data))
-                $this->set_response(["message"=>$message_ok], REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
+                $this->set_response(["message"=>$message_ok], REST_Controller::HTTP_OK); // CREATED (201) being the HTTP response code
 
             else $this->response(["message"=>$message_ko], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
         }

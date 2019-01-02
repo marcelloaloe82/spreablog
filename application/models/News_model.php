@@ -37,7 +37,7 @@ class News_model extends CI_Model {
 
 	public function update($id, $news_data){
 
-		$this->db->set($user_data);
+		$this->db->set($news_data);
 		$this->db->where('id', $id);
 		
 		return $this->db->update('news');

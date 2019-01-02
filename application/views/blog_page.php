@@ -59,7 +59,10 @@
       position: relative;
     }*/
 
-   
+   .row{
+
+    margin-top: 20px;
+   }
 
     #utenti_wrapper{
 
@@ -67,15 +70,7 @@
       margin: 50px auto;
     }
 
-    #overlayer{
-      height: 1200px;
-      width: 1400px;
-      background: black;
-      opacity: 0.7;
-      display: none;
-      position: fixed;
-      z-index: 1;
-    }
+    
 
     .modal-body > img{
 
@@ -240,19 +235,20 @@
     <h2>Scrivi articolo</h2>
 
     <form id="news-form">
-    <div class="col-sm-12">
+    
       <div class="form-group">
         <input type="text" name="title" id="title" class="form-control" placeholder="Titolo">
       </div>
-    </div>
-    <div class="col-sm-12">
+    
+    
       <textarea id="news-text" name="content" class="form-control" rows="5"></textarea>
       <div class="news-buttons">
-        <button class="btn btn-default" id="save-draft">Salva bozza</button> 
         <button id="publish" class="btn btn-primary">Pubblica</button>
       </div>
+      <input type="hidden" name="id" id="post-id">
     </form>
-    </div>
+    
+  </div>
   
 <? endif; ?>
 
@@ -260,24 +256,15 @@
 
   <?php 
 
-  if($single_news['status'] == 'draft') {
-   
-    if(!empty($ruolo_utente)){
+  $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($single_news['last_modified'])) . "</h4>";
+  
+  if(!empty($ruolo_utente && $ruolo_utente == 'editor')){
 
-      if($ruolo_utente != 'editor') continue;
-      
       $button_modifica = "<button class='btn btn-primary edit-button'>Modifica</button>";
-      $button_pubblica = "<button class='btn btn-primary publish-draft-button'>Pubblica</button>";
-      $data_pubblicazione = "";
     
-    }
- 
-
   } else{
 
       $button_modifica = "";
-      $button_pubblica = "";
-      $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($single_news['last_modified'])) . " alle " . @strftime("%H:%M", $single_news['last_modified']) . "</h4>";
       
   }
 
@@ -285,12 +272,12 @@
 
   <div class="row">
     <div class="col-sm-12">
-      <?php echo $button_modifica . $button_pubblica; ?>
       <h2><?php echo $single_news['title']; ?></h2>
       <?php echo $data_pubblicazione; ?>
-      <div class="news-content">
+      <div class="news-content" data-post-id="<?php echo $single_news['id']; ?>">
       <?php echo $single_news['content']; ?>
       </div>
+      <?php echo $button_modifica ?>
     </div>
   </div>
   <hr>
@@ -613,14 +600,39 @@
       event.preventDefault();
       $("#salvataggio-news-modal").modal("show");
 
-      $.post("<?php echo base_url(); ?>index.php/api/news/create_news", {"content": tinyMCE.activeEditor.getContent(), "title": $("#title").val()}, function(response){
+      var data = {"content": tinyMCE.activeEditor.getContent(), "title": $("#title").val()};
+      var post_id = $("#post-id").val();
+      var operazione = "";
+
+      if(post_id){
+        data.id = post_id;
+        operazione = 'update';
+      }
+
+      else operazione = 'create';
+
+      $.post("<?php echo base_url(); ?>index.php/api/news/" + operazione, data , function(response){
           
           $("#salvataggio-news-modal").modal("hide");
+          
+          if(operazione == 'create'){
 
-          var new_entry_content = "<div class='row'><div class='col-sm-12'><h2>" + response.title + "</h2><div  class='news-content'>" + response.content + "</div></div></div>";           
-          var new_item = $(new_entry_content).hide();
-          $("#editor").after($(new_item).fadeIn(2000));
-      })
+            var new_entry_content = "<div class='row'><div class='col-sm-12'><h2>" + response.title + "</h2><div  class='news-content'>" + response.content + "</div></div></div>";           
+            var new_item = $(new_entry_content).hide();
+            $("#editor").after($(new_item).fadeIn(2000));
+            
+          }
+
+          else location.reload();
+      
+
+      }).fail(function (response) {
+
+        $("#salvataggio-news-modal").modal("hide");
+        finestra_messaggio("C'è stato un errore tecnico, riprovare");
+      
+      });
+
     });
 
     $("#save-draft").click( function(event){
@@ -639,6 +651,25 @@
     });
 
 
+    $(".edit-button").click( function(){
+        $(this).parent().children().each( function(index, elem){
+          
+          if($(elem).attr('class') == 'news-content'){
+            tinyMCE.activeEditor.setContent( $(elem).html() );
+            $('#post-id').val( $(elem).data('post-id') );
+          }
+
+          if($(elem).prop('tagName').toLowerCase() == 'h2')
+            $('#title').val( $(elem).text() );
+        });
+
+        $('html, body').animate({scrollTop: 0}, 500);
+    });
+
+    $(window).scroll( function (event) {
+     if ($(document).height() <= $(window).scrollTop() + $(window).height()) 
+            alert("End Of The Page");
+    });
 
 
 
