@@ -252,13 +252,9 @@
   
 <? endif; ?>
 
-<?php foreach($news as $single_news): ?>
+<?php 
 
-  <?php 
-
-  $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($single_news['last_modified'])) . "</h4>";
-  
-  if(!empty($ruolo_utente) && $ruolo_utente == 'editor'){
+if(!empty($ruolo_utente) && $ruolo_utente == 'editor'){
 
       $button_modifica = "<button class='btn btn-primary edit-button'>Modifica</button>";
       $button_elimina  = "<button class='btn btn-primary btn-danger delete-news-button'>Elimina</button>";
@@ -270,6 +266,11 @@
       
   }
 
+foreach($news as $single_news): 
+
+
+  $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($single_news['last_modified'])) . "</h4>";
+  
   ?>
 
   <div class="row">
@@ -279,7 +280,7 @@
       <div class="news-content" data-post-id="<?php echo $single_news['id']; ?>">
       <?php echo $single_news['content']; ?>
       </div>
-      <?php echo $button_modifica . $button_elimina ?>
+      <?php echo $button_modifica . $button_elimina; ?>
     </div>
   </div>
   <hr>
@@ -385,7 +386,7 @@
 </body>
 <script type="text/javascript">
 
-  news_offset = 0;
+  news_offset = 10;
 
   function finestra_messaggio(messaggio, conferma){
 
