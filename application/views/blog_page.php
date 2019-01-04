@@ -64,6 +64,15 @@
     margin-top: 20px;
    }
 
+   #editor{
+    padding-bottom: 20px;
+    box-shadow: 0px 0px 13px 10px rgba(199,197,199,1);
+   }
+
+   .edit-button{
+      margin-right: 5px;
+   }
+
     #utenti_wrapper{
 
       width: 80%;
@@ -99,9 +108,46 @@
   <script>
     tinymce.init({ selector:'textarea',
                   height: 500,
+                  language: 'it',
                   theme: 'modern',
                   plugins: 'print preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media  charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern',
                   toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
+                  automatic_uploads: true,
+                  file_picker_types: 'image', 
+                  // and here's our custom image picker
+                  file_picker_callback: function(cb, value, meta) {
+                    var input = document.createElement('input');
+                    input.setAttribute('type', 'file');
+                    input.setAttribute('accept', 'image/*');
+                    
+                    // Note: In modern browsers input[type="file"] is functional without 
+                    // even adding it to the DOM, but that might not be the case in some older
+                    // or quirky browsers like IE, so you might want to add it to the DOM
+                    // just in case, and visually hide it. And do not forget do remove it
+                    // once you do not need it anymore.
+
+                    input.onchange = function() {
+                      var file = this.files[0];
+                      
+                      var reader = new FileReader();
+                      reader.onload = function () {
+                        // Note: Now we need to register the blob in TinyMCEs image blob
+                        // registry. In the next release this part hopefully won't be
+                        // necessary, as we are looking to handle it internally.
+                        var id = 'blobid' + (new Date()).getTime();
+                        var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+                        var base64 = reader.result.split(',')[1];
+                        var blobInfo = blobCache.create(id, file, base64);
+                        blobCache.add(blobInfo);
+
+                        // call the callback and populate the Title field with the file name
+                        cb(blobInfo.blobUri(), { title: file.name });
+                      };
+                      reader.readAsDataURL(file);
+                    };
+                    
+                    input.click();
+                  },
                   //image_advtab: true,
                   templates: [
                     { title: 'Test template 1', content: 'Test 1' },
@@ -136,7 +182,6 @@
                   <th>Email</th>
                   <th>Ruolo</th>
                   <th>Operazioni</th>
-                  
                   
                   
                 </tr>
@@ -232,22 +277,25 @@
   <!--/div-->
   <?php if($this->session->user && $ruolo_utente == 'editor'): ?>
   <div class="row" id="editor">
-    <h2>Scrivi articolo</h2>
+    <div class="col-sm-12">
+      
+        <h2>Scrivi articolo</h2>
 
-    <form id="news-form">
-    
-      <div class="form-group">
-        <input type="text" name="title" id="title" class="form-control" placeholder="Titolo">
-      </div>
-    
-    
-      <textarea id="news-text" name="content" class="form-control" rows="5"></textarea>
-      <div class="news-buttons">
-        <button id="publish" class="btn btn-primary">Pubblica</button>
-      </div>
-      <input type="hidden" name="id" id="post-id">
-    </form>
-    
+        <form id="news-form">
+        
+          <div class="form-group">
+            <input type="text" name="title" id="title" class="form-control" placeholder="Titolo">
+          </div>
+        
+        
+          <textarea id="news-text" name="content" class="form-control" rows="5"></textarea>
+          <div class="news-buttons">
+            <button id="publish" class="btn btn-primary">Pubblica</button>
+          </div>
+          <input type="hidden" name="id" id="post-id">
+        </form>
+        
+    </div>
   </div>
   
 <? endif; ?>
@@ -259,12 +307,12 @@ if(!empty($ruolo_utente) && $ruolo_utente == 'editor'){
       $button_modifica = "<button class='btn btn-primary edit-button'>Modifica</button>";
       $button_elimina  = "<button class='btn btn-primary btn-danger delete-news-button'>Elimina</button>";
     
-  } else{
+} else{
 
       $button_modifica = "";
       $button_elimina  = "";
       
-  }
+}
 
 foreach($news as $single_news): 
 
@@ -280,7 +328,7 @@ foreach($news as $single_news):
       <div class="news-content" data-post-id="<?php echo $single_news['id']; ?>">
       <?php echo $single_news['content']; ?>
       </div>
-      <?php echo $button_modifica . $button_elimina; ?>
+      <?php echo $button_modifica .' '. $button_elimina; ?>
     </div>
   </div>
   <hr>
@@ -289,7 +337,7 @@ foreach($news as $single_news):
 
 
   <div id="login-modal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sm">
 
       <!-- Modal content-->
       <div class="modal-content">
@@ -298,16 +346,16 @@ foreach($news as $single_news):
           <h4 class="modal-title">Login</h4>
         </div>
         <form id="login-form">
-        <div class="modal-body">
-          <div class="form-group">
-            <input type="text" class="form-control" name="username" id="username" placeholder="username">
+          <div class="modal-body">
+            <div class="form-group">
+              <input type="text" class="form-control" name="username" id="username" placeholder="username">
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control" name="password"  placeholder="password">
+            </div>
+            <div><button class="btn btn-primary" id="login">Login</button></div>
+          
           </div>
-          <div class="form-group">
-            <input type="password" class="form-control" name="password"  placeholder="password">
-          </div>
-          <div><button class="btn btn-primary" id="login">Login</button></div>
-        
-        </div>
         </form>
         
       </div>
@@ -348,9 +396,9 @@ foreach($news as $single_news):
             <div class="modal-body">
               
             </div>
-            <div class="modal-footer">
-            
-           </div>
+             <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
+            </div>
           </div>
 
         </div>
@@ -386,7 +434,10 @@ foreach($news as $single_news):
 </body>
 <script type="text/javascript">
 
-  news_offset = 10;
+  news_offset         = 10;
+  no_more_news        = false;
+  confirm_caller      = '';
+  
 
   function finestra_messaggio(messaggio, conferma){
 
@@ -400,12 +451,48 @@ foreach($news as $single_news):
   }
 
 
+  function edit_button_callback(){
+        
+        $(this).parent().children().each( function(index, elem){
+          
+          if($(elem).attr('class') == 'news-content'){
+            tinyMCE.activeEditor.setContent( $(elem).html() );
+            $('#post-id').val( $(elem).data('post-id') );
+          }
+
+          if($(elem).prop('tagName').toLowerCase() == 'h2')
+            $('#title').val( $(elem).text() );
+        });
+
+        $('html, body').animate({scrollTop: 0}, 500);
+  }
+
+  function delete_button_callback(){
+
+      $(this).parent().children().each( function(index, elem){
+         
+        if($(elem).attr('class') == 'news-content'){
+              
+            $('#post-id').val( $(elem).data('post-id') );
+        }
+
+      });
+
+      confirm_caller = 'news';
+
+      $("#confirm-delete-modal .modal-body").text("Vuoi davvero cancellare questa news?");
+      $("#confirm-delete-modal").modal('show');
+
+
+  }
+
+
  
 
   function aggiungi_pulsanti(json){
 
     for(i in json.data){
-      json.data[i]['operazioni'] = "<span class=\"glyphicon glyphicon-pencil\" style=\"cursor:pointer; margin: 0 10px;\"></span><span class=\"glyphicon glyphicon-remove\" style=\"cursor:pointer; margin: 0 10px;\"></span>";
+      json.data[i]['operazioni'] = "<span title=\"modifica dati\" class=\"glyphicon glyphicon-pencil\" style=\"cursor:pointer; margin: 0 10px;\"></span><span title=\"cancella utente\" class=\"glyphicon glyphicon-remove\" style=\"cursor:pointer; margin: 0 10px;\"></span>";
     }
 
     return json.data;
@@ -437,7 +524,7 @@ foreach($news as $single_news):
 
         $("#user_delete").val(rowdata['id']);
 
-        $("#confirm-delete-modal modal-body").text("Vuoi davvero cancellare questo utente?");
+        $("#confirm-delete-modal .modal-body").text("Vuoi davvero cancellare questo utente?");
         
         $("#confirm-delete-modal").modal('show');
         
@@ -445,6 +532,7 @@ foreach($news as $single_news):
     });
     
   }
+
   
   $(document).ready(function(){
 
@@ -507,8 +595,21 @@ foreach($news as $single_news):
   $("#utenti").css("width", "100%");
 
   $("#confirm-modal").on('hidden.bs.modal', function(){
+    
     if(confirm_caller == 'news')
       location.reload();
+  });
+
+  $("#user-modal").on('shown.bs.modal', function(){
+
+    $("#nome").focus();
+    
+  });
+  
+  $("#login-modal").on('shown.bs.modal', function(){
+
+    $("#username").focus();
+
   });
     
   $("#butt-ok").on('click', function(){
@@ -534,6 +635,8 @@ foreach($news as $single_news):
           });
       }          
 
+      
+
     });
 
     $("#invia-dati-utente").click(function(event){
@@ -554,11 +657,14 @@ foreach($news as $single_news):
           finestra_messaggio(response.message);
           datatable.ajax.reload();
           datatable.draw();
+
         })
         .fail( function(response){
+          
           $("#user-modal").modal('hide');
-          response = JSON.parse(response.responseText);
-          finestra_messaggio(response.message);
+          
+          finestra_messaggio(response.responseJSON.message);
+
         });
     });
 
@@ -574,8 +680,9 @@ foreach($news as $single_news):
 
     $("#menu-nuovo-utente").click(function(){
 
-      $("#idutente").val("");
+      $("#user-form").trigger('reset');
       $("#user-modal").modal('show');
+      $("#idutente").val('');
 
     });
 
@@ -584,26 +691,38 @@ foreach($news as $single_news):
     $("#menu-login").click( function(){
 
       $("#login-modal").modal('show');
+      $("#username").focus();
     })
 
 
     $("#login").click(function(event){
 
       event.preventDefault();
-      $.post("<?php echo base_url(); ?>index.php/api/auth/login", $("#login-form").serialize(), function(response){
+
+      $.post("<?php echo base_url(); ?>index.php/api/auth/login", 
+             $("#login-form").serialize(), 
+             function(response){
+
+                  $("#login-modal").modal('hide');
+                  location.reload();
+                
+      }).fail( function(response){
+        
         $("#login-modal").modal('hide');
-        location.reload();
+        
+        finestra_messaggio(response.responseJSON.message);
+        
       });
     });
 
     $("#menu-logout").click(function(event){
 
-          event.preventDefault();
-          $.post("<?php echo base_url(); ?>index.php/api/auth/logout", function(response){
-           
-            location.reload();
-          });
+        event.preventDefault();
+        $.post("<?php echo base_url(); ?>index.php/api/auth/logout", function(response){
+         
+          location.reload();
         });
+    });
 
 
     $("#publish").click( function(event){
@@ -615,6 +734,9 @@ foreach($news as $single_news):
       var post_id = $("#post-id").val();
       var operazione = "";
 
+      confirm_caller = 'news';
+
+
       if(post_id){
         data.id = post_id;
         operazione = 'update';
@@ -625,70 +747,42 @@ foreach($news as $single_news):
       $.post("<?php echo base_url(); ?>index.php/api/news/" + operazione, data , function(response){
           
           $("#salvataggio-news-modal").modal("hide");
+
           
-          if(operazione == 'create'){
-
-            var new_entry_content = "<div class='row'><div class='col-sm-12'><h2>" + response.title + "</h2><div  class='news-content'>" + response.content + "</div></div></div>";           
-            var new_item = $(new_entry_content).hide();
-            $("#editor").after($(new_item).fadeIn(2000));
-            
-          }
-
-          else location.reload();
+          finestra_messaggio("News salvata con successo");
       
 
       }).fail(function (response) {
 
         $("#salvataggio-news-modal").modal("hide");
-        finestra_messaggio("C'è stato un errore tecnico, riprovare");
+        finestra_messaggio(response.responseJSON.message);
       
       });
 
     });
 
     
-    $(".edit-button").click( function(){
-        
-        $(this).parent().children().each( function(index, elem){
-          
-          if($(elem).attr('class') == 'news-content'){
-            tinyMCE.activeEditor.setContent( $(elem).html() );
-            $('#post-id').val( $(elem).data('post-id') );
-          }
-
-          if($(elem).prop('tagName').toLowerCase() == 'h2')
-            $('#title').val( $(elem).text() );
-        });
-
-        $('html, body').animate({scrollTop: 0}, 500);
-    });
+    $(".edit-button").click( edit_button_callback );
 
 
-    $(".delete-news-button").click( function(){
-
-      $(this).parent().children().each( function(index, elem){
-         
-        if($(elem).attr('class') == 'news-content'){
-              
-            $('#post-id').val( $(elem).data('post-id') );
-        }
-
-      });
-
-      confirm_caller = 'news';
-
-      $("#confirm-delete-modal modal-body").text("Vuoi davvero cancellare questa news?");
-      $("#confirm-delete-modal").modal('show');
-
-    });
+    $(".delete-news-button").click( delete_button_callback );
 
 
     $(window).scroll( function (event) {
       
-      if ($(document).height() <= $(window).scrollTop() + $(window).height()){
+      if ( ($(document).height() <= $(window).scrollTop() + $(window).height()) && !no_more_news){
 
         $.get("<?php echo base_url(); ?>index.php/api/news/nextpage/" + news_offset, function(data){
-            $('.container').append( data );
+
+            if(data.length === 0) no_more_news = true;
+            
+            else{
+
+              $('.container').append( data );
+              $('.edit-button').on('click', edit_button_callback);
+              $('.delete-news-button').on('click', delete_button_callback);
+            } 
+
         });
 
         news_offset += 10;

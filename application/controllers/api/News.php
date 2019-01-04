@@ -25,7 +25,8 @@ class News extends REST_Controller {
         $this->methods['users_delete']['limit'] = 50; // 50 requests per hour per user/key
 
         $this->load->library('session');
-        $this->load->model("news_model");
+        $this->load->model('news_model');
+        $this->load->model('user');
 
        
     }
@@ -51,24 +52,28 @@ class News extends REST_Controller {
 
         $arr_html_news = []; 
 
+        if($this->session->user)
+
+            $ruolo_utente = $this->user->get_ruolo( $this->session->user['role_id']);
+
         if (count($news) > 0){
+
+            if(!empty($ruolo_utente) && $ruolo_utente == 'editor'){
+
+              $button_modifica = "<button class='btn btn-primary edit-button'>Modifica</button>";
+              $button_elimina  = "<button class='btn btn-primary btn-danger delete-news-button'>Elimina</button>";
+
+            } else{
+
+                $button_modifica = "";
+                $button_elimina  = "";
+      
+            }
             
             foreach($news as $single_news) {
 
 
                 $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($single_news['last_modified'])) . "</h4>";
-      
-                if(!empty($ruolo_utente) && $ruolo_utente == 'editor'){
-
-                  $button_modifica = "<button class='btn btn-primary edit-button'>Modifica</button>";
-                  $button_elimina  = "<button class='btn btn-primary btn-danger delete-news-button'>Elimina</button>";
-        
-                } else{
-
-                    $button_modifica = "";
-                    $button_elimina  = "";
-          
-                }
 
                 $arr_html_news[] = sprintf($html_news, 
                                            $single_news['title'], 
@@ -87,7 +92,7 @@ class News extends REST_Controller {
         
         } else {
             
-            $this->set_response("", REST_Controller::HTTP_OK); 
+            $this->set_response(array(), REST_Controller::HTTP_OK); 
         }
         
     }

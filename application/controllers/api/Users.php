@@ -190,6 +190,7 @@ class Users extends REST_Controller {
             $message;
 
             $arr_parametri = $this->post();
+            $dati_utente = [];
 
             foreach ($arr_parametri as $key => $value) {
                         
@@ -201,8 +202,9 @@ class Users extends REST_Controller {
                         continue;
                     }
 
-                     if($key == 'email' && !filter_var($value, FILTER_VALIDATE_EMAIL)){
-                        $this->response(['message' => $message_error . $key ], REST_Controller::HTTP_BAD_REQUEST);
+                     if($key == 'email_address' && !filter_var($value, FILTER_VALIDATE_EMAIL)){
+                        $message = 'Email non valida';
+                        $this->response(['message' => $message ], REST_Controller::HTTP_BAD_REQUEST);
                     }
 
                     if($key == 'passwd'){
@@ -211,12 +213,12 @@ class Users extends REST_Controller {
                     }
 
 
-                    $arr_parametri[ $this->valid_keys[$key] ] = $value;
-                    unset($arr_parametri[$key]);
+                    $dati_utente[ $this->valid_keys[$key] ] = $value;
+                    
                 }
             }
             
-            $update_result = $this->user->update($this->post("idutente"), $arr_parametri);
+            $update_result = $this->user->update($this->post("idutente"), $dati_utente);
 
             if($update_result === 1)
                 $message = "Dati utente aggiornati";
