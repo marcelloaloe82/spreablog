@@ -10,14 +10,14 @@ class News_model extends CI_Model {
 	public function all(){
 		
 		$this->db->where('status', 'published');
-		$this->db->order_by('last_modified', 'desc');
+		$this->db->order_by('created_at', 'desc');
 		return $this->db->get('news')->result_array();
 	}
 
 	public function paged_news($start){
 
 		$this->db->where('status', 'published');
-		$this->db->order_by('last_modified', 'desc');
+		$this->db->order_by('created_at', 'desc');
 		$this->db->limit(NEWS_PAGE_SIZE, $start); 
 		return $this->db->get_where('news')->result_array();
 	}

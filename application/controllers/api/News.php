@@ -73,7 +73,7 @@ class News extends REST_Controller {
             foreach($news as $single_news) {
 
 
-                $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($single_news['last_modified'])) . "</h4>";
+                $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($single_news['created_at'])) . "</h4>";
 
                 $arr_html_news[] = sprintf($html_news, 
                                            $single_news['title'], 
@@ -160,7 +160,6 @@ class News extends REST_Controller {
              $news_data = [
                 'title'     => $this->post('title'),
                 'content'   => $this->post('content'),
-                'status'    => $this->post('status'),
                 'author_id' => $this->session->user['id']
             ];
 
@@ -197,7 +196,8 @@ class News extends REST_Controller {
                 'title'     => $this->post('title'),
                 'content'   => $this->post('content'),
                 'author_id' => $this->session->user['id'],
-                'status'    => 'published'
+                'status'    => 'published',
+                'created_at'=> @strftime("%Y-%m-%d %H:%M") 
             ];
 
             $message_ok         = "News pubblicata";

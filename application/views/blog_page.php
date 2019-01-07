@@ -317,7 +317,7 @@ if(!empty($ruolo_utente) && $ruolo_utente == 'editor'){
 foreach($news as $single_news): 
 
 
-  $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($single_news['last_modified'])) . "</h4>";
+  $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($single_news['created_at'])) . "</h4>";
   
   ?>
 
