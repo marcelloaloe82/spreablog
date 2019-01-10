@@ -101,7 +101,7 @@
     }
     
   </style>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/js/datatables.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/js/tinymce/js/tinymce/tinymce.min.js"></script>
@@ -298,7 +298,7 @@
     </div>
   </div>
   
-<? endif; ?>
+<?php endif; ?>
 
 <?php 
 
