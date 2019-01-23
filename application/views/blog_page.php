@@ -110,6 +110,7 @@
   <script src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/js/datatables.min.js"></script>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
   <script src="<?php echo base_url(); ?>assets/js/tinymce/js/tinymce/tinymce.min.js"></script>
   <script>
     tinymce.init({ selector:'textarea',
