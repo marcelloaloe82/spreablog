@@ -113,7 +113,7 @@
   <script src='https://www.google.com/recaptcha/api.js'></script>
   <script src="<?php echo base_url(); ?>assets/js/tinymce/js/tinymce/tinymce.min.js"></script>
   <script>
-    tinymce.init({ selector:'textarea',
+    tinymce.init({ selector:'#editor textarea',
                   height: 500,
                   language: 'it',
                   theme: 'modern',
