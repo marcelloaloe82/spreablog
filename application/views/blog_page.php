@@ -99,6 +99,12 @@
 
       margin-top: 20px;
     }
+
+    .post-comment{
+
+      margin-top: 20px;
+      width: 80%;
+    }
     
   </style>
   <script src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
@@ -329,7 +335,33 @@ foreach($news as $single_news):
       <?php echo $single_news['content']; ?>
       </div>
       <?php echo $button_modifica .' '. $button_elimina; ?>
+      <div class="comment-area">
+        <?foreach ($comments as $key => $comment_entry):?>
+          <h4><?php echo $comment_entry['display_name']; ?></h4>
+          <div class="comment-content"><?php echo $comment_entry['content']; ?></div>
+      </div>
+      <form>
+      <div class="post-comment">
+        <h3>Commenta</h3>
+        <div class="form-group">
+          <label for="usr">Nome</label>
+          <input type="text" class="form-control" name="display_name">
+        </div>
+        <div class="form-group">
+          <label for="indirizzo_email">Email (non sarà visualizzata)</label>
+          <input type="email" class="form-control" name="indirizzo_email">
+        </div>
+        <div class="form-group">
+          <label for="comment">Scrivi il tuo commento:</label>
+          <textarea class="form-control" rows="5" id="comment"></textarea>
+        </div>
+        <div class="g-recaptcha" data-sitekey="6LffHIwUAAAAABALRFsTKSgkBPFjTCzLNzScE0cR"></div>
+        <div class="form-group">
+          <button class="btn btn-default">Invia</button>
+        <input type="hidden" name="comment_id" value="<?php echo $single_news['id'] ?>">
+      </div>
     </div>
+  </form>
   </div>
   <hr>
 <?php endforeach; ?>
