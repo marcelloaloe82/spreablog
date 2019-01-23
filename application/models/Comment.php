@@ -16,7 +16,7 @@ class Comment extends CI_Model {
 	public function find($id){
 
 		
-		return $this->db->get_where('users', ['id', $id])->result_array();
+		return $this->db->get_where('comments', ['id', $id])->result_array();
 		
 	}
 
