@@ -36,9 +36,8 @@ class Admin extends CI_Controller {
 				$this->load->view('editor_page', $data);
 			}
 
-		}
-
-		else {
+		
+		}else {
 
 			$data['editor'] = false;
 			$this->load->view('head', $data);
