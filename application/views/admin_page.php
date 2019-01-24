@@ -251,22 +251,6 @@
   $("#utenti").css("width", "100%");
 
  
-  
-    
-  $("#butt-ok").on('click', function(){
-
-      if(confirm_caller == 'user'){
-
-        $.post("<?php echo base_url(); ?>index.php/api/users/delete", "&userid=" + $("#user_delete").val(),
-          function (response) {
-            $("#confirm-delete-modal").modal('hide');
-            datatable.ajax.reload();
-          });
-        
-      }
-
-
-    });
 
     $("#invia-dati-utente").click(function(event){
 
@@ -328,7 +312,15 @@
     });
 
 
-    
+    $("#butt-ok").on('click', function(){
+
+      $.post("<?php echo base_url(); ?>index.php/api/users/delete", "&userid=" + $("#user_delete").val(),
+          function (response) {
+            $("#confirm-delete-modal").modal('hide');
+            datatable.ajax.reload();
+          });
+        
+      }
 
 
 

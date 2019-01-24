@@ -8,6 +8,7 @@ class Admin extends CI_Controller {
         parent::__construct();
         $this->load->library('session');
         $this->load->model('user');
+        $this->load->model('news_model');
     }
 
 
@@ -52,6 +53,22 @@ class Admin extends CI_Controller {
 			$this->load->view('login_admin_page');
 		}
 		
+
+	}
+
+	
+
+	public function edit_news($news_id){
+
+		$news_data = $this->news_model($news_id);
+
+		$head_data['recaptcha'] = false;
+		$head_data['editor'] = true;
+
+		$this->load->view('head', $head_data);
+		$this->load->view('editor_page', compact('news_data'));
+
+
 
 	}
 

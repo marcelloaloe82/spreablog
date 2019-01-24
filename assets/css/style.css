@@ -51,6 +51,12 @@
     width: 80%;
   }
 
+#salvataggio-news-modal .modal-body img{
+
+  margin: auto;
+  display: block;
+}
+
 .form-signin {
   max-width: 330px;
   padding: 15px;

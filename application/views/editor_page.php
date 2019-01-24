@@ -10,77 +10,63 @@
           </div>
         
         
-          <textarea id="news-text" name="content" class="form-control" rows="5"></textarea>
+          <textarea id="news-text" name="content" class="form-control" rows="5">
+            <?php if(!empty($news_content)) echo $news_content; ?>
+          </textarea>
           <div class="news-buttons">
             <button id="publish" class="btn btn-primary">Pubblica</button>
           </div>
-          <input type="hidden" name="id" id="post-id">
+          <input type="hidden" name="id" id="post-id" value="<?php if(!empty($id)) echo $id; ?>">
         </form>
         
     </div>
   </div>
 </div>
+
+<div id="salvataggio-news-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Salvataggio news</h4>
+      </div>
+      <div class="modal-body">
+        <img id="load-gif" src="<?php echo base_url(); ?>assets/img/load-icon.gif">
+      </div>
+      <div class="modal-footer">
+        
+      </div>
+    </div>
+
+  </div>
+</div>
 <script type="text/javascript">
 
-  news_offset         = 10;
-  no_more_news        = false;
-  confirm_caller      = '';
   
-
   function finestra_messaggio(messaggio, conferma){
 
     var html_messaggio = "<p>" + messaggio + "</p>";
+
+    $("#load-gif").hide();
     
-    $("#confirm-modal .modal-body").html(html_messaggio);
+    $("#salvataggio-news-modal .modal-body").html(html_messaggio);
 
-    $("#confirm-modal").modal('show');
+    $("#salvataggio-news-modal").modal('show');
 
     
   }
 
 
-  function edit_button_callback(){
-        
-        $(this).parent().children().each( function(index, elem){
-          
-          if($(elem).attr('class') == 'news-content'){
-            tinyMCE.activeEditor.setContent( $(elem).html() );
-            $('#post-id').val( $(elem).data('post-id') );
-          }
-
-          if($(elem).prop('tagName').toLowerCase() == 'h2')
-            $('#title').val( $(elem).text() );
-        });
-
-        $('html, body').animate({scrollTop: 0}, 500);
-  }
-
-  function delete_button_callback(){
-
-      $(this).parent().children().each( function(index, elem){
-         
-        if($(elem).attr('class') == 'news-content'){
-              
-            $('#post-id').val( $(elem).data('post-id') );
-        }
-
-      });
-
-      confirm_caller = 'news';
-
-      $("#confirm-delete-modal .modal-body").text("Vuoi davvero cancellare questa news?");
-      $("#confirm-delete-modal").modal('show');
-
-
-  }
-
+  
   $(document).ready( function(){
 
 
-    $("#confirm-modal").on('hidden.bs.modal', function(){
+    $("#salvataggio-news-modal").on('hidden.bs.modal', function(){
       
-      if(confirm_caller == 'news')
-        location.reload();
+      location.reload();
+
     });
 
     
@@ -101,25 +87,36 @@
       $("#publish").click( function(event){
 
         event.preventDefault();
+
+        $("#load-gif").show();
         $("#salvataggio-news-modal").modal("show");
 
-        var data = {"content": tinyMCE.activeEditor.getContent(), "title": $("#title").val()};
+        var formData = new FormData();
+        formData.append("content", tinyMCE.activeEditor.getContent());
+        formData.append("title": $("#title").val());
         var post_id = $("#post-id").val();
         var operazione = "";
 
         if(post_id){
-          data.id = post_id;
+          formData.append('id', post_id);
           operazione = 'update';
         }
 
         else operazione = 'create';
 
-        $.post("<?php echo base_url(); ?>index.php/api/news/" + operazione, data , function(response){
-            
-            $("#salvataggio-news-modal").modal("hide");
 
-            
-            finestra_messaggio("News salvata con successo");
+        $.ajax({
+          url: "<?php echo base_url(); ?>index.php/api/news/" + operazione,
+          type: "POST",
+          data: formData, 
+          processData: false,
+          contentType: false
+
+        }).done(function(response){
+
+          $("#salvataggio-news-modal").modal("hide");
+  
+          finestra_messaggio("News salvata con successo");
         
 
         }).fail(function (response) {
@@ -129,35 +126,6 @@
         
         });
 
-      });
-
-      
-      $(".edit-button").click( edit_button_callback );
-
-
-      $(".delete-news-button").click( delete_button_callback );
-
-
-      $(window).scroll( function (event) {
-        
-        if ( ($(document).height() <= $(window).scrollTop() + $(window).height()) && !no_more_news){
-
-          $.get("<?php echo base_url(); ?>index.php/api/news/nextpage/" + news_offset, function(data){
-
-              if(data.length === 0) no_more_news = true;
-              
-              else{
-
-                $('.container').append( data );
-                $('.edit-button').on('click', edit_button_callback);
-                $('.delete-news-button').on('click', delete_button_callback);
-              } 
-
-          });
-
-          news_offset += 10;
-       } 
-              
       });
 
   });
