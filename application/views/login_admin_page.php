@@ -1,4 +1,4 @@
-	<form class="form-signin" id="form_login">
+	<form class="form-signin" id="login-form">
         <h2 class="form-signin-heading">Autenticazione</h2>
         <label for="codice_op" class="sr-only">Email</label>
         <input type="text" id="email" name="email" class="form-control" placeholder="Email" required autofocus>
@@ -49,7 +49,7 @@
 <script type="text/javascript">
 	
 	$(document).ready( function(){
-		$("#login").click(function(event){
+		$("#entra").click(function(event){
 
 	      event.preventDefault();
 
