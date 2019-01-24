@@ -1,7 +1,7 @@
 	<form class="form-signin" id="login-form">
         <h2 class="form-signin-heading">Autenticazione</h2>
         <label for="codice_op" class="sr-only">Email</label>
-        <input type="text" id="email" name="email" class="form-control" placeholder="Email" required autofocus>
+        <input type="text" id="username" name="username" class="form-control" placeholder="Email" required autofocus>
         <label for="password" class="sr-only">Password</label>
         <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
         <input type="hidden" name="<?php echo $csrf['name'];?>" value="<?php echo $csrf['hash'];?>" />
