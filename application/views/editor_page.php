@@ -81,6 +81,12 @@
   
   $(document).ready( function(){
 
+    if(location.pathname.indexOf('edit_news') >= 0){
+
+      tinyMCE.activeEditor.setContent('<?php echo $content; ?>');
+
+    }
+
     $("#salvataggio-news-modal").on('hidden.bs.modal', function(){
 
       finestra_messaggio(messaggio_risposta);

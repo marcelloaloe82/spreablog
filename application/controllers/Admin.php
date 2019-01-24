@@ -62,8 +62,6 @@ class Admin extends CI_Controller {
 
 		$news_data = $this->news_model->get($news_id);
 
-		var_dump($news_data); die;
-
 		$head_data['recaptcha'] = false;
 		$head_data['editor'] = true;
 
