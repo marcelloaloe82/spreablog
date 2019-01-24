@@ -4,7 +4,7 @@
         <input type="text" id="email" name="email" class="form-control" placeholder="Email" required autofocus>
         <label for="password" class="sr-only">Password</label>
         <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
-        <input type="hidden" name="<?php =$csrf['name'];?>" value="<?php =$csrf['hash'];?>" />
+        <input type="hidden" name="<?php echo $csrf['name'];?>" value="<?php echo $csrf['hash'];?>" />
         <button class="btn btn-lg btn-primary btn-block" type="submit" id="entra">Entra</button>
     </form>
 
