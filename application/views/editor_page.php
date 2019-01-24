@@ -85,13 +85,13 @@
 
       finestra_messaggio(messaggio_risposta);
 
-    }
+    });
 
     $("#confirm-modal").on('hidden.bs.modal', function(){
 
         location.reload();
 
-    }
+    });
 
     $("#publish").click( function(event){
 
