@@ -17,7 +17,7 @@
             <button id="publish" class="btn btn-primary">Pubblica</button>
           </div>
           <input type="hidden" name="id" id="post-id" value="<?php if(!empty($id)) echo $id; ?>">
-          <input type="hidden" name="<?php echo $csrf['name']; ?>" value="<?php echo $csrf['hash']; ?>">
+          <input type="hidden" id="<?php echo $csrf['name']; ?>" name="<?php echo $csrf['name']; ?>" value="<?php echo $csrf['hash']; ?>">
         </form>
         
     </div>
@@ -46,6 +46,7 @@
 
 <script type="text/javascript">
 
+  csrf_name = '<?php echo $csrf['name']; ?>';
   
   function finestra_messaggio(messaggio, conferma){
 
@@ -83,6 +84,7 @@
       var formData = new FormData();
       formData.append("content", tinyMCE.activeEditor.getContent());
       formData.append("title", $("#title").val());
+      formData.append(csrf_name, $("#"+csrf_name).val());
 
       var post_id = $("#post-id").val();
       var operazione = "";
