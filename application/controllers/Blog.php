@@ -32,7 +32,7 @@ class Blog extends CI_Controller {
 
 		$page_data['news'] = $this->news_model->paged_news(0);
 		
-		foreach ($page_data['news'] as $index=>$news) {
+		for ($index = 0; $index < count($page_data['news']); $index++) {
 			
 			$page_data[$index]['news']['comments'] = $this->comment->get_news_comments($news['id']);
 		}
