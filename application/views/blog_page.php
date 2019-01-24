@@ -33,6 +33,7 @@ foreach($news as $single_news):
           <h4><?php echo $comment_entry['display_name']; ?></h4>
           <div class="comment-content"><?php echo $comment_entry['content']; ?></div>
       </div>
+      <?php endforeach; ?>
       <form>
       <div class="post-comment">
         <h3>Commenta</h3>
@@ -59,6 +60,7 @@ foreach($news as $single_news):
   <hr>
 </div>
 <?php endforeach; ?>
+
 
 <div id="confirm-delete-modal" class="modal fade" role="dialog">
   <div class="modal-dialog">
