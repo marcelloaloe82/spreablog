@@ -39,7 +39,14 @@ class Admin extends CI_Controller {
 		
 		}else {
 
+			$csrf = array(
+				'name' => $this->security->get_csrf_token_name(),
+				'hash' => $this->security->get_csrf_hash()
+			);
+
 			$data['editor'] = false;
+			$data['csrf'] = $csrf;
+			
 			$this->load->view('head', $data);
 			$this->load->view('login_admin_page');
 		}
