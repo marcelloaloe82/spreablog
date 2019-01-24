@@ -46,8 +46,6 @@ class Admin extends CI_Controller {
 		
 		}else {
 
-			
-
 			$data['editor'] = false;
 			$data['csrf'] = $csrf;
 			
@@ -73,7 +71,7 @@ class Admin extends CI_Controller {
 		);
 
 		$this->load->view('head', $head_data);
-		$this->load->view('editor_page', compact('news_data'));
+		$this->load->view('editor_page', $news_data);
 
 
 
