@@ -60,7 +60,7 @@ class Admin extends CI_Controller {
 
 	public function edit_news($news_id){
 
-		$news_data = $this->news_model($news_id);
+		$news_data = $this->news_model->get($news_id);
 
 		$head_data['recaptcha'] = false;
 		$head_data['editor'] = true;
