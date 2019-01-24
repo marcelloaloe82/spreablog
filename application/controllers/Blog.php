@@ -8,10 +8,7 @@ class Blog extends CI_Controller {
     {
         // Construct the parent class
         parent::__construct();
-
-        // Configure limits on our controller methods
-        // Ensure you have created the 'limits' table and enabled 'limits' within application/config/rest.php
-       
+        
         $this->load->model('user');
         $this->load->model('news_model');
         $this->load->model('comment');
