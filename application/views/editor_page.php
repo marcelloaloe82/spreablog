@@ -93,7 +93,8 @@
 
         var formData = new FormData();
         formData.append("content", tinyMCE.activeEditor.getContent());
-        formData.append("title": $("#title").val());
+        formData.append("title", $("#title").val());
+        
         var post_id = $("#post-id").val();
         var operazione = "";
 
