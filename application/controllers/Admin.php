@@ -65,6 +65,11 @@ class Admin extends CI_Controller {
 		$head_data['recaptcha'] = false;
 		$head_data['editor'] = true;
 
+		$news_data['csrf'] = array(
+				'name' => $this->security->get_csrf_token_name(),
+				'hash' => $this->security->get_csrf_hash()
+		);
+
 		$this->load->view('head', $head_data);
 		$this->load->view('editor_page', compact('news_data'));
 
