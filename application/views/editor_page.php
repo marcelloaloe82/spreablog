@@ -36,12 +36,13 @@
         <img id="load-gif" src="<?php echo base_url(); ?>assets/img/load-icon.gif">
       </div>
       <div class="modal-footer">
-        
+         <button id="close-modal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
 
   </div>
 </div>
+
 <script type="text/javascript">
 
   
@@ -50,6 +51,7 @@
     var html_messaggio = "<p>" + messaggio + "</p>";
 
     $("#load-gif").hide();
+    $("#close-modal").show();
     
     $("#salvataggio-news-modal .modal-body").html(html_messaggio);
 
@@ -63,71 +65,57 @@
   $(document).ready( function(){
 
 
-    $("#salvataggio-news-modal").on('hidden.bs.modal', function(){
+    $("#close-modal").on('click', function(){
       
       location.reload();
 
     });
 
-    
+
+    $("#publish").click( function(event){
+
+      event.preventDefault();
+
+      $("#load-gif").show();
+      $("#salvataggio-news-modal").modal("show");
+
+      var formData = new FormData();
+      formData.append("content", tinyMCE.activeEditor.getContent());
+      formData.append("title", $("#title").val());
+
+      var post_id = $("#post-id").val();
+      var operazione = "";
+
+      if(post_id){
+        formData.append('id', post_id);
+        operazione = 'update';
+      }
+
+      else operazione = 'create';
+
+
+      $.ajax({
+        url: "<?php echo base_url(); ?>index.php/api/news/" + operazione,
+        type: "POST",
+        data: formData, 
+        processData: false,
+        contentType: false
+
+      }).done(function(response){
+
+        $("#salvataggio-news-modal").modal("hide");
+
+        finestra_messaggio("News salvata con successo");
       
-    $("#butt-ok").on('click', function(){
 
-       $.post("<?php echo base_url(); ?>index.php/api/news/delete", "&id=" + $("#post-id").val(),
-            function (response) {
-              
-              $("#confirm-delete-modal").modal('hide');
-              finestra_messaggio('News cancellata correttamente');
-              
-            });
-    });
+      }).fail(function (response) {
 
+        $("#salvataggio-news-modal").modal("hide");
+        finestra_messaggio(response.responseJSON.message);
       
-
-      $("#publish").click( function(event){
-
-        event.preventDefault();
-
-        $("#load-gif").show();
-        $("#salvataggio-news-modal").modal("show");
-
-        var formData = new FormData();
-        formData.append("content", tinyMCE.activeEditor.getContent());
-        formData.append("title", $("#title").val());
-        
-        var post_id = $("#post-id").val();
-        var operazione = "";
-
-        if(post_id){
-          formData.append('id', post_id);
-          operazione = 'update';
-        }
-
-        else operazione = 'create';
-
-
-        $.ajax({
-          url: "<?php echo base_url(); ?>index.php/api/news/" + operazione,
-          type: "POST",
-          data: formData, 
-          processData: false,
-          contentType: false
-
-        }).done(function(response){
-
-          $("#salvataggio-news-modal").modal("hide");
-  
-          finestra_messaggio("News salvata con successo");
-        
-
-        }).fail(function (response) {
-
-          $("#salvataggio-news-modal").modal("hide");
-          finestra_messaggio(response.responseJSON.message);
-        
-        });
-
       });
+
+    });
 
   });
 </script>

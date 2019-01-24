@@ -57,17 +57,36 @@ foreach($news as $single_news):
   </form>
   </div>
   <hr>
-<?php endforeach; ?>
 </div>
+<?php endforeach; ?>
 
+<div id="confirm-delete-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
 
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Messaggio di conferma</h4>
+      </div>
+      <div class="modal-body">
+        Vuoi davvero cancellare la news?
+      </div>
+      <div class="modal-footer">
+         <button id="butt-ok" type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
+         <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+      </div>
+    </div>
+
+  </div>
+</div>
   
 </div>    
 <script type="text/javascript">
 
   news_offset         = 10;
   no_more_news        = false;
-  confirm_caller      = '';
+  
   
   function edit_button_callback(){
       
@@ -79,23 +98,36 @@ foreach($news as $single_news):
 
   function delete_button_callback(){
 
-    var news_id = $(this).data('post-id') ;
+    news_id = $(this).data('post-id') ;
 
-    $("#confirm-delete-modal .modal-body").text("Vuoi davvero cancellare questa news?");
     $("#confirm-delete-modal").modal('show');
-
 
   }
 
+
   $(document).ready(function(){
 
-      $(".edit-button").click( edit_button_callback );
 
+    $("#butt-ok").on('click', function(){
 
-      $(".delete-news-button").click( delete_button_callback );
-
-
+       $.post("<?php echo base_url(); ?>index.php/api/news/delete", "&id=" + news_id,
+            function (response) {
+              
+              $("#confirm-delete-modal").modal('hide');
+              finestra_messaggio('News cancellata correttamente');
+              
+            });
     });
+
+      
+
+    $(".edit-button").click( edit_button_callback );
+
+
+    $(".delete-news-button").click( delete_button_callback );
+
+
+  });
 
 </script>
 </body>
