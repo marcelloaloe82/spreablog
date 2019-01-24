@@ -18,8 +18,7 @@ class Blog extends CI_Controller {
 
     }
 
-	public function index()
-	{
+	public function index()	{
 
 		$page_data = [];
 
@@ -31,7 +30,14 @@ class Blog extends CI_Controller {
 		}
 
 		$page_data['news'] = $this->news_model->paged_news(0);
+		
+		foreach ($page_data['news'] as $index=>$news) {
+			
+			$page_data['news'][$index]['comments'] = $this->comment->get_news_comments($news['id']);
+		}
+
 		$page_data['recaptcha'] = true;
+		$page_data['editor'] = false;
 		
 		$this->load->view('head', $page_data);
 		$this->load->view('blog_page', $page_data);

@@ -20,6 +20,11 @@ class Comment extends CI_Model {
 		
 	}
 
+	public function get_news_comments($news_id){
+
+		return $this->db->get_where('comments', ['news_id', $news_id])->result_array();
+	}
+
 	
 
 	public function create($comment_data){
