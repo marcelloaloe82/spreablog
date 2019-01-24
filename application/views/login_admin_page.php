@@ -43,8 +43,32 @@
 
 	  </div>
 	</div>
-	<link href="<?php echo base_url(); ?>static/css/signin.css" rel="stylesheet">
 
 </div>	 
+<link href="<?php echo base_url(); ?>static/css/signin.css" rel="stylesheet">
+<script type="text/javascript">
+	
+	$(document).ready( function(){
+		$("#login").click(function(event){
+
+	      event.preventDefault();
+
+	      $.post("<?php echo base_url(); ?>index.php/api/auth/login", 
+	             $("#login-form").serialize(), 
+	             function(response){
+
+	                  $("#login-modal").modal('hide');
+	                  location.reload();
+	                
+	      }).fail( function(response){
+	        
+	        $("#login-modal").modal('hide');
+	        
+	        finestra_messaggio(response.responseJSON.message);
+	        
+	      });
+	    });
+	});
+</script>
 </body>
 </html>
