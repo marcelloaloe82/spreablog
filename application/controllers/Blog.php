@@ -34,7 +34,7 @@ class Blog extends CI_Controller {
 		
 		for ($index = 0; $index < count($page_data['news']); $index++) {
 			
-			$page_data[$index]['news']['comments'] = $this->comment->get_news_comments($news['id']);
+			$page_data['news'][$index]['comments'] = $this->comment->get_news_comments($news['id']);
 		}
 
 		$page_data['recaptcha'] = true;
