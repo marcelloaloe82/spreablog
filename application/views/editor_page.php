@@ -42,6 +42,24 @@
     </div>
 
   </div>
+</div><div id="confirm-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Salvataggio news</h4>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+         <button id="close-modal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -52,12 +70,9 @@
 
     var html_messaggio = "<p>" + messaggio + "</p>";
 
-    $("#load-gif").hide();
-    $("#close-modal").show();
-    
-    $("#salvataggio-news-modal .modal-body").html(html_messaggio);
+    $("#confirm-modal .modal-body").html(html_messaggio);
 
-    $("#salvataggio-news-modal").modal('show');
+    $("#confirm-modal").modal('show');
 
     
   }
@@ -66,13 +81,17 @@
   
   $(document).ready( function(){
 
+    $("#salvataggio-news-modal").on('hidden.bs.modal', function(){
 
-    $("#close-modal").on('click', function(){
-      
-      location.reload();
+      finestra_messaggio(messaggio_risposta);
 
-    });
+    }
 
+    $("#confirm-modal").on('hidden.bs.modal', function(){
+
+        location.reload();
+
+    }
 
     $("#publish").click( function(event){
 
@@ -107,15 +126,20 @@
 
       }).done(function(response){
 
+        messaggio_risposta = response.message;
         $("#salvataggio-news-modal").modal("hide");
 
-        finestra_messaggio("News salvata con successo");
-      
-
+        
       }).fail(function (response) {
 
         $("#salvataggio-news-modal").modal("hide");
-        finestra_messaggio(response.responseJSON.message);
+        try{
+
+          messaggio_risposta = response.responseJSON.message;
+
+        }catch(exc){
+          messaggio_risposta = response.responseText;          
+        }
       
       });
 
