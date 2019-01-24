@@ -17,6 +17,11 @@ class Admin extends CI_Controller {
 		$data = [];
 
 		$data['recaptcha'] = false;
+
+		$data['csrf'] = array(
+			'name' => $this->security->get_csrf_token_name(),
+			'hash' => $this->security->get_csrf_hash()
+		);
 		
 		if($this->session->user){
 			
@@ -41,10 +46,7 @@ class Admin extends CI_Controller {
 		
 		}else {
 
-			$csrf = array(
-				'name' => $this->security->get_csrf_token_name(),
-				'hash' => $this->security->get_csrf_hash()
-			);
+			
 
 			$data['editor'] = false;
 			$data['csrf'] = $csrf;
