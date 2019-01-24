@@ -8,7 +8,7 @@ class Blog extends CI_Controller {
     {
         // Construct the parent class
         parent::__construct();
-        
+
         $this->load->model('user');
         $this->load->model('news_model');
         $this->load->model('comment');
@@ -31,7 +31,7 @@ class Blog extends CI_Controller {
 		
 		for ($index = 0; $index < count($page_data['news']); $index++) {
 			
-			$page_data['news'][$index]['comments'] = $this->comment->get_news_comments($news['id']);
+			$page_data['news'][$index]['comments'] = $this->comment->get_news_comments($page_data['news'][$index]['id']);
 		}
 
 		$page_data['recaptcha'] = true;
