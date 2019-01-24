@@ -17,6 +17,7 @@
             <button id="publish" class="btn btn-primary">Pubblica</button>
           </div>
           <input type="hidden" name="id" id="post-id" value="<?php if(!empty($id)) echo $id; ?>">
+          <input type="hidden" name="<?php echo $csrf['name']; ?>" value="<?php echo $csrf['hash']; ?>">
         </form>
         
     </div>
@@ -87,6 +88,7 @@
       var operazione = "";
 
       if(post_id){
+
         formData.append('id', post_id);
         operazione = 'update';
       }
