@@ -95,7 +95,7 @@ foreach($news as $single_news):
 
       var news_id = $(this).data('post-id') ;
        
-      location.href('<?php echo base_url();?>index.php/Admin/edit_news/' + news_id);
+      location.href ='<?php echo base_url();?>index.php/Admin/edit_news/' + news_id;
   }
 
   function delete_button_callback(){
