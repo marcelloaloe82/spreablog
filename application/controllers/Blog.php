@@ -14,6 +14,7 @@ class Blog extends CI_Controller {
        
         $this->load->model('user');
         $this->load->model('news_model');
+        $this->load->model('comment');
         $this->load->library('session');
 
     }
