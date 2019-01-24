@@ -6,7 +6,7 @@
         <form id="news-form">
         
           <div class="form-group">
-            <input type="text" name="title" id="title" class="form-control" placeholder="Titolo">
+            <input type="text" name="title" id="title" class="form-control" placeholder="Titolo" value="<?php if(!empty($title)) echo $title; ?>">
           </div>
         
         
