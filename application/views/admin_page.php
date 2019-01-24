@@ -316,25 +316,7 @@
     });
 
 
-    $("#login").click(function(event){
-
-      event.preventDefault();
-
-      $.post("<?php echo base_url(); ?>index.php/api/auth/login", 
-             $("#login-form").serialize(), 
-             function(response){
-
-                  $("#login-modal").modal('hide');
-                  location.reload();
-                
-      }).fail( function(response){
-        
-        $("#login-modal").modal('hide');
-        
-        finestra_messaggio(response.responseJSON.message);
-        
-      });
-    });
+    
 
     $("#menu-logout").click(function(event){
 

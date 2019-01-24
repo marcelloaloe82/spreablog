@@ -45,17 +45,36 @@
 	</div>
 
 </div>	 
-<link href="<?php echo base_url(); ?>static/css/signin.css" rel="stylesheet">
+
 <script type="text/javascript">
+
+	function finestra_messaggio(messaggio, conferma){
+
+	    var html_messaggio = "<p>" + messaggio + "</p>";
+	    
+	    $("#confirm-modal .modal-body").html(html_messaggio);
+
+	    $("#confirm-modal").modal('show');
+
+    
+  	}
 	
 	$(document).ready( function(){
+
 		$("#entra").click(function(event){
 
-	      event.preventDefault();
+	    	event.preventDefault();
 
-	      $.post("<?php echo base_url(); ?>index.php/api/auth/login", 
-	             $("#login-form").serialize(), 
-	             function(response){
+		   	var form = $('#form_login').get(0); 
+			var formData = new FormData(form);
+
+		    $.ajax({
+				url: "<?php echo base_url(); ?>index.php/api/auth/login",
+				type: "POST",
+				data: formData, 
+				processData: false,
+				contentType: false
+			}).done(function(response){
 
 	                  $("#login-modal").modal('hide');
 	                  location.reload();
