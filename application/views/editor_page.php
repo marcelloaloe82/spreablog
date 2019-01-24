@@ -11,7 +11,7 @@
         
         
           <textarea id="news-text" name="content" class="form-control" rows="5">
-            <?php if(!empty($news_content)) echo $news_content; ?>
+            <?php if(!empty($content)) echo $content; ?>
           </textarea>
           <div class="news-buttons">
             <button id="publish" class="btn btn-primary">Pubblica</button>
@@ -80,12 +80,6 @@
 
   
   $(document).ready( function(){
-
-    if(location.pathname.indexOf('edit_news') >= 0){
-
-      tinyMCE.activeEditor.setContent('<?php echo $content; ?>');
-
-    }
 
     $("#salvataggio-news-modal").on('hidden.bs.modal', function(){
 
