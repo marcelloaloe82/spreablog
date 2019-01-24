@@ -65,7 +65,7 @@
 
 	    	event.preventDefault();
 
-		   	var form = $('#form_login').get(0); 
+		   	var form = $('#login-form').get(0); 
 			var formData = new FormData(form);
 
 		    $.ajax({
