@@ -1,3 +1,9 @@
+body{
+
+  box-sizing: border-box;
+  padding: 20px;
+}
+
  #menu{
       padding: 10px;
       height: 50px;
@@ -24,7 +30,11 @@
     margin: 50px auto;
   }
 
-  
+  #add-user{
+
+    width: 50%;
+    margin: auto;
+  }
 
   .modal-body > img{
 
@@ -55,6 +65,11 @@
 
   margin: auto;
   display: block;
+}
+
+.confirm-buttons-footer{
+  width: 25%;
+  margin: 0 auto;
 }
 
 .form-signin {

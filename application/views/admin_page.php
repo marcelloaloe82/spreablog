@@ -1,10 +1,10 @@
-
-
-
+<div>
+  <button style="float:right;" class="btn btn-default" id="logout">Logout</button>
+</div>
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#users">Utenti</a></li>
-    <li><a data-toggle="tab" href="#add-user">Aggiungi/Modifica utente</a></li>
-    <li><a data-toggle="tab" href="#comments">Moderazione commenti</a></li>
+    <li><a id="aggiungi-utente" data-toggle="tab" href="#add-user">Aggiungi/Modifica utente</a></li>
+    
   </ul>
 
   <div class="tab-content">
@@ -34,7 +34,7 @@
       <h3>Aggiungi/Modifica utente</h3>
       <form id="user-form">
         <div class="form-group">
-          <input type="text" class="form-control" name="name" id="nome" placeholder="nome" required="required">
+          <input type="text" class="form-control" name="name" id="nome" placeholder="nome" required="required" autofocus="">
         </div>
         <div class="form-group">
           <input type="text" class="form-control" name="surname" id="cognome" placeholder="cognome"  required="required">
@@ -53,34 +53,13 @@
             <?php endforeach; ?>
           </select>
         </div>
-        <input type="hidden" name="idutente" id="idutente">
+        <input type="hidden" name="userid" id="userid">
+        <input type="hidden" name="<?php echo $csrf['name']; ?>" id="<?php echo $csrf['name']; ?>" value="<?php echo $csrf['hash']; ?>">
         <div><button class="btn btn-primary" id="invia-dati-utente">Invia</button></div>
       </form>
       
     </div>
-
-    
-    <div id="comments" class="tab-pane fade">
-      <h3>Moderazione commenti</h3>
-      <table id="comments-table" class="cell-border compact stripe">
-        <thead>
-          
-          <tr>
-            
-            <th>id</th>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Indirizzo IP</th>
-            <th>Titolo news</th>
-            <th>Operazioni</th>
-            
-          </tr>
-        </thead>
-        <tbody>
-
-        </tbody>
-      </table>
-    </div>
+  <!--end tab content -->
   </div>
 
       
@@ -123,7 +102,7 @@
               Vuoi davvero cancellare l'utente?
             </div>
             <div class="modal-footer">
-              <div style="width: 25%;margin: 0 auto;">
+              <div class="confirm-buttons-footer">
                 <button class="btn btn-primary" id="butt-ok">OK</button>
                 <button class="btn" id="butt-annulla" data-dismiss="modal">Annulla</button>
               </div>
@@ -137,7 +116,8 @@
 </body>
 <script type="text/javascript">
 
-  
+  operazione = "";
+
   function finestra_messaggio(messaggio, conferma){
 
     var html_messaggio = "<p>" + messaggio + "</p>";
@@ -166,21 +146,23 @@
 
         var rowdata = datatable.row( this.parentElement.parentElement ).data();
 
-        $("#idutente").val(rowdata['id']);
+        $("#userid").val(rowdata['id']);
         $("#nome").val(rowdata['nome']);
         $("#cognome").val(rowdata['cognome']);
         $("#email").val(rowdata['email']);
 
         //switch su tab aggiungi utente
+        $("#aggiungi-utente").trigger('click');
 
     });
 
+    
     $("#utenti .glyphicon.glyphicon-remove").on('click', function () {
         
 
         var rowdata = datatable.row( this.parentElement.parentElement ).data();
 
-        $("#user_delete").val(rowdata['id']);
+        $("#userid").val(rowdata['id']);
 
         $("#confirm-delete-modal .modal-body").text("Vuoi davvero cancellare questo utente?");
         
@@ -195,6 +177,7 @@
   $(document).ready(function(){
 
     datatable= $("#utenti").DataTable({
+      
       language: {
         "sEmptyTable":     "Nessun dato presente nella tabella",
         "sInfo":           "Vista da _START_ a _END_ di _TOTAL_ elementi",
@@ -250,31 +233,41 @@
 
   $("#utenti").css("width", "100%");
 
+  $("#confirm-modal").on('hidden.bs.modal', function(){
+
+      if(operazione == 'update')
+        location.reload();
+
+    });
+
  
 
-    $("#invia-dati-utente").click(function(event){
+  $("#invia-dati-utente").click(function(event){
 
       event.preventDefault();
 
       var operazione;
       
-      if($("#idutente").val())
+      if($("#userid").val())
         operazione = 'update';
       else operazione = 'create';
 
-      $.post("<?php echo base_url(); ?>index.php/api/users/" + operazione, $("#user-form").serialize(), 
-        
-        function(response){
-          
-          $("#user-modal").modal('hide');
-          finestra_messaggio(response.message);
-          datatable.ajax.reload();
-          datatable.draw();
+      var form = $('#user-form').get(0); 
+      var formData = new FormData(form);
+      //formData.append(csrf_name, $("#"+csrf_name).val());
 
-        })
-        .fail( function(response){
+      $.ajax({
+        url: "<?php echo base_url(); ?>index.php/api/users/" + operazione,
+        type: "POST",
+        data: formData, 
+        processData: false,
+        contentType: false
+
+      }).done(function(response){
+
+          finestra_messaggio(response.message);
           
-          $("#user-modal").modal('hide');
+      }).fail( function(response){
           
           finestra_messaggio(response.responseJSON.message);
 
@@ -295,16 +288,15 @@
 
       $("#user-form").trigger('reset');
       $("#user-modal").modal('show');
-      $("#idutente").val('');
+      $("#userid").val('');
 
     });
 
 
     
 
-    $("#menu-logout").click(function(event){
+    $("#logout").click(function(event){
 
-        event.preventDefault();
         $.post("<?php echo base_url(); ?>index.php/api/auth/logout", function(response){
          
           location.reload();
@@ -314,15 +306,29 @@
 
     $("#butt-ok").on('click', function(){
 
-      $.post("<?php echo base_url(); ?>index.php/api/users/delete", "&userid=" + $("#user_delete").val(),
-          function (response) {
-            $("#confirm-delete-modal").modal('hide');
-            datatable.ajax.reload();
-          });
+      var form = $('#user-form').get(0); 
+      var formData = new FormData(form);
+      //formData.append(csrf_name, $("#"+csrf_name).val());
+
+      $.ajax({
+        url: "<?php echo base_url(); ?>index.php/api/users/delete",
+        type: "POST",
+        data: formData, 
+        processData: false,
+        contentType: false
+
+      }).done(function(response){
+      
+          $("#confirm-delete-modal").modal('hide');
+          datatable.ajax.reload();
+      
+      }).fail( function(response){
+          
+          finestra_messaggio(response.responseJSON.message);
+
+      });
         
-      }
-
-
+    });
 
   });
 </script>

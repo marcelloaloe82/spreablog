@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = '';
+$config['base_url'] = '/spreablog/';
 
 /*
 |--------------------------------------------------------------------------
@@ -453,7 +453,9 @@ $config['csrf_token_name'] = 'spreanews';
 $config['csrf_cookie_name'] = 'spreanews';
 $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = TRUE;
-$config['csrf_exclude_uris'] = array();
+$config['csrf_exclude_uris'] = array(".*api/users/delete",
+									 ".*api/auth/logout", 
+									 ".*api/comments/approve/.*");
 
 /*
 |--------------------------------------------------------------------------

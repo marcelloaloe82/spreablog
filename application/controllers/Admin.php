@@ -30,6 +30,7 @@ class Admin extends CI_Controller {
 			if($ruolo_utente == 'admin'){
 
 				$data['editor'] = false;
+				$data['ruoli'] = $this->user->ruoli();
 				$this->load->view('head', $data);
 				$this->load->view('admin_page', $data);
 				
@@ -37,7 +38,8 @@ class Admin extends CI_Controller {
 
 			elseif($ruolo_utente == 'editor'){
 				
-				$data['editor'] = true;			
+				$data['editor'] = true;		
+				$data['user_id'] = 	$this->session->user['id'];
 
 				$this->load->view('head', $data);
 				$this->load->view('editor_page', $data);
@@ -47,8 +49,7 @@ class Admin extends CI_Controller {
 		}else {
 
 			$data['editor'] = false;
-			$data['csrf'] = $csrf;
-			
+						
 			$this->load->view('head', $data);
 			$this->load->view('login_admin_page');
 		}
