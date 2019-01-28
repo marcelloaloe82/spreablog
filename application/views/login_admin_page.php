@@ -74,6 +74,7 @@
 				data: formData, 
 				processData: false,
 				contentType: false
+				
 			}).done(function(response){
 
 	                  $("#login-modal").modal('hide');

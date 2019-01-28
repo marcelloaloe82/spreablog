@@ -23,7 +23,7 @@
               <th>Vedi commento</th>
               <th>Contenuto</th>
               <th>Cancella</th>
-              <th>Approva</th>
+              <th>Rispondi</th>
             </tr>
           </thead>
           <tbody>
@@ -114,6 +114,34 @@
 
   </div>
 </div>
+<div id="reply-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Rispondi al commento</h4>
+      </div>
+      <form id="reply-form" validate>
+      <div class="modal-body">
+          <div class="form-group">
+            <textarea rows="5" class="form-control" name="content" required autofocus></textarea>
+          </div>
+          <input type="hidden" id="news_id" name="news_id">
+          <input type="hidden" name="approved" value="1">
+          <input type="hidden" name="display_name" value="<?php echo $this->session->user['nome'] . ' ' . $this->session->user['cognome'] ; ?>">
+          <input type="hidden" name="email" value="<?php echo $this->session->user['email']; ?>">
+          <input type="hidden" id="<?php echo $csrf['name']; ?>" name="<?php echo $csrf['name']; ?>" value="<?php echo $csrf['hash']; ?>">
+      </div>
+      <div class="modal-footer">
+         <button id="send-reply" class="btn btn-default">Invia</button>
+      </div>
+      </form>
+    </div>
+
+  </div>
+</div>
 
 <script type="text/javascript">
 
@@ -137,32 +165,46 @@
     $("#commenti a").on('click', function (event) {
 
       event.preventDefault();
+      var href = $(this).attr('href');
 
-      if( $(this).attr('href') != "#"){
+      if( href != "#"){
 
-        $('#loading').modal('show');
-        $.post( $(this).attr('href'), function(response){
-           
-           $('#loading').modal('hide');
-           messaggio_risposta = response.message;
-        })
-        .fail( function(response){
-
-          
-          try{
-            messaggio_risposta = response.responseJSON.message;
-
-          }catch(exc){
+        if(href.indexOf("delete") > 0){
             
-            messaggio_risposta = response.responseText;
-          }
+            $('#loading').modal('show');
+            
+            $.post( $(this).attr('href'), function(response){
+               
+               $('#loading').modal('hide');
+               messaggio_risposta = response.message;
+            
+            }).fail( function(response){
+  
+              
+              try{
+                
+                messaggio_risposta = response.responseJSON.message;
+  
+              }catch(exc){
+                
+                messaggio_risposta = response.responseText;
+              }
+  
+              $('#loading').modal('hide');
+  
+            });
+  
+        }
 
-          $('#loading').modal('hide');
+        if(href.indexOf("reply") > 0){
 
-        });
+          $("#reply-form").attr("action", href);
+          $("#reply-modal").modal('show');
+        }
 
 
       } else{
+
           var rowdata = datatable.row( this.parentElement.parentElement ).data();
           var comment_content = rowdata['content'];
 
@@ -225,7 +267,7 @@
             { "data": "content" },
             { "data": "view_comment" },
             { "data": "cancella" },
-            { "data": "approva" }
+            { "data": "rispondi" }
         ],
       
       columnDefs: [
@@ -247,6 +289,7 @@
     $("#loading").on('hidden.bs.modal', function(){
 
       finestra_messaggio(messaggio_risposta);
+      datatable.ajax.reload();
 
     });
 
@@ -255,6 +298,52 @@
         location.reload();
 
     });
+
+    $("#reply-modal").on('hidden.bs.modal', function(){
+
+      $("#loading").modal("show");
+
+    });
+
+    $("#reply-form").on('submit', function(event){
+
+      event.preventDefault();
+      $("#reply-modal").modal("hide");
+      
+      var form = $(this).get(0);
+      var formData = new FormData(form);
+
+      $.ajax({
+
+        url: $(this).attr("action"),
+        type: "POST",
+        data: formData, 
+        processData: false,
+        contentType: false
+
+      }).done(function(response){
+
+          messaggio_risposta = response.message;
+          $("#loading").modal("hide");          
+          
+      }).fail( function(response){
+          
+          try{
+
+            messaggio_risposta = response.responseJSON.message;
+          
+          }catch(exc){
+
+            messaggio_risposta = response.responseText;
+          }
+
+          $("#loading").modal("hide");          
+
+      });
+    
+
+    });
+
 
     $("#publish").click( function(event){
 

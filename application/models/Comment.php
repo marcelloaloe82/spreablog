@@ -33,17 +33,24 @@ class Comment extends CI_Model {
 		return $this->db->get_where('comments', ['id'=>$id])->first_row()->content;
 	}
 
+	
 	public function get_news_comments($news_id){
 
-		return $this->db->get_where('comments', ['news_id', $news_id])->result_array();
+		return $this->db->get_where('comments', ['news_id'=>$news_id])->result_array();
+		
 	}
 
 	
-	public function approve($id){
+	public function reply($id, $comment_data){
 
 		$this->db->set('approved', 1);
 		$this->db->where('id', $id);
 		$this->db->update('comments');
+
+		$news_id = $this->find($id)['news_id'];
+		$comment_data['news_id'] = $news_id;
+
+		$this->db->insert('comments', $comment_data);
 	}
 
 	public function save($comment_data){

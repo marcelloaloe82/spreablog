@@ -33,9 +33,9 @@ foreach($news as $single_news):
         <?php foreach ($single_news['comments'] as $key => $comment_entry): ?>
           <h4><?php echo $comment_entry['display_name']; ?></h4>
           <div class="comment-content"><?php echo $comment_entry['content']; ?></div>
+        <?php endforeach; ?>
       </div>
-      <?php endforeach; ?>
-      <form class="invia-commento"> 
+      <form class="invia-commento" validate> 
       <div class="post-comment">
         <h3>Commenta</h3>
         <div class="form-group">

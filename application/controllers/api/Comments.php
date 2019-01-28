@@ -34,14 +34,17 @@ class Comments extends REST_Controller {
 
     	foreach ($comments as $key => $row) {
     		
-    		$comments[$key]['approva'] = sprintf("<a href=\"%sindex.php/api/comments/approve/%s\"><span class=\"glyphicon glyphicon-check\"></span></a>", base_url(), $comments[$key]['id']);
+    		$comments[$key]['rispondi'] = sprintf("<a href=\"%sindex.php/api/comments/reply/%s\"><span class=\"glyphicon glyphicon-send\"></span></a>", base_url(), $comments[$key]['id']);
 			
 			$comments[$key]['cancella'] = sprintf("<a href=\"%sindex.php/api/comments/delete/%s\"><span class=\"glyphicon glyphicon-remove	\"></span></a>", base_url(), $comments[$key]['id']);
 			
 			$comments[$key]['view_comment'] = "<a href='#'><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
-			
-    		unset($comments[$key]['id']);
+
+            unset($comments[$key]['id']);
     	}
+
+        if(count($comments) === 0)
+            $comments = [];
 
     	$this->set_response($comments, REST_Controller::HTTP_OK);
     }
@@ -89,15 +92,20 @@ class Comments extends REST_Controller {
         $this->set_response(['message'=>$message_ok], REST_Controller::HTTP_OK);
 
     }
-    
 
-    public function approve_post($comment_id){
+
+    public function reply_post($comment_id){
+
+        $message_ok = 'Risposta inviata';
 
     	if(empty($this->session->user)){
     		$this->set_response(NULL, REST_Controller::HTTP_FORBIDDEN);
     	}
 
-    	$this->comment->approve($comment_id);
+    	$this->comment->reply($comment_id, $this->input->post());
+
+        $this->set_response(['message'=>$message_ok], REST_Controller::HTTP_OK);
+
 
     }
 
