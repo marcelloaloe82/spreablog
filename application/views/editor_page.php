@@ -95,7 +95,7 @@
   </div>
 </div>
 
-<div id="view_comment" class="modal fade" role="dialog">
+<div id="view-comment" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -137,10 +137,10 @@
     $("#commenti a").on('click', function (event) {
 
       event.preventDefault();
-      $('#loading').modal('show');
 
       if( $(this).attr('href') != "#"){
 
+        $('#loading').modal('show');
         $.post( $(this).attr('href'), function(response){
            
            $('#loading').modal('hide');
@@ -166,8 +166,8 @@
           var rowdata = datatable.row( this.parentElement.parentElement ).data();
           var comment_content = rowdata['content'];
 
-          $("#view_comment modal-body").text( comment_content );
-          $("#view_comment").modal("show");
+          $("#view-comment modal-body").text( comment_content );
+          $("#view-comment").modal("show");
       }
 
     });
