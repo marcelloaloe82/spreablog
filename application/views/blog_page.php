@@ -163,7 +163,9 @@ foreach($news as $single_news):
     $(".delete-news-button").click( delete_button_callback );
 
 
-    $(".invia-commento").on('submit', function(){
+    $(".invia-commento").on('submit', function(event){
+
+      event.preventDefault();
 
       form = $(this).get(0);
       form_data  = new FormData(form);
