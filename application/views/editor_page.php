@@ -166,7 +166,7 @@
           var rowdata = datatable.row( this.parentElement.parentElement ).data();
           var comment_content = rowdata['content'];
 
-          $("#view-comment modal-body").text( comment_content );
+          $("#view-comment .modal-body").text( comment_content );
           $("#view-comment").modal("show");
       }
 
