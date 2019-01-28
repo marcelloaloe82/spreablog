@@ -1,65 +1,70 @@
 body{
 
-  box-sizing: border-box;
-  padding: 20px;
+box-sizing: border-box;
+padding: 20px;
 }
 
- #menu{
-      padding: 10px;
-      height: 50px;
-    }
+#menu{
+    padding: 10px;
+    height: 50px;
+  }
 
-    
- .row{
+  
+.row{
+
+margin-top: 20px;
+}
+
+#editor{
+padding-bottom: 20px;
+
+}
+
+.edit-button{
+  margin-right: 5px;
+}
+
+#utenti_wrapper{
+
+  width: 80%;
+  margin: 50px auto;
+}
+
+#add-user{
+
+  width: 50%;
+  margin: auto;
+}
+
+.modal-body > img{
+
+  max-width: 150px;
+  max-height: 150px;
+  display: block;
+  margin: auto;
+}
+
+.publish-draft-button{
+
+  margin-left: 10px;
+}
+
+
+.news-buttons{
 
   margin-top: 20px;
- }
+}
 
- #editor{
-  padding-bottom: 20px;
-  
- }
+.post-comment{
 
- .edit-button{
-    margin-right: 5px;
- }
+  margin-top: 20px;
+  width: 80%;
+}
 
-  #utenti_wrapper{
+.comment-area{
 
-    width: 80%;
-    margin: 50px auto;
-  }
-
-  #add-user{
-
-    width: 50%;
-    margin: auto;
-  }
-
-  .modal-body > img{
-
-    max-width: 150px;
-    max-height: 150px;
-    display: block;
-    margin: auto;
-  }
-
-  .publish-draft-button{
-
-    margin-left: 10px;
-  }
-
-
-  .news-buttons{
-
-    margin-top: 20px;
-  }
-
-  .post-comment{
-
-    margin-top: 20px;
-    width: 80%;
-  }
+  border-bottom: 1px solid lightgray;
+}
 
 #salvataggio-news-modal .modal-body img{
 
