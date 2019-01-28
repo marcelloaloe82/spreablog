@@ -38,7 +38,7 @@ class Comments extends REST_Controller {
 			
 			$comments[$key]['cancella'] = sprintf("<a href=\"%sindex.php/api/comments/delete/%s\"><span class=\"glyphicon glyphicon-remove	\"></span></a>", base_url(), $comments[$key]['id']);
 			
-			$comments[$key]['view_comment'] = sprintf("<a href=''><span class=\"glyphicon glyphicon-eye-open\"></span></a>", base_url(), $comments[$key]['id']);
+			$comments[$key]['view_comment'] = "<a href='#'><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
 			
     		unset($comments[$key]['id']);
     	}
@@ -81,13 +81,15 @@ class Comments extends REST_Controller {
             $this->set_response(['message' => $message_captcha], REST_Controller::HTTP_FORBIDDEN);
         }
 
-        unset($comment_data[$captcha_key]);        
+        unset($comment_data[$captcha_key]);   
+        $comment_data['ip_address'] = $this->input->ip_address();     
 
         $this->comment->save($comment_data);
 
         $this->set_response(['message'=>$message_ok], REST_Controller::HTTP_OK);
 
     }
+    
 
     public function approve_post($comment_id){
 
