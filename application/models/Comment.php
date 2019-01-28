@@ -46,7 +46,7 @@ class Comment extends CI_Model {
 		$this->db->update('comments');
 	}
 
-	public function create($comment_data){
+	public function save($comment_data){
 
 		
 		return $this->db->insert('comments', $comment_data);

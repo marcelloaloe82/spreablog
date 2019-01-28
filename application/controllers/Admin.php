@@ -61,6 +61,9 @@ class Admin extends CI_Controller {
 
 	public function edit_news($news_id){
 
+		if(empty($this->session->user))
+			redirect('/Admin');
+
 		$news_data = $this->news_model->get($news_id);
 
 		$head_data['recaptcha'] = false;
