@@ -183,8 +183,20 @@ foreach($news as $single_news):
           $(".invia-commento").reset();
           
       }).fail( function(response){
-          
-          finestra_messaggio(response.responseJSON.message);
+
+          var dati_messaggio = "";
+
+          try{
+            
+            dati_messaggio = response.responseJSON.message;
+
+          } catch(exc){
+
+            dati_messaggio = response.responseText;
+          }
+
+        
+          finestra_messaggio(dati_messaggio);
 
       });
     
