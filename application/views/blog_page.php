@@ -39,15 +39,15 @@ foreach($news as $single_news):
         <h3>Commenta</h3>
         <div class="form-group">
           <label for="usr">Nome</label>
-          <input type="text" class="form-control" name="display_name">
+          <input type="text" class="form-control" name="display_name" required>
         </div>
         <div class="form-group">
           <label for="indirizzo_email">Email (non sarà visualizzata)</label>
-          <input type="email" class="form-control" name="indirizzo_email">
+          <input type="email" class="form-control" name="email" required>
         </div>
         <div class="form-group">
           <label for="comment">Scrivi il tuo commento:</label>
-          <textarea class="form-control" rows="5" id="comment"></textarea>
+          <textarea class="form-control" rows="5" id="comment" required></textarea>
         </div>
         <div class="g-recaptcha" data-sitekey="6LffHIwUAAAAABALRFsTKSgkBPFjTCzLNzScE0cR"></div>
         <div class="form-group">
