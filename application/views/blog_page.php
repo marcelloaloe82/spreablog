@@ -47,7 +47,7 @@ foreach($news as $single_news):
         </div>
         <div class="form-group">
           <label for="comment">Scrivi il tuo commento:</label>
-          <textarea class="form-control" rows="5" id="comment" required></textarea>
+          <textarea class="form-control" rows="5" id="comment" name="content" required></textarea>
         </div>
         <div class="g-recaptcha" data-sitekey="6LffHIwUAAAAABALRFsTKSgkBPFjTCzLNzScE0cR"></div>
         <div class="form-group">
