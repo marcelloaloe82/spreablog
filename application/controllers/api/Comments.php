@@ -78,7 +78,7 @@ class Comments extends REST_Controller {
         
         if ($result === FALSE)  {
             
-            $this->set_response(['message' => $message_captcha, REST_Controller::HTTP_FORBIDDEN);
+            $this->set_response(['message' => $message_captcha], REST_Controller::HTTP_FORBIDDEN);
         }
 
         unset($comment_data['captcha_key']);        
