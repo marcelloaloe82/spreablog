@@ -97,25 +97,7 @@ class News extends REST_Controller {
         
     }
 
-    public function prevpage(){
-
-        $this->session->set_userdata('offset', $this->session->offset - 10);
-
-        $news = $this->news_model->paged_news($this->session->offset);
-
-        if (!empty($news))
-        {
-            $this->set_response($news, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
-        }
-        else
-        {
-            $this->set_response([
-                
-                'message' => 'Nessuna news trovata'
-            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
-        }
-
-    }
+    
 
 
     public function create_draft_post()

@@ -36,6 +36,8 @@ class Blog extends CI_Controller {
 
 		$page_data['recaptcha'] = true;
 		$page_data['editor'] = false;
+		$page_data['csrf'] = ['name' => $this->security->get_csrf_token_name(),
+							  'hash' => $this->security->get_csrf_hash()];
 		
 		$this->load->view('head', $page_data);
 		$this->load->view('blog_page', $page_data);

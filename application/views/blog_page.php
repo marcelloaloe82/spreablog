@@ -34,7 +34,7 @@ foreach($news as $single_news):
           <div class="comment-content"><?php echo $comment_entry['content']; ?></div>
       </div>
       <?php endforeach; ?>
-      <form>
+      <form class="invia-commento"> 
       <div class="post-comment">
         <h3>Commenta</h3>
         <div class="form-group">
@@ -52,7 +52,8 @@ foreach($news as $single_news):
         <div class="g-recaptcha" data-sitekey="6LffHIwUAAAAABALRFsTKSgkBPFjTCzLNzScE0cR"></div>
         <div class="form-group">
           <button class="btn btn-default">Invia</button>
-        <input type="hidden" name="comment_id" value="<?php echo $single_news['id'] ?>">
+        <input type="hidden" name="news_id" value="<?php echo $single_news['id'] ?>">
+        <input type="hidden" name="<?php echo $csrf['name']; ?>" value="<?php echo $csrf['hash']; ?>">
       </div>
     </div>
   </form>
@@ -82,6 +83,28 @@ foreach($news as $single_news):
 
   </div>
 </div>
+
+<div id="message-dialog" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Messaggio di conferma</h4>
+      </div>
+      <div class="modal-body">
+        Vuoi davvero cancellare la news?
+      </div>
+      <div class="modal-footer">
+         <button id="butt-ok" type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
+         <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
   
 </div>    
 <script type="text/javascript">
@@ -89,6 +112,17 @@ foreach($news as $single_news):
   news_offset         = 10;
   no_more_news        = false;
   
+
+  function finestra_messaggio(messaggio, conferma){
+
+    var html_messaggio = "<p>" + messaggio + "</p>";
+    
+    $("#message-dialog .modal-body").html(html_messaggio);
+
+    $("#message-dialogl").modal('show');
+
+    
+  }
   
   function edit_button_callback(){
       
@@ -127,6 +161,32 @@ foreach($news as $single_news):
 
 
     $(".delete-news-button").click( delete_button_callback );
+
+
+    $(".invia-commento").on('submit', function(){
+
+      form = $(this).get(0);
+      form_data  = new FormData(form);
+
+      $.ajax({
+        url: "<?php echo base_url(); ?>index.php/api/comments/save",
+        type: "POST",
+        data: form_data, 
+        processData: false,
+        contentType: false
+
+      }).done(function(response){
+
+          finestra_messaggio(response.message);
+          $(".invia-commento").reset();
+          
+      }).fail( function(response){
+          
+          finestra_messaggio(response.responseJSON.message);
+
+      });
+    
+    });
 
 
   });

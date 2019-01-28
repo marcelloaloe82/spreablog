@@ -21,6 +21,7 @@ class Comments extends REST_Controller {
         $this->load->model('comment');
     }
 
+    //lista dei commenti
     function index_get(){
 
     	if(empty($this->session->user)){
@@ -45,6 +46,49 @@ class Comments extends REST_Controller {
     	$this->set_response($comments, REST_Controller::HTTP_OK);
     }
 
+    
+    public function save_post(){
+
+        $message_ok = 'Commento inviato per l\'approvazione';
+        $message_captcha = 'Occorre cliccare il captcha per inviare il commento';
+
+        $comment_data = $this->input->post();
+
+        $captcha_key = 'g-recaptcha-response';
+
+
+        if(!in_array($captcha_key, array_keys($comment_data)){
+            $this->set_response(NULL, REST_Controller::HTTP_FORBIDDEN);
+        }
+
+        $url = 'https://www.google.com/recaptcha/api/siteverify';
+        $secret = "6LffHIwUAAAAAA96PfNPKALU9ZXDqcsjsEbWQecK";
+        $data = array('response' => $this->input->post($captcha_key) , 'secret' => $secret);
+                
+        $options = array(
+            'http' => array(
+                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method'  => 'POST',
+                'content' => http_build_query($data)
+            )
+        );
+        
+        $context  = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        
+        if ($result === FALSE)  {
+            
+            $this->set_response(['message' => $message_captcha, REST_Controller::HTTP_FORBIDDEN);
+        }
+
+        unset($comment_data['captcha_key']);        
+
+        $this->comment->save($comment_data);
+
+        $this->set_response(['message'=>$message_ok], REST_Controller::HTTP_OK);
+
+    }
+
     public function approve_post($comment_id){
 
     	if(empty($this->session->user)){
@@ -62,6 +106,8 @@ class Comments extends REST_Controller {
     	if(empty($this->session->user)){
     		$this->set_response(NULL, REST_Controller::HTTP_FORBIDDEN);
     	}
+
+        $this->comment->delete($comment_id);
 
     }
 
