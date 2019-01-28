@@ -119,7 +119,7 @@ foreach($news as $single_news):
     
     $("#message-dialog .modal-body").html(html_messaggio);
 
-    $("#message-dialogl").modal('show');
+    $("#message-dialog").modal('show');
 
     
   }
