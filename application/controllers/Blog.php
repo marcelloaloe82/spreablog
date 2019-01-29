@@ -16,31 +16,39 @@ class Blog extends CI_Controller {
 
     }
 
-	public function index()	{
+	public function index($slug='')	{
 
-		$page_data = [];
-
-		if(!empty($this->session->user)){
-
-			$ruolo_utente = $this->user->get_ruolo( $this->session->user['role_id']);
-			$page_data['ruolo_utente'] = $ruolo_utente;
-
-		}
-
-		$page_data['news'] = $this->news_model->paged_news(0);
 		
-		for ($index = 0; $index < count($page_data['news']); $index++) {
+		if(!$slug){
 			
-			$page_data['news'][$index]['comments'] = $this->comment->get_news_comments($page_data['news'][$index]['id']);
-			
-		}
+			$page_data = [];
 
-		$page_data['recaptcha'] = true;
-		$page_data['editor'] = false;
-		$page_data['csrf'] = ['name' => $this->security->get_csrf_token_name(),
-							  'hash' => $this->security->get_csrf_hash()];
-		
-		$this->load->view('head', $page_data);
-		$this->load->view('blog_page', $page_data);
+			if(!empty($this->session->user)){
+
+				$ruolo_utente = $this->user->get_ruolo( $this->session->user['role_id']);
+				$page_data['ruolo_utente'] = $ruolo_utente;
+
+			}
+
+			$page_data['news'] = $this->news_model->paged_news(0);
+			
+			$comments = $this->comment->all();
+
+			$page_data['comments'] = $comments;
+
+			foreach ($page_data['comments'] as $index=>$comment) {
+							
+				$page_data['comments'][$index]['replies'] = $this->comment->get_comment_replies($comment['id']);
+				
+			}
+
+			$page_data['recaptcha'] = true;
+			$page_data['editor'] = false;
+			$page_data['csrf'] = ['name' => $this->security->get_csrf_token_name(),
+								  'hash' => $this->security->get_csrf_hash()];
+			
+			$this->load->view('head', $page_data);
+			$this->load->view('blog_page', $page_data);
+		}
 	}
 }

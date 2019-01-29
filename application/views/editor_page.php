@@ -128,7 +128,7 @@
           <div class="form-group">
             <textarea rows="5" class="form-control" name="content" required autofocus></textarea>
           </div>
-          <input type="hidden" id="news_id" name="news_id">
+          
           <input type="hidden" name="approved" value="1">
           <input type="hidden" name="display_name" value="<?php echo $this->session->user['nome'] . ' ' . $this->session->user['cognome'] ; ?>">
           <input type="hidden" name="email" value="<?php echo $this->session->user['email']; ?>">

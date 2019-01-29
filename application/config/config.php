@@ -455,7 +455,8 @@ $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = TRUE;
 $config['csrf_exclude_uris'] = array(".*api/users/delete",
 									 ".*api/auth/logout", 
-									 ".*api/comments/approve/.*");
+									 ".*api/comments/approve/.*",
+									 ".*api/comments/delete/.*");
 
 /*
 |--------------------------------------------------------------------------
