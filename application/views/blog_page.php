@@ -48,8 +48,8 @@ foreach($news as $single_news):
             
             <?php foreach ($comment_entry['replies'] as $key => $value): ?>
               
-              <h5><?php echo $comment_entry['replies'][$key]['display_name']; ?></h5>
-              <div><?php echo $comment_entry['replies']$key]['content']; ?> </div>
+              <h5><?php echo $value['display_name']; ?></h5>
+              <div><?php echo $value['content']; ?> </div>
         
             <?php endforeach; ?>
           
