@@ -20,7 +20,7 @@ class Comment extends CI_Model {
 		
 		} else{
 		
-			$this->db->where('approved => and reply_to IS NULL');
+			$this->db->where('approved =1 and reply_to IS NULL');
 		}
 
 		
