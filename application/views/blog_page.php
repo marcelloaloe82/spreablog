@@ -31,7 +31,7 @@ foreach($news as $single_news):
       <div class="comment-area">
         <?php if($comments): ?>
         <h4>Commenti alla news</h4>
-        <?php endif; ?>
+        
         <?php foreach ($comments as $key => $comment_entry): ?>
           
           <?php if($comment_entry['news_id'] == $single_news['id']): ?>
@@ -41,7 +41,7 @@ foreach($news as $single_news):
             <?php echo $comment_entry['content']; ?>
               
           </div>
-          <?php endif; ?>
+         
           
           <?php if(!empty($comment_entry['replies'])): ?>
           <div class="replies">
