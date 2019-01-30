@@ -59,6 +59,7 @@ class Comments extends REST_Controller {
 
         $message_ok = 'Commento inviato per l\'approvazione';
         $message_captcha = 'Occorre cliccare il captcha per inviare il commento';
+        $message_forbidden = 'Operazione non consentita';
 
         $comment_data = $this->input->post();
 
@@ -105,7 +106,14 @@ class Comments extends REST_Controller {
 
         } else{
 
-            $this->set_response(NULL, REST_Controller::HTTP_FORBIDDEN);
+        	if($comment_data){
+            	
+            	$this->set_response(['message'=>$message_captcha], REST_Controller::HTTP_FORBIDDEN);	
+            	
+        	} else {
+
+        		$this->set_response(['message'=>$message_forbidden], REST_Controller::HTTP_FORBIDDEN);
+        	}
         }
     }
 

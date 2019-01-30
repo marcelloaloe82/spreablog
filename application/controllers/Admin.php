@@ -23,7 +23,7 @@ class Admin extends CI_Controller {
 			'hash' => $this->security->get_csrf_hash()
 		);
 
-		$data['title'] = 'Sprea News | Pannello admin';
+		$data['page_title'] = 'Sprea News | Pannello admin';
 		
 		if($this->session->user){
 			
@@ -70,7 +70,7 @@ class Admin extends CI_Controller {
 
 		$head_data['recaptcha'] = false;
 		$head_data['editor'] = true;
-		$head_data['title'] = 'Sprea News | Pannello admin';
+		$head_data['page_title'] = 'Sprea News | Pannello admin';
 
 		$news_data['user_id'] = $this->session->user['id'];
 

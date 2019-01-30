@@ -28,7 +28,7 @@ class Blog extends CI_Controller {
 
 		}
 
-		$page_data['title'] = 'Sprea News';
+		$page_data['page_title'] = 'Sprea News';
 		$page_data['news'] = $this->news_model->paged_news(0);
 		
 		$page_data['comments'] = $this->comment->all();
@@ -57,7 +57,7 @@ class Blog extends CI_Controller {
 
 		if($slug){
 
-			$page_data['title'] = 'Sprea News';
+			$page_data['page_title'] = 'Sprea News';
 
 			$news_id = $this->news_model->get_news_id_from_slug($slug);
 			$page_data['single_news'] = $this->news_model->get($news_id);
