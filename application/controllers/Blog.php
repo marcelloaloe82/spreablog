@@ -33,10 +33,10 @@ class Blog extends CI_Controller {
 		
 		$page_data['comments'] = $this->comment->all();
 
-		var_dump($page_data['comments']); 
 
 		foreach ($page_data['comments'] as $index=>$comment) {
 						
+		var_dump($this->comment->get_comment_replies($comment['id']); 
 			$page_data['comments'][$index]['replies'] = $this->comment->get_comment_replies($comment['id']);
 			
 		}
