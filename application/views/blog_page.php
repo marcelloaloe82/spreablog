@@ -29,12 +29,11 @@ foreach($news as $single_news):
       </div>
       <?php echo $button_modifica .' '. $button_elimina; ?>
       <div class="comment-area">
-        <?php if($comments): ?>
-        <h4>Commenti alla news</h4>
         
         <?php foreach ($comments as $key => $comment_entry): ?>
-          
+        
           <?php if($comment_entry['news_id'] == $single_news['id']): ?>
+          <h4>Commenti alla news</h4>
           <h5><?php echo $comment_entry['display_name']; ?></h5>
           <div class="comment-content">
           
@@ -56,7 +55,7 @@ foreach($news as $single_news):
           </div>
           <?php endif; ?>
         <?php endforeach; ?>
-      <?php endif; ?>
+      
       <form class="invia-commento" validate> 
       <div class="post-comment">
         <h3>Commenta</h3>
