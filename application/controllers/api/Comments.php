@@ -60,7 +60,7 @@ class Comments extends REST_Controller {
         $captcha_key = 'g-recaptcha-response';
 
 
-        if(!in_array($captcha_key, array_keys($comment_data))) {
+        if(!$this->input->post($captcha_key)) {
             $this->set_response(NULL, REST_Controller::HTTP_FORBIDDEN);
         }
 
