@@ -45,13 +45,13 @@ class Comment extends CI_Model {
 	
 	public function get_news_comments($news_id){
 
-		return $this->db->get_where('comments', ['news_id'=>$news_id, 'news_id'=>'is not null'])->result_array();
+		return $this->db->get_where('comments', "news_id=$news_id and news_id is not null")->result_array();
 		
 	}
 
 	public function get_comment_replies($comment_id){
 
-		return $this->db->get_where('comments', ['reply_to'=>$comment_id, 'reply_to'=>'is not null'])->result_array();
+		return $this->db->get_where('comments', "reply_to=$comment_id and reply_to is not null")->result_array();
 	}
 
 	
