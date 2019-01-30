@@ -113,6 +113,7 @@ class Comments extends REST_Controller {
     public function reply_post($comment_id){
 
         $message_ok = 'Risposta inviata';
+        $error_message = 'Operazione non consentita';
 
     	if(!empty($this->session->user)){
     		
@@ -129,7 +130,7 @@ class Comments extends REST_Controller {
         
         } else{
 
-            $this->set_response(NULL, REST_Controller::HTTP_FORBIDDEN);
+            $this->set_response(['message'=>$error_message], REST_Controller::HTTP_FORBIDDEN);
         }
 
 
@@ -140,7 +141,7 @@ class Comments extends REST_Controller {
     public function delete_post($comment_id){
 
         $message_ok = 'Commento cancellato';
-        $error_message = '';
+        $error_message = 'Operazione non consentita';
 
     	if(!empty($this->session->user)){
             
@@ -156,7 +157,7 @@ class Comments extends REST_Controller {
 
         } else{
 
-            $this->set_response(NULL, REST_Controller::HTTP_FORBIDDEN);
+            $this->set_response(['message'=>$error_message], REST_Controller::HTTP_FORBIDDEN);
         }
 
 

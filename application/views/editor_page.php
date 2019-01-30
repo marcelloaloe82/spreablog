@@ -150,7 +150,7 @@
           <input type="hidden" name="approved" value="1">
           <input type="hidden" name="display_name" value="<?php echo $this->session->user['nome'] . ' ' . $this->session->user['cognome'] ; ?>">
           <input type="hidden" name="email" value="<?php echo $this->session->user['email']; ?>">
-          <input type="hidden" id="<?php echo $csrf['name']; ?>" name="<?php echo $csrf['name']; ?>" value="<?php echo $csrf['hash']; ?>">
+          
       </div>
       </form>
       <div class="modal-footer">

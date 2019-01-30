@@ -116,11 +116,10 @@ foreach($news as $single_news):
         <h4 class="modal-title">Messaggio di conferma</h4>
       </div>
       <div class="modal-body">
-        Vuoi davvero cancellare la news?
+        
       </div>
       <div class="modal-footer">
-         <button id="butt-ok" type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
-         <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+         <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
       </div>
     </div>
 
