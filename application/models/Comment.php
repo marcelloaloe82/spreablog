@@ -20,13 +20,13 @@ class Comment extends CI_Model {
 		
 		} else{
 		
-			$this->db->where(['approved'=>1, 'reply_to'=>'is null']);
+			$this->db->where('approved => and reply_to IS NULL']);
 		}
 
 		
-		$this->db->get()->result_array(); 
+		return $this->db->get()->result_array(); 
 
-		var_dump($this->db->last_query());
+		//var_dump($this->db->last_query());
 
 	}
 
