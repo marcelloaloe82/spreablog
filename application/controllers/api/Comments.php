@@ -107,6 +107,7 @@ class Comments extends REST_Controller {
 
             $this->set_response(NULL, REST_Controller::HTTP_FORBIDDEN);
         }
+    }
 
 
     public function reply_post($comment_id){
