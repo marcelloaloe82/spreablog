@@ -41,7 +41,7 @@ foreach($news as $single_news):
             <?php echo $comment_entry['content']; ?>
               
           </div>
-         
+          <?php endif; ?>
           
           <?php if(!empty($comment_entry['replies'])): ?>
           <div class="replies">
@@ -54,8 +54,9 @@ foreach($news as $single_news):
             <?php endforeach; ?>
           
           </div>
-        <?php endif; ?>
+          <?php endif; ?>
         <?php endforeach; ?>
+      <?php endif; ?>
       <form class="invia-commento" validate> 
       <div class="post-comment">
         <h3>Commenta</h3>
