@@ -20,6 +20,12 @@ class News_model extends CI_Model {
 		return $this->db->get_where('news', ['id' => $id])->result_array()[0];
 	}
 
+	
+	public function get_news_id_from_slug($slug){
+
+		return $this->db->get_where('news', ['slug' => $slug])->result_array()[0]['id'];
+	}
+
 	public function paged_news($start){
 
 		$this->db->where('status', 'published');

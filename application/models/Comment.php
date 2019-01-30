@@ -9,22 +9,22 @@ class Comment extends CI_Model {
 
 	public function all($user_id=''){
 
-	$this->db->from('comments');
-	
-	if($user_id){
-	
-		$this->db->select('comments.id as id, display_name as name, email, ip_address, comments.content as content,  title as news');
-		$this->db->join('news', 'news.id = comments.news_id');
-		$this->db->where(['approved'=> 0, 'author_id'=>$user_id]);
-	
-	
-	} else{
-	
-		$this->db->where(['approved'=>1]);
-	}
+		$this->db->from('comments');
+		
+		if($user_id){
+		
+			$this->db->select('comments.id as id, display_name as name, email, ip_address, comments.content as content,  title as news');
+			$this->db->join('news', 'news.id = comments.news_id');
+			$this->db->where(['approved'=> 0, 'author_id'=>$user_id]);
+		
+		
+		} else{
+		
+			$this->db->where(['approved'=>1, 'reply_to'=>'is null']);
+		}
 
-	
-	return $this->db->get()->result_array(); 
+		
+		return $this->db->get()->result_array(); 
 
 		//var_dump($this->db->last_query());
 
@@ -45,7 +45,7 @@ class Comment extends CI_Model {
 	
 	public function get_news_comments($news_id){
 
-		return $this->db->get_where('comments', ['news_id'=>$news_id])->result_array();
+		return $this->db->get_where('comments', ['news_id'=>$news_id, 'news_id'=>'is not null'])->result_array();
 		
 	}
 

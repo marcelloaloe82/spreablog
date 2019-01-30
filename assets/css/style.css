@@ -30,6 +30,17 @@ padding-bottom: 20px;
   margin: 50px auto;
 }
 
+#commenti th,
+#commenti td{
+
+  text-align: center;
+}
+
+#commenti_wrapper{
+
+  margin-top: 50px;
+}
+
 #add-user{
 
   width: 50%;

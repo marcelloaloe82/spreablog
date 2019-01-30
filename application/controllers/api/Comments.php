@@ -87,9 +87,17 @@ class Comments extends REST_Controller {
         unset($comment_data[$captcha_key]);   
         $comment_data['ip_address'] = $this->input->ip_address();     
 
-        $this->comment->save($comment_data);
+        
+        try{
+            $this->comment->save($comment_data);
+            $this->set_response(['message'=>$message_ok], REST_Controller::HTTP_OK);
 
-        $this->set_response(['message'=>$message_ok], REST_Controller::HTTP_OK);
+        }catch(Exception $e){
+
+            $error_message = $e->getMessage();
+            $this->set_response(['message'=>$error_message], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
 
     }
 
@@ -102,9 +110,17 @@ class Comments extends REST_Controller {
     		$this->set_response(NULL, REST_Controller::HTTP_FORBIDDEN);
     	}
 
-    	$this->comment->reply($comment_id, $this->input->post());
+        try{
 
-        $this->set_response(['message'=>$message_ok], REST_Controller::HTTP_OK);
+    	   $this->comment->reply($comment_id, $this->input->post());
+           $this->set_response(['message'=>$message_ok], REST_Controller::HTTP_OK);
+        
+        }catch(Exception $e){
+
+            $error_message = $e->getMessage();
+            $this->set_response(['message'=>$error_message], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
 
 
     }
@@ -113,11 +129,23 @@ class Comments extends REST_Controller {
     
     public function delete_post($comment_id){
 
+        $message_ok = 'Commento cancellato';
+        $error_message = '';
+
     	if(empty($this->session->user)){
     		$this->set_response(NULL, REST_Controller::HTTP_FORBIDDEN);
     	}
 
-        $this->comment->delete($comment_id);
+        try{
+            $this->comment->delete($comment_id);
+            $this->set_response(['message'=>$message_ok], REST_Controller::HTTP_OK);
+        
+        } catch(Exception $e){
+
+            $error_message = $e->getMessage();
+            $this->set_response(['message'=>$error_message], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
 
     }
 

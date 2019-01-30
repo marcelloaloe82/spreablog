@@ -4,7 +4,7 @@
 
  <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#modera">Modera commenti</a></li>
-    <li><a id="aggiungi-utente" data-toggle="tab" href="#editor">Scrivi news</a></li>
+    <li><a id="scrivi-news" data-toggle="tab" href="#editor">Scrivi news</a></li>
     
   </ul>
 
@@ -63,13 +63,30 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Salvataggio news</h4>
+        <h4 class="modal-title">Operazione in corso...</h4>
       </div>
       <div class="modal-body">
         <img id="load-gif" src="<?php echo base_url(); ?>assets/img/load-icon.gif">
       </div>
+      
+    </div>
+
+  </div>
+</div>
+<div id="message-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Operazione in corso...</h4>
+      </div>
+      <div class="modal-body">
+        
+      </div>
       <div class="modal-footer">
-         <button id="close-modal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         <button id="close-modal" type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
       </div>
     </div>
 
@@ -88,7 +105,8 @@
         
       </div>
       <div class="modal-footer">
-         <button id="close-modal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         <button id="butt-ok" type="button" class="btn btn-default btn-primary" data-dismiss="modal">OK</button>
+         <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
       </div>
     </div>
 
@@ -108,7 +126,7 @@
         
       </div>
       <div class="modal-footer">
-         <button id="close-modal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         <button id="close-modal" type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
       </div>
     </div>
 
@@ -134,10 +152,10 @@
           <input type="hidden" name="email" value="<?php echo $this->session->user['email']; ?>">
           <input type="hidden" id="<?php echo $csrf['name']; ?>" name="<?php echo $csrf['name']; ?>" value="<?php echo $csrf['hash']; ?>">
       </div>
-      <div class="modal-footer">
-         <button id="send-reply" class="btn btn-default">Invia</button>
-      </div>
       </form>
+      <div class="modal-footer">
+         <button id="send-reply" type="button" class="btn btn-default">Invia</button>
+      </div>
     </div>
 
   </div>
@@ -148,14 +166,15 @@
   csrf_name = '<?php echo $csrf['name']; ?>';
   user_id = '<?php echo $user_id; ?>';
   messaggio_risposta = "";
+  delete_uri = "";
   
   function finestra_messaggio(messaggio, conferma){
 
     var html_messaggio = "<p>" + messaggio + "</p>";
 
-    $("#confirm-modal .modal-body").html(html_messaggio);
+    $("#message-modal .modal-body").html(html_messaggio);
 
-    $("#confirm-modal").modal('show');
+    $("#message-modal").modal('show');
 
     
   }
@@ -171,29 +190,8 @@
 
         if(href.indexOf("delete") > 0){
             
-            $('#loading').modal('show');
-            
-            $.post( $(this).attr('href'), function(response){
-               
-               $('#loading').modal('hide');
-               messaggio_risposta = response.message;
-            
-            }).fail( function(response){
-  
-              
-              try{
-                
-                messaggio_risposta = response.responseJSON.message;
-  
-              }catch(exc){
-                
-                messaggio_risposta = response.responseText;
-              }
-  
-              $('#loading').modal('hide');
-  
-            });
-  
+            $('#confirm-modal').modal('show');
+            delete_uri = href;
         }
 
         if(href.indexOf("reply") > 0){
@@ -214,9 +212,6 @@
 
     });
     
-    $("#commenti glyphicon.glyphicon-remove").on('click', function () {
-
-    });
     
   }
 
@@ -285,6 +280,10 @@
 
     });
 
+    
+    if(location.pathname.indexOf("/edit_news/") >= 0)
+      $("#scrivi-news").trigger("click");
+
 
     $("#loading").on('hidden.bs.modal', function(){
 
@@ -293,29 +292,46 @@
 
     });
 
-    $("#confirm-modal").on('hidden.bs.modal', function(){
+    $("#butt-ok").on('click', function(){
+      
+      $.post( delete_uri, function(response){
+               
+         $('#loading').modal('hide');
+         messaggio_risposta = response.message;
 
-        location.reload();
+      
+      }).fail( function(response){
+
+        
+        try{
+          
+          messaggio_risposta = response.responseJSON.message;
+
+        }catch(exc){
+          
+          messaggio_risposta = response.responseText;
+        }
+
+        $('#loading').modal('hide');
+        finestra_messaggio(messaggio_risposta);
+
+      }).always(function(){
+
+         $('#loading').modal('hide');
+
+      });
 
     });
 
     $("#reply-modal").on('hidden.bs.modal', function(){
 
       $("#loading").modal("show");
-
-    });
-
-    $("#reply-form").on('submit', function(event){
-
-      event.preventDefault();
-      $("#reply-modal").modal("hide");
-      
-      var form = $(this).get(0);
+      var form = $("#reply-form").get(0);
       var formData = new FormData(form);
 
       $.ajax({
 
-        url: $(this).attr("action"),
+        url: $("#reply-form").attr("action"),
         type: "POST",
         data: formData, 
         processData: false,
@@ -339,8 +355,19 @@
 
           $("#loading").modal("hide");          
 
+      }).always(function(){
+
+         $("#loading").modal("hide"); 
+
       });
-    
+
+    });
+
+    $("#send-reply").click( function(event){
+
+      $("#reply-modal").modal("hide");
+      event.preventDefault();
+      
 
     });
 

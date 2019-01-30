@@ -16,31 +16,48 @@ class Blog extends CI_Controller {
 
     }
 
-	public function index($slug='')	{
+	public function index()	{
 
 		
-		if(!$slug){
+		$page_data = [];
+
+		if(!empty($this->session->user)){
+
+			$ruolo_utente = $this->user->get_ruolo( $this->session->user['role_id']);
+			$page_data['ruolo_utente'] = $ruolo_utente;
+
+		}
+
+
+		$page_data['news'] = $this->news_model->paged_news(0);
+		
+		$page_data['comments'] = $this->comment->all();
+
+		foreach ($page_data['comments'] as $index=>$comment) {
+						
+			$page_data['comments'][$index]['replies'] = $this->comment->get_comment_replies($comment['id']);
 			
-			$page_data = [];
+		}
 
-			if(!empty($this->session->user)){
+		$page_data['recaptcha'] = true;
+		$page_data['editor'] = false;
+		$page_data['csrf'] = ['name' => $this->security->get_csrf_token_name(),
+							  'hash' => $this->security->get_csrf_hash()];
+		
+		$this->load->view('head', $page_data);
+		$this->load->view('blog_page', $page_data);
+	
+		
+	}
 
-				$ruolo_utente = $this->user->get_ruolo( $this->session->user['role_id']);
-				$page_data['ruolo_utente'] = $ruolo_utente;
+	public function view($slug=NULL){
+		
 
-			}
+		if($slug){
 
-			$page_data['news'] = $this->news_model->paged_news(0);
-			
-			$comments = $this->comment->all();
-
-			$page_data['comments'] = $comments;
-
-			foreach ($page_data['comments'] as $index=>$comment) {
-							
-				$page_data['comments'][$index]['replies'] = $this->comment->get_comment_replies($comment['id']);
-				
-			}
+			$news_id = $this->news_model->get_news_id_from_slug($slug);
+			$page_data['single_news'] = $this->news_model->get($news_id);
+			$page_data['comments'] = $this->comment->get_news_comments($news_id);
 
 			$page_data['recaptcha'] = true;
 			$page_data['editor'] = false;
@@ -48,7 +65,7 @@ class Blog extends CI_Controller {
 								  'hash' => $this->security->get_csrf_hash()];
 			
 			$this->load->view('head', $page_data);
-			$this->load->view('blog_page', $page_data);
+			$this->load->view('single_news', $page_data);
 		}
 	}
 }

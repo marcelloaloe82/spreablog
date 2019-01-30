@@ -223,7 +223,7 @@ $config['allow_get_array'] = TRUE;
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config['log_threshold'] = 4;
 
 /*
 |--------------------------------------------------------------------------
@@ -455,7 +455,8 @@ $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = TRUE;
 $config['csrf_exclude_uris'] = array(".*api/users/delete",
 									 ".*api/auth/logout", 
-									 ".*api/comments/approve/.*",
+									 ".*api/comments/reply/.*",
+									 ".*api/news/delete",
 									 ".*api/comments/delete/.*");
 
 /*

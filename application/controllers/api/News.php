@@ -27,6 +27,7 @@ class News extends REST_Controller {
         $this->load->library('session');
         $this->load->model('news_model');
         $this->load->model('user');
+        $this->load->library('slug');
 
        
     }
@@ -178,6 +179,7 @@ class News extends REST_Controller {
                 'title'     => $this->post('title'),
                 'content'   => $this->post('content'),
                 'author_id' => $this->session->user['id'],
+                'slug'      => $this->slug->create_uri($this->post('title')),
                 'status'    => 'published',
                 'created_at'=> @strftime("%Y-%m-%d %H:%M") 
             ];

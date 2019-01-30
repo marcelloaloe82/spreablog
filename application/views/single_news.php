@@ -1,7 +1,7 @@
 <?php 
 
 
-foreach($news as $single_news): 
+
 
 
   if(!empty($ruolo_utente) && $ruolo_utente == 'editor'){
@@ -29,11 +29,8 @@ foreach($news as $single_news):
       </div>
       <?php echo $button_modifica .' '. $button_elimina; ?>
       <div class="comment-area">
-        <?php if($comments): ?>
         <h4>Commenti alla news</h4>
-        <?php endif; ?>
         <?php foreach ($comments as $key => $comment_entry): ?>
-          
           <?php if($comment_entry['news_id'] == $single_news['id']): ?>
           <h5><?php echo $comment_entry['display_name']; ?></h5>
           <div class="comment-content">
@@ -82,7 +79,7 @@ foreach($news as $single_news):
   </div>
   <hr>
 </div>
-<?php endforeach; ?>
+
 
 
 <div id="confirm-delete-modal" class="modal fade" role="dialog">
@@ -164,12 +161,6 @@ foreach($news as $single_news):
 
 
   $(document).ready(function(){
-
-
-    $("#message-dialog").on("hidden.bs.modal", function(){
-
-      location.reload();
-    });
 
 
     $("#butt-ok").on('click', function(){
