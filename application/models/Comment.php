@@ -24,9 +24,9 @@ class Comment extends CI_Model {
 		}
 
 		
-		return $this->db->get()->result_array(); 
+		$this->db->get()->result_array(); 
 
-		//var_dump($this->db->last_query());
+		var_dump($this->db->last_query());
 
 	}
 
