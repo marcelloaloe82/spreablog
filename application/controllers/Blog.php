@@ -36,7 +36,7 @@ class Blog extends CI_Controller {
 
 		foreach ($page_data['comments'] as $index=>$comment) {
 						
-			var_dump($this->comment->get_comment_replies($comment['id'])); 
+			//var_dump($this->comment->get_comment_replies($comment['id'])); 
 			$page_data['comments'][$index]['replies'] = $this->comment->get_comment_replies($comment['id']);
 			
 		}

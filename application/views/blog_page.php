@@ -48,12 +48,12 @@ foreach($news as $single_news):
             
             <?php foreach ($comment_entry['replies'] as $key => $value): ?>
               
-              <h5><?php echo $comment_entry['replies']['display_name']; ?></h5>
-              <div><?php echo $comment_entry['replies']['content']; ?> </div>
+              <h5><?php echo $comment_entry['replies'][$key]['display_name']; ?></h5>
+              <div><?php echo $comment_entry['replies']$key]['content']; ?> </div>
         
             <?php endforeach; ?>
           
-        </div>
+          </div>
         <?php endif; ?>
         <?php endforeach; ?>
       <form class="invia-commento" validate> 
