@@ -26,7 +26,7 @@
       <?php echo $button_modifica .' '. $button_elimina; ?>
       <div class="comments-area">
         <?php if($comments): ?>
-            <h4>Commenti alla news</h4>
+            <h3>Commenti alla news</h3>
         <?php endif; ?>
         <?php foreach ($comments as $key => $comment_entry): ?>
           
