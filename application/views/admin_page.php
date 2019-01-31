@@ -48,8 +48,8 @@
         <div class="form-group">
           <input type="password" class="form-control" placeholder="password" id="conferma-passw" required="required">
         </div>
-        <div class="form-group" style="display: none;">
-          <span id="passw-error" style="color: red; font-weight: bold;">Le password non coincidono</span>
+        <div id="passw-error" class="form-group" style="display: none;">
+          <span  style="color: red; font-weight: bold;">Le password non coincidono</span>
         </div>
         <div class="form-group">
           <select class="form-control" name="ruolo" id="ruolo">
