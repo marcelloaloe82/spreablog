@@ -1,18 +1,19 @@
 <?php 
+setlocale(LC_ALL, 'it_IT.UTF-8');
 
-  if(!empty($ruolo_utente) && $ruolo_utente == 'editor'){
+if(!empty($ruolo_utente) && $ruolo_utente == 'editor'){
 
-        $button_modifica = "<button class='btn btn-primary edit-button' data-post-id='${single_news['id']}'>Modifica</button>";
-        $button_elimina  = "<button class='btn btn-primary btn-danger delete-news-button' data-post-id='${single_news['id']}'>Elimina</button>";
+      $button_modifica = "<button class='btn btn-primary edit-button' data-post-id='${single_news['id']}'>Modifica</button>";
+      $button_elimina  = "<button class='btn btn-primary btn-danger delete-news-button' data-post-id='${single_news['id']}'>Elimina</button>";
+    
+} else{
+
+      $button_modifica = "";
+      $button_elimina  = "";
       
-  } else{
+}
 
-        $button_modifica = "";
-        $button_elimina  = "";
-        
-  }
-
-  $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($single_news['created_at'])) . "</h4>";
+$data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($single_news['created_at'])) . "</h4>";
   
   ?>
 

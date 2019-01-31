@@ -1,4 +1,5 @@
 <?php 
+setlocale(LC_ALL, 'it_IT.UTF-8');
 if($news):
 
 foreach($news as $single_news): 
