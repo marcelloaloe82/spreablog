@@ -383,12 +383,13 @@
 
     $("#reply-text").blur( function(){
       
-      if($("#reply-text").text().trim() == ""){
+      if($("#reply-text").val().trim() == ""){
         $("#reply-text").css("border", "1px solid red");
         $("#message-empty-reply").show();
       
 
       }else{
+        $("#reply-text").css("border", "1px solid green");
         $("#send-reply").prop("disabled", false);
       }
       
