@@ -1,9 +1,11 @@
+base_url = "/spreablog/index.php/";
+
 function edit_button_callback(){
       
 
     var news_id = $(this).data('post-id') ;
        
-    location.href ='<?php echo base_url();?>index.php/Admin/edit_news/' + news_id;
+    location.href = base_url + 'Admin/edit_news/' + news_id;
 }
 
 function delete_button_callback(){
