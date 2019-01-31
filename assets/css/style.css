@@ -34,13 +34,13 @@ padding-bottom: 20px;
   
 }
 
-h2, h2 a{
+h1, h1 a{
 
   color: darkred;
 
 }
 
-h2 a:hover{
+h1 a:hover{
   text-decoration: none;
   color: darkred;
 }
