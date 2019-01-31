@@ -18,8 +18,10 @@ class Comments extends REST_Controller {
 
         $this->load->library('session');
         $this->load->library('auth');
-        $this->load->model('comment');
         $this->load->library('email');
+        
+        $this->load->model('comment');
+        $this->load->model('news_model');
     }
 
     //lista dei commenti
