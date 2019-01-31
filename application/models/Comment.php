@@ -32,7 +32,6 @@ class Comment extends CI_Model {
 
 	public function find($id){
 
-		
 		return $this->db->get_where('comments', ['id'=>$id])->first_row();
 		
 	}

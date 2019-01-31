@@ -203,11 +203,7 @@ class News extends REST_Controller {
 
                 $last_news = $this->news_model->last_news();
 
-                $this->set_response(['message'  => $message_ok, 
-                                    'content'   => $last_news['content'],
-                                    'title'     => $last_news['title']
-                                    ],  
-                                    REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
+                $this->set_response(['message'  => $message_ok], REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
             }
 
             else $this->response(["message"=>$message_ko], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
