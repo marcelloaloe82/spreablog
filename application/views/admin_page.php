@@ -32,7 +32,7 @@
 
     <div id="add-user" class="tab-pane fade">
       <h3>Aggiungi/Modifica utente</h3>
-      <form id="user-form">
+      <form id="user-form" validate>
         <div class="form-group">
           <input type="text" class="form-control" name="name" id="nome" placeholder="nome" required="required" autofocus="">
         </div>
