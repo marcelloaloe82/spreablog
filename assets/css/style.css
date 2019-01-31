@@ -1,7 +1,6 @@
 body{
 
-box-sizing: border-box;
-padding: 20px;
+  padding: 20px;
 }
 
 #menu{
@@ -37,14 +36,25 @@ padding-bottom: 20px;
   background-color: antiquewhite;
 }
 
-.comments-area h4 {
+.comments-area h3 {
     
     border-bottom: 1px solid;
     color: darkred;
+    width: 30%;
 }
 
 .comments-area h5 {
     font-weight: 600;
+}
+
+.comment-btn-wrapper{
+
+  margin-top: 30px;
+}
+
+.comment-btn-wrapper a{
+
+  color: white;
 }
 
 .replies{
