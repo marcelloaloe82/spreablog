@@ -51,10 +51,10 @@
         
             <?php endforeach; ?>
           
-        </div>
+          </div>
         <?php endif; ?>
         <?php endforeach; ?>
-        <a href="#commenta"></a>
+        
       <form class="invia-commento" validate> 
       <div class="post-comment">
         <h3>Commenta</h3>

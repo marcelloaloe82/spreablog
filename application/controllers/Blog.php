@@ -64,6 +64,17 @@ class Blog extends CI_Controller {
 			$page_data['single_news'] = $this->news_model->get($news_id);
 			$page_data['comments'] = $this->comment->get_news_comments($news_id);
 
+			
+			foreach ($page_data['comments'] as $key => $comment) {
+
+				$replies = $this->comment->get_comments_replies($comment['id']);
+				
+				if($replies)
+					$page_data['comments'][$key]['replies'] = $replies;
+
+				else $page_data['comments'][$key]['replies'] = [];
+			}
+
 			$page_data['recaptcha'] = true;
 			$page_data['editor'] = false;
 			$page_data['csrf'] = ['name' => $this->security->get_csrf_token_name(),
