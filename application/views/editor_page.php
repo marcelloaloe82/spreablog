@@ -143,10 +143,14 @@
       </div>
       <form id="reply-form" validate>
       <div class="modal-body">
-          <div class="form-group">
-            <textarea rows="5" class="form-control" name="content" required autofocus></textarea>
-          </div>
           
+          <div class="form-group">
+            <textarea rows="5" class="form-control" name="content" id="reply-text" required autofocus></textarea>
+          </div>
+          <div class="form-group" id="message-empty-reply" style="display: none;">
+            <span>Ricorda di digitare il testo!</span>
+          </div>
+
           <input type="hidden" name="approved" value="1">
           <input type="hidden" name="display_name" value="<?php echo $this->session->user['nome'] . ' ' . $this->session->user['cognome'] ; ?>">
           <input type="hidden" name="email" value="<?php echo $this->session->user['email']; ?>">
@@ -154,13 +158,13 @@
       </div>
       </form>
       <div class="modal-footer">
-         <button id="send-reply" type="button" class="btn btn-default">Invia</button>
+         <button id="send-reply" type="button" class="btn btn-default" disabled>Invia</button>
       </div>
     </div>
 
   </div>
 </div>
-
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/utils.js"></script>   
 <script type="text/javascript">
 
   csrf_name = '<?php echo $csrf['name']; ?>';
@@ -168,16 +172,6 @@
   messaggio_risposta = "";
   delete_uri = "";
   
-  function finestra_messaggio(messaggio, conferma){
-
-    var html_messaggio = "<p>" + messaggio + "</p>";
-
-    $("#message-modal .modal-body").html(html_messaggio);
-
-    $("#message-modal").modal('show');
-
-    
-  }
 
   function aggancia_callback(){
 
@@ -223,6 +217,7 @@
     datatable= $("#commenti").DataTable({
       
       language: {
+
         "sEmptyTable":     "Nessun dato presente nella tabella",
         "sInfo":           "Vista da _START_ a _END_ di _TOTAL_ elementi",
         "sInfoEmpty":      "Vista da 0 a 0 di 0 elementi",
@@ -285,6 +280,13 @@
       $("#scrivi-news").trigger("click");
 
 
+    $("#message-modal").on("hidden.bs.modal", function(){
+
+      location.reload();
+    
+    });
+
+
     $("#loading").on("hidden.bs.modal", function(){
 
       finestra_messaggio(messaggio_risposta);
@@ -328,8 +330,6 @@
     $("#butt-ok").on('click', function(){
 
       $("#confirm-modal").modal("hide");
-      
-      
 
     });
 
@@ -381,6 +381,19 @@
 
     });
 
+    $("#reply-text").blur( function(){
+      
+      if($("#reply-text").text().trim() == ""){
+        $("#reply-text").css("border", "1px solid red");
+        $("#message-empty-reply").show();
+      
+
+      }else{
+        $("#send-reply").prop("disabled", false);
+      }
+      
+    });
+
 
     $("#publish").click( function(event){
 
@@ -422,6 +435,7 @@
       }).fail(function (response) {
 
         $("#loading").modal("hide");
+
         try{
 
           messaggio_risposta = response.responseJSON.message;
