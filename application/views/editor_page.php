@@ -337,6 +337,8 @@
 
       if($("#reply-text").val().trim() == ""){
 
+        $("#reply-text").css("border", "1px solid #ccc");
+        $("#message-empty-reply").hide();
         return;
       }
 
