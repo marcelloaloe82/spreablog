@@ -75,6 +75,8 @@ class Blog extends CI_Controller {
 				else $page_data['comments'][$key]['replies'] = [];
 			}
 
+			echo '<pre>' . print_r($page_data['comments'], true ) . '</pre>'; die;
+
 			$page_data['recaptcha'] = true;
 			$page_data['editor'] = false;
 			$page_data['csrf'] = ['name' => $this->security->get_csrf_token_name(),
