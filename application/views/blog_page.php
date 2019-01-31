@@ -58,30 +58,8 @@ foreach($news as $single_news):
        
         <?php endforeach; ?>
       
-      <form class="invia-commento" validate> 
-      <div class="post-comment">
-        <h3>Commenta</h3>
-        <div class="form-group">
-          <label for="usr">Nome</label>
-          <input type="text" class="form-control" name="display_name" required>
-        </div>
-        <div class="form-group">
-          <label for="indirizzo_email">Email (non sarà visualizzata)</label>
-          <input type="email" class="form-control" name="email" required>
-        </div>
-        <div class="form-group">
-          <label for="comment">Scrivi il tuo commento:</label>
-          <textarea class="form-control" rows="5" id="comment" name="content" required></textarea>
-        </div>
-        <div class="g-recaptcha" data-sitekey="6LffHIwUAAAAABALRFsTKSgkBPFjTCzLNzScE0cR"></div>
-        <div class="form-group">
-          <button class="btn btn-default">Invia</button>
-        <input type="hidden" name="news_id" value="<?php echo $single_news['id'] ?>">
-        <input type="hidden" name="<?php echo $csrf['name']; ?>" value="<?php echo $csrf['hash']; ?>">
-      </div>
+      <div><button class="btn btn-success"><a href="<?php echo base_url() . "index.php/Blog/view/${single_news['slug']};" ?>#commenta">Commenta</a></button></div>
     </div>
-  </form>
-  </div>
   <hr>
 </div>
 <?php endforeach; ?>
