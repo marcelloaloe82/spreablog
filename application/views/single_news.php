@@ -29,15 +29,15 @@
       </div>
       <?php echo $button_modifica .' '. $button_elimina; ?>
       <div class="comment-area">
-        <h4>Commenti alla news</h4>
         <?php foreach ($comments as $key => $comment_entry): ?>
           <?php if($comment_entry['news_id'] == $single_news['id']): ?>
-          <h5><?php echo $comment_entry['display_name']; ?></h5>
-          <div class="comment-content">
-          
-            <?php echo $comment_entry['content']; ?>
-              
-          </div>
+            <h4>Commenti alla news</h4>
+            <h5><?php echo $comment_entry['display_name']; ?></h5>
+            <div class="comment-content">
+            
+              <?php echo $comment_entry['content']; ?>
+                
+            </div>
           <?php endif; ?>
           
           <?php if(!empty($comment_entry['replies'])): ?>
