@@ -69,7 +69,7 @@
           <label for="comment">Scrivi il tuo commento:</label>
           <textarea class="form-control" rows="5" id="comment" name="content" required></textarea>
         </div>
-        <div class="g-recaptcha" data-sitekey="6LffHIwUAAAAABALRFsTKSgkBPFjTCzLNzScE0cR"></div>
+        <div class="g-recaptcha" data-sitekey="<?php echo CAPTCHA_SITEKEY; ?>"></div>
         <div class="form-group">
           <button class="btn btn-default">Invia</button>
         <input type="hidden" name="news_id" value="<?php echo $single_news['id'] ?>">
