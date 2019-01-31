@@ -32,7 +32,7 @@ class News_model extends CI_Model {
 		$this->db->select('nome, cognome, email');
 		$this->db->from('news');
 		$this->db->join('users', 'author_id = users.id');
-		$this->db->where(['id'=>$news_id]);
+		$this->db->where(['news.id'=>$news_id]);
 		
 		return $this->db->get()->first_row();
 
