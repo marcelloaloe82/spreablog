@@ -18,7 +18,7 @@
 
   <div class="row">
     <div class="col-sm-12">
-      <h2><a href="<?php echo base_url() . "index.php/Blog/view/${single_news['slug']}"; ?>"><?php echo $single_news['title']; ?></a></h2>
+      <h2><?php echo $single_news['title']; ?></h2>
       <?php echo $data_pubblicazione; ?>
       <div class="news-content">
       <?php echo $single_news['content']; ?>
