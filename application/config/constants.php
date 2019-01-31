@@ -86,3 +86,4 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 
 define('SALT', 'spreablog');
 define('NEWS_PAGE_SIZE', 10);
+define('CAPTCHA_SITEKEY', '6LffHIwUAAAAABALRFsTKSgkBPFjTCzLNzScE0cR');

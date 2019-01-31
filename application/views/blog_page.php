@@ -58,7 +58,7 @@ foreach($news as $single_news):
        
         <?php endforeach; ?>
       
-      <div><button class="btn btn-success"><a href="<?php echo base_url() . "index.php/Blog/view/${single_news['slug']};" ?>#commenta">Commenta</a></button></div>
+      <div><button class="btn btn-success"><a href="<?php echo base_url() . "index.php/Blog/view/${single_news['slug']};" ?>">Commenta</a></button></div>
     </div>
   <hr>
 </div>
