@@ -40,6 +40,11 @@ h2 a{
 
 }
 
+h2 a:hover{
+  text-decoration: none;
+  color: darkred;
+}
+
 .comments-area h3 {
     
     border-bottom: 1px solid;
