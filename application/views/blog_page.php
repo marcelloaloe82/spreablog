@@ -1,5 +1,5 @@
 <?php 
-
+if($news):
 
 foreach($news as $single_news): 
 
@@ -66,6 +66,13 @@ foreach($news as $single_news):
   </div> 
   <hr>
 <?php endforeach; ?>
+<?php else: ?>
+   <div class="row">
+    <div class="col-sm-12">
+      <div>Ancora nessuna news inserita</div>
+    </div>
+  </div>
+<?php endif; ?>
 
 
 <div id="confirm-delete-modal" class="modal fade" role="dialog">
@@ -172,45 +179,6 @@ foreach($news as $single_news):
 
     $(".delete-news-button").click( delete_button_callback );
 
-
-    $(".invia-commento").on('submit', function(event){
-
-      event.preventDefault();
-
-      form = $(this).get(0);
-      form_data  = new FormData(form);
-
-      $.ajax({
-        url: "<?php echo base_url(); ?>index.php/api/comments/save",
-        type: "POST",
-        data: form_data, 
-        processData: false,
-        contentType: false
-
-      }).done(function(response){
-
-          finestra_messaggio(response.message);
-          $(".invia-commento").reset();
-          
-      }).fail( function(response){
-
-          var dati_messaggio = "";
-
-          try{
-            
-            dati_messaggio = response.responseJSON.message;
-
-          } catch(exc){
-
-            dati_messaggio = response.responseText;
-          }
-
-        
-          finestra_messaggio(dati_messaggio);
-
-      });
-    
-    });
 
 
   });
