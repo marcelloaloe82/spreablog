@@ -75,7 +75,7 @@ class Blog extends CI_Controller {
 				else $page_data['comments'][$key]['replies'] = [];
 			}
 
-			echo '<pre>' . print_r(count($page_data['comments'][0]['replies'], true ) . '</pre>'; die;
+			echo '<pre>' . print_r(count($page_data['comments'][0]['replies']), true ) . '</pre>'; die;
 
 			$page_data['recaptcha'] = true;
 			$page_data['editor'] = false;
