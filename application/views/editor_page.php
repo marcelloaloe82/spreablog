@@ -280,7 +280,7 @@
       $("#scrivi-news").trigger("click");
 
 
-    $("#message-modal").on("hidden.bs.modal", function(){
+    $("#message-dialog").on("hidden.bs.modal", function(){
 
       location.reload();
     

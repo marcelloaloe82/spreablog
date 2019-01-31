@@ -26,7 +26,7 @@ foreach($news as $single_news):
 
   <div class="row">
     <div class="col-sm-12">
-      <h2><a href="<?php echo base_url() . "index.php/Blog/view/${single_news['slug']}"; ?>"><?php echo $single_news['title']; ?></a></h2>
+      <h1><a href="<?php echo base_url() . "index.php/Blog/view/${single_news['slug']}"; ?>"><?php echo $single_news['title']; ?></a></h1>
         <?php echo $data_pubblicazione; ?>
         <div class="news-content">
         <?php echo $single_news['content']; ?>

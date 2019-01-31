@@ -19,7 +19,7 @@ $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($
 
   <div class="row">
     <div class="col-sm-12">
-      <h2><?php echo $single_news['title']; ?></h2>
+      <h1><?php echo $single_news['title']; ?></h1>
       <?php echo $data_pubblicazione; ?>
       <div class="news-content">
       <?php echo $single_news['content']; ?>
