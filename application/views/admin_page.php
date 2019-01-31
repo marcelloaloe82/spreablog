@@ -53,7 +53,7 @@
         </div>
         <div class="form-group">
           <select class="form-control" name="ruolo" id="ruolo">
-            <option value="">-----------</option>
+            <option value="">---- Seleziona il ruolo -------</option>
             <?php foreach($ruoli as $ruolo): ?>
               <option value="<?php echo $ruolo['id']; ?>"><?php echo $ruolo['name']; ?></option>
             <?php endforeach; ?>
