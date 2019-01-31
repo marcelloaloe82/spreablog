@@ -29,7 +29,7 @@ class News_model extends CI_Model {
 
 	public function get_news_author($news_id){
 
-		$this->db->select('nome, cognome, email')
+		$this->db->select('nome, cognome, email');
 		$this->db->from('news');
 		$this->db->join('users', 'author_id = users.id');
 		$this->db->where(['id'=>$news_id]);
