@@ -32,8 +32,8 @@ foreach($news as $single_news):
           
         <?php foreach ($comments as $key => $comment_entry): ?>
           
-            <?php if($comment_entry['news_id'] == $single_news['id']): ?>
-            <h4>Commenti alla news</h4>
+          <?php if($comment_entry['news_id'] == $single_news['id']): ?>
+            <h3>Commenti alla news</h3>
             <h5><?php echo $comment_entry['display_name']; ?></h5>
             <div class="comment-content">
             
@@ -54,12 +54,12 @@ foreach($news as $single_news):
             </div>
             <?php endif; ?>
          
-            <?php endif; ?>
+          <?php endif; ?>
          
-          <?php endforeach; ?>
+        <?php endforeach; ?>
         
         </div>
-        <div>
+        <div class="comment-btn-wrapper">
           <button class="btn btn-success"><a href="<?php echo base_url() . "index.php/Blog/view/${single_news['slug']}"; ?>">Commenta</a></button>
         </div>
     </div>
