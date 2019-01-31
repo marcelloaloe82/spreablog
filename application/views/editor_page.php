@@ -148,7 +148,7 @@
             <textarea rows="5" class="form-control" name="content" id="reply-text" required autofocus></textarea>
           </div>
           <div class="form-group" id="message-empty-reply" style="display: none;">
-            <span>Ricorda di digitare il testo!</span>
+            <span style="color: red;">Ricorda di digitare il testo!</span>
           </div>
 
           <input type="hidden" name="approved" value="1">
@@ -391,6 +391,7 @@
       }else{
         $("#reply-text").css("border", "1px solid green");
         $("#send-reply").prop("disabled", false);
+        $("#message-empty-reply").hide();
       }
       
     });
