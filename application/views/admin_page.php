@@ -247,6 +247,7 @@
     } else{
       $("#conferma-passw").css("border", "1px solid #2eb92e");
       $("#password").css("border", "1px solid #2eb92e");
+      $("#passw-error").hide();
       $("#invia-dati-utente").prop('disabled', false);
     }
 
