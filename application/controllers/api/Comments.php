@@ -19,6 +19,7 @@ class Comments extends REST_Controller {
         $this->load->library('session');
         $this->load->library('auth');
         $this->load->model('comment');
+        $this->load->library('email');
     }
 
     //lista dei commenti
@@ -70,8 +71,8 @@ class Comments extends REST_Controller {
             
 
             $url = 'https://www.google.com/recaptcha/api/siteverify';
-            $secret = "6LffHIwUAAAAAA96PfNPKALU9ZXDqcsjsEbWQecK";
-            $data = array('response' => $this->input->post($captcha_key) , 'secret' => $secret);
+            
+            $data = array('response' => $this->input->post($captcha_key) , 'secret' => CAPTCHA_SECRET);
                     
             $options = array(
                 'http' => array(
@@ -96,6 +97,7 @@ class Comments extends REST_Controller {
             try{
                 $this->comment->save($comment_data);
                 $this->set_response(['message'=>$message_ok], REST_Controller::HTTP_OK);
+                $this->notifica_email($comment_data['news_id']);
 
             }catch(Exception $e){
 
@@ -115,6 +117,26 @@ class Comments extends REST_Controller {
         		$this->set_response(['message'=>$message_forbidden], REST_Controller::HTTP_FORBIDDEN);
         	}
         }
+    }
+
+
+    private function notifica_email($news_id){
+
+        $news_data = $this->news_model->get($news_id);
+
+        $author = $this->news_model->get_news_author($news_id);
+
+        $email_subject = 'Nuovo commento alla news ' . $news_data['title'];
+        $email_from = 'nonrisponderea@sprea.it';
+        $email_from_name = 'Sprea news';
+        $email_message = "C'è un nuovo commento alla news ${news_data['title']}\nVai al pannello amministratore per moderare il commento";
+
+        $this->email->to($author->email);
+        $this->email->from($email_from, $email_from_name);
+        $this->email->subject($email_subject);
+
+        $this->email->send();
+
     }
 
 

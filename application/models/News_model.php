@@ -26,6 +26,19 @@ class News_model extends CI_Model {
 		return $this->db->get_where('news', ['slug' => $slug])->result_array()[0]['id'];
 	}
 
+
+	public function get_news_author($news_id){
+
+		$this->db->select('nome, cognome, email')
+		$this->db->from('news');
+		$this->db->join('users', 'author_id = users.id');
+		$this->db->where(['id'=>$news_id]);
+		
+		return $this->db->get()->first_row();
+
+
+	}
+
 	public function paged_news($start){
 
 		$this->db->where('status', 'published');
