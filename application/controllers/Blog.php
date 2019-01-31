@@ -13,6 +13,7 @@ class Blog extends CI_Controller {
         $this->load->model('news_model');
         $this->load->model('comment');
         $this->load->library('session');
+        $this->load->helper('url_helper');
 
     }
 
