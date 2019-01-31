@@ -37,7 +37,7 @@
                 
             </div>
           
-          <?php if(!empty($comment_entry['replies'])): ?>
+          <?php if(count($comment_entry['replies']) > 0): ?>
           <div class="replies">
             
             <?php foreach ($comment_entry['replies'] as $key => $value): ?>
