@@ -389,7 +389,7 @@
 
     });
 
-    $("#reply-text").keydown(function(){
+    $("#reply-text").keyup(function(){
 
       if($("#reply-text").val().trim() != "")
        $("#send-reply").prop("disabled", false);
