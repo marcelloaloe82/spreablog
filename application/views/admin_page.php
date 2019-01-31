@@ -34,19 +34,19 @@
       <h3>Aggiungi/Modifica utente</h3>
       <form id="user-form" validate>
         <div class="form-group">
-          <input type="text" class="form-control" name="name" id="nome" placeholder="nome" required="required" autofocus="">
+          <input type="text" class="form-control" name="name" id="nome" placeholder="nome" required autofocus="">
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" name="surname" id="cognome" placeholder="cognome"  required="required">
+          <input type="text" class="form-control" name="surname" id="cognome" placeholder="cognome"  required>
         </div> 
         <div class="form-group">
-          <input type="email" class="form-control" name="email_address" id="email" placeholder="email" required="required">
+          <input type="email" class="form-control" name="email_address" id="email" placeholder="email" required>
         </div>
         <div class="form-group">
-          <input type="password" class="form-control" name="passwd" id="password" placeholder="password" required="required">
+          <input type="password" class="form-control" name="passwd" id="password" placeholder="password" required>
         </div>
         <div class="form-group">
-          <input type="password" class="form-control" placeholder="password" id="conferma-passw" required="required">
+          <input type="password" class="form-control" placeholder="password" id="conferma-passw" required>
         </div>
         <div id="passw-error" class="form-group" style="display: none;">
           <span  style="color: red; font-weight: bold;">Le password non coincidono</span>
