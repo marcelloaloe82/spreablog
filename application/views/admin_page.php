@@ -43,7 +43,13 @@
           <input type="email" class="form-control" name="email_address" id="email" placeholder="email" required="required">
         </div>
         <div class="form-group">
-          <input type="password" class="form-control" name="passwd" placeholder="password" required="required">
+          <input type="password" class="form-control" name="passwd" id="password" placeholder="password" required="required">
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" placeholder="password" id="conferma-passw" required="required">
+        </div>
+        <div class="form-group" style="display: none;">
+          <span id="passw-error" style="color: red; font-weight: bold;">Le password non coincidono</span>
         </div>
         <div class="form-group">
           <select class="form-control" name="ruolo" id="ruolo">
@@ -65,7 +71,7 @@
       
  
 
-  <div id="confirm-modal" class="modal fade" role="dialog">
+  <div id="message-dialog" class="modal fade" role="dialog">
         
         <div class="modal-dialog">
 
@@ -114,20 +120,10 @@
 
 </div>    
 </body>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/utils.js"></script>   
 <script type="text/javascript">
 
   operazione = "";
-
-  function finestra_messaggio(messaggio, conferma){
-
-    var html_messaggio = "<p>" + messaggio + "</p>";
-    
-    $("#confirm-modal .modal-body").html(html_messaggio);
-
-    $("#confirm-modal").modal('show');
-
-    
-  }
 
 
   function aggiungi_pulsanti(json){
@@ -233,12 +229,31 @@
 
   $("#utenti").css("width", "100%");
 
-  $("#confirm-modal").on('hidden.bs.modal', function(){
+  $("#message-dialog").on('hidden.bs.modal', function(){
 
       if(operazione == 'update')
         location.reload();
 
+      if(operazione == 'create')
+        $("#user-form").trigger("reset");
+
     });
+
+
+  $("#conferma-passw").blur( function(){
+
+    if($("#conferma-passw").val() != $("#password").val()){
+
+      $("#conferma-passw").css("border", "1px solid red");
+      $("#password").css("border", "1px solid red");
+      $("#passw-error").show();
+    
+    } else{
+      $("#conferma-passw").css("border", "1px solid darkgreen");
+      $("#password").css("border", "1px solid darkgreen");
+    }
+
+  });
 
  
 
@@ -246,8 +261,6 @@
 
       event.preventDefault();
 
-      var operazione;
-      
       if($("#userid").val())
         operazione = 'update';
       else operazione = 'create';

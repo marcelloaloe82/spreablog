@@ -124,6 +124,8 @@
 
   
 </div>    
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/utils.js"></script>   
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/editor.js"></script>
 <script type="text/javascript">
 
   news_offset         = 10;
@@ -141,21 +143,7 @@
     
   }
   
-  function edit_button_callback(){
-      
-
-      var news_id = $(this).data('post-id') ;
-       
-      location.href ='<?php echo base_url();?>index.php/Admin/edit_news/' + news_id;
-  }
-
-  function delete_button_callback(){
-
-    news_id = $(this).data('post-id') ;
-
-    $("#confirm-delete-modal").modal('show');
-
-  }
+  
 
 
   $(document).ready(function(){
