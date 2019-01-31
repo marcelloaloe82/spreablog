@@ -140,13 +140,13 @@ class Users extends REST_Controller {
                 if(in_array($key, array_keys($this->valid_keys))){
 
                     if(empty($value) && $key!= "idutente"){
-                        $this->response(['message' => $message_error. $key ], REST_Controller::HTTP_BAD_REQUEST);
+                        $this->response(['message' => $message_error. $this->valid_keys[$key] ], REST_Controller::HTTP_BAD_REQUEST);
                     }
 
                     if($key == 'email' ){
                         
                         if(!filter_var($value, FILTER_VALIDATE_EMAIL)){
-                            $this->response(['message' => $message_error . $key ], REST_Controller::HTTP_BAD_REQUEST);
+                            $this->response(['message' => $message_error . $this->valid_keys[$key] ], REST_Controller::HTTP_BAD_REQUEST);
                         }
 
                         if($this->user->find($value)){
