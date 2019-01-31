@@ -230,14 +230,9 @@
   $("#utenti").css("width", "100%");
 
   $("#message-dialog").on('hidden.bs.modal', function(){
-
-      if(operazione == 'update')
-        location.reload();
-
-      if(operazione == 'create')
-        $("#user-form").trigger("reset");
-
-    });
+    
+      location.reload();
+  });
 
 
   $("#conferma-passw").blur( function(){
