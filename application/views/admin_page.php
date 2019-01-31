@@ -46,7 +46,7 @@
           <input type="password" class="form-control" name="passwd" id="password" placeholder="password" required>
         </div>
         <div class="form-group">
-          <input type="password" class="form-control" placeholder="password" id="conferma-passw" required>
+          <input type="password" class="form-control" placeholder="conferma password" id="conferma-passw" required>
         </div>
         <div id="passw-error" class="form-group" style="display: none;">
           <span  style="color: red; font-weight: bold;">Le password non coincidono</span>

@@ -160,6 +160,10 @@
             });
     });
 
+    $("#message-dialog").on("hidden.bs.modal", function(){
+
+        location.reload();
+    })
       
 
     $(".edit-button").click( edit_button_callback );
