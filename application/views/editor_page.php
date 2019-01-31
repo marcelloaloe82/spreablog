@@ -290,7 +290,7 @@
     $("#loading").on("hidden.bs.modal", function(){
 
       finestra_messaggio(messaggio_risposta);
-      datatable.ajax.reload();
+      
 
     });
 
@@ -418,7 +418,6 @@
 
       event.preventDefault();
 
-      $("#load-gif").show();
       $("#loading").modal("show");
 
       var formData = new FormData();
