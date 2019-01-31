@@ -28,7 +28,7 @@ foreach($news as $single_news):
       <?php echo $single_news['content']; ?>
       </div>
       <?php echo $button_modifica .' '. $button_elimina; ?>
-      <div class="comment-area">
+      <div class="comments-area">
         
       <?php foreach ($comments as $key => $comment_entry): ?>
         
