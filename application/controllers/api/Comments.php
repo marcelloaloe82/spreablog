@@ -136,6 +136,7 @@ class Comments extends REST_Controller {
         $this->email->to($author->email);
         $this->email->from($email_from, $email_from_name);
         $this->email->subject($email_subject);
+        $this->email->message($email_message);
 
         $this->email->send();
 
