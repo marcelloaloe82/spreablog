@@ -45,7 +45,7 @@ class Comment extends CI_Model {
 	
 	public function get_news_comments($news_id){
 
-		return $this->db->get_where('comments', "news_id=$news_id and news_id is not null")->result_array();
+		return $this->db->get_where('comments', "news_id=$news_id and news_id is null")->result_array();
 		
 	}
 
