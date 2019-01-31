@@ -247,10 +247,12 @@
       $("#conferma-passw").css("border", "1px solid red");
       $("#password").css("border", "1px solid red");
       $("#passw-error").show();
+      $("#invia-dati-utente").prop('disabled', true);
     
     } else{
       $("#conferma-passw").css("border", "1px solid darkgreen");
       $("#password").css("border", "1px solid darkgreen");
+      $("#invia-dati-utente").prop('disabled', false);
     }
 
   });
