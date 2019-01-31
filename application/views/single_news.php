@@ -122,6 +122,23 @@ $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($
 
   </div>
 </div>
+<div id="loading" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Operazione in corso...</h4>
+      </div>
+      <div class="modal-body">
+        <img id="load-gif" src="<?php echo base_url(); ?>assets/img/load-icon.gif">
+      </div>
+      
+    </div>
+
+  </div>
+</div>
 
   
 </div>    
@@ -133,18 +150,6 @@ $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($
   no_more_news        = false;
   
 
-  function finestra_messaggio(messaggio, conferma){
-
-    var html_messaggio = "<p>" + messaggio + "</p>";
-    
-    $("#message-dialog .modal-body").html(html_messaggio);
-
-    $("#message-dialog").modal('show');
-
-    
-  }
-  
-  
 
 
   $(document).ready(function(){
@@ -166,6 +171,11 @@ $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($
         location.reload();
     })
       
+    $("#loading").on("hidden.bs.modal", function(){
+
+        finestra_messaggio(messaggio_risposta);
+    })
+    
 
     $(".edit-button").click( edit_button_callback );
 
@@ -176,6 +186,8 @@ $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($
     $(".invia-commento").on('submit', function(event){
 
       event.preventDefault();
+
+      $("#loading").modal("show");
 
       form = $(this).get(0);
       form_data  = new FormData(form);
@@ -189,25 +201,24 @@ $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($
 
       }).done(function(response){
 
-          finestra_messaggio(response.message);
-          $(".invia-commento").reset();
+          $("#loading").modal("hide");
+          messaggio_risposta = response.message;
+          
           
       }).fail( function(response){
 
-          var dati_messaggio = "";
+          $("#loading").modal("hide");
 
           try{
             
-            dati_messaggio = response.responseJSON.message;
+            messaggio_risposta = response.responseJSON.message;
 
           } catch(exc){
 
-            dati_messaggio = response.responseText;
+            messaggio_risposta = response.responseText;
           }
 
         
-          finestra_messaggio(dati_messaggio);
-
       });
     
     });
