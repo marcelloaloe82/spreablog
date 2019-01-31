@@ -335,13 +335,12 @@
 
     $("#reply-modal").on('hidden.bs.modal', function(){
 
-      $("#loading").modal("show");
-
       if($("#reply-text").val().trim() == ""){
 
         return;
       }
 
+      $("#loading").modal("show");
 
       var form = $("#reply-form").get(0);
       var formData = new FormData(form);
