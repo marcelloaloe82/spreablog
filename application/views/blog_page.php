@@ -1,6 +1,9 @@
 <?php 
 setlocale(LC_ALL, 'it_IT.UTF-8');
+
 if($news):
+
+$comment_flag = false;
 
 foreach($news as $single_news): 
 
@@ -30,11 +33,15 @@ foreach($news as $single_news):
         </div>
         <?php echo $button_modifica .' '. $button_elimina; ?>
         <div class="comments-area">
+        
+        <h3>Commenti alla news</h3>
           
         <?php foreach ($comments as $key => $comment_entry): ?>
           
-          <?php if($comment_entry['news_id'] == $single_news['id']): ?>
-            <h3>Commenti alla news</h3>
+          <?php if($comment_entry['news_id'] == $single_news['id']): 
+
+              $comment_flag = true;
+          ?>
             <h5><?php echo $comment_entry['display_name']; ?></h5>
             <div class="comment-content">
             
@@ -58,6 +65,11 @@ foreach($news as $single_news):
           <?php endif; ?>
          
         <?php endforeach; ?>
+
+        <?php if(!$comment_flag): ?>
+          <p> Nessun commento per questa news </p>
+        <?php endif; ?>
+        
         
         </div>
         <div class="comment-btn-wrapper">
