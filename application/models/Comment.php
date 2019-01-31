@@ -20,7 +20,7 @@ class Comment extends CI_Model {
 		
 		} else{
 		
-			$this->db->where('approved =1 and reply_to IS NULL');
+			$this->db->where('approved = 1 and reply_to IS NULL');
 		}
 
 		
@@ -45,7 +45,7 @@ class Comment extends CI_Model {
 	
 	public function get_news_comments($news_id){
 
-		return $this->db->get_where('comments', "news_id=$news_id and news_id is not null and reply_to is null")->result_array();
+		return $this->db->get_where('comments', "news_id=$news_id and news_id is not null and reply_to is null and approved = 1")->result_array();
 		
 	}
 
