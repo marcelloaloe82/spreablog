@@ -41,17 +41,16 @@
                 
             </div>
           
-          
           <?php if(!empty($comment_entry['replies'])): ?>
           <div class="replies">
-            <?php if (!empty($comment_entry['replies'])) : ?>
+            
             <?php foreach ($comment_entry['replies'] as $key => $value): ?>
               
               <h5><?php echo $comment_entry['replies']['display_name']; ?></h5>
               <div><?php echo $comment_entry['replies']['content']; ?> </div>
         
             <?php endforeach; ?>
-          <?php endif; ?>
+          
         </div>
         <?php endif; ?>
         <?php endforeach; ?>

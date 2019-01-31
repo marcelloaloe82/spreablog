@@ -30,6 +30,23 @@ padding-bottom: 20px;
   margin: 50px auto;
 }
 
+
+.comment-area{
+  border: 1px solid lightgray;
+  padding: 20px;
+  background-color: antiquewhite;
+}
+
+.comment-area h4 {
+    
+    border-bottom: 1px solid;
+    color: darkred;
+}
+
+.comment-area h5 {
+    font-weight: 600;
+}
+
 #commenti th,
 #commenti td{
 
