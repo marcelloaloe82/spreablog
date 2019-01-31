@@ -55,7 +55,7 @@ class Blog extends CI_Controller {
 	public function view($slug=NULL){
 
 
-		if($slug){
+		if($slug != NULL){
 
 			$page_data['page_title'] = 'Sprea News';
 
