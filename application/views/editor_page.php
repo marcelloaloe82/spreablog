@@ -294,7 +294,7 @@
 
     $("#confirm-modal").on("hidden.bs.modal", function(){
 
-      $("#loading").modal("show"):
+      $("#loading").modal("show");
     
     });
 
