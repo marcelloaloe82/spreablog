@@ -389,6 +389,15 @@
 
     });
 
+    $("#reply-text").keydown(function(){
+
+      if($("#reply-text").val().trim() != "")
+       $("#send-reply").prop("disabled", false);
+
+     else $("#send-reply").prop("disabled", true);
+    
+    });
+
     $("#reply-text").blur( function(){
       
       if($("#reply-text").val().trim() == ""){
