@@ -40,10 +40,10 @@
           <?php if(count($comment_entry['replies']) > 0): ?>
           <div class="replies">
             
-            <?php foreach ($comment_entry['replies'] as $key => $value): ?>
+            <?php foreach ($comment_entry['replies'] as $key => $reply): ?>
               
-              <h5><?php echo $comment_entry['replies']['display_name']; ?></h5>
-              <div><?php echo $comment_entry['replies']['content']; ?> </div>
+              <h5><?php echo $reply['display_name']; ?></h5>
+              <div><?php echo $reply['content']; ?> </div>
         
             <?php endforeach; ?>
           
