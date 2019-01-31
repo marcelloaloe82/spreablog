@@ -102,7 +102,7 @@
         <h4 class="modal-title">Operazione in corso...</h4>
       </div>
       <div class="modal-body">
-        
+        Cancellare il commento?
       </div>
       <div class="modal-footer">
          <button id="butt-ok" type="button" class="btn btn-default btn-primary" data-dismiss="modal">OK</button>
@@ -293,6 +293,8 @@
     });
 
     $("#butt-ok").on('click', function(){
+
+      $("#confirm-modal").modal("hide");
       
       $.post( delete_uri, function(response){
                
