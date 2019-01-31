@@ -66,6 +66,11 @@ h2 a:hover{
   color: white;
 }
 
+.comment-btn-wrapper a:hover{
+
+  text-decoration: none;
+}
+
 .replies{
 
   margin-left: 30px;
