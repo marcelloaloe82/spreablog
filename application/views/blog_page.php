@@ -23,45 +23,46 @@ foreach($news as $single_news):
   <div class="row">
     <div class="col-sm-12">
       <h2><a href="<?php echo base_url() . "index.php/Blog/view/${single_news['slug']}"; ?>"><?php echo $single_news['title']; ?></a></h2>
-      <?php echo $data_pubblicazione; ?>
-      <div class="news-content">
-      <?php echo $single_news['content']; ?>
-      </div>
-      <?php echo $button_modifica .' '. $button_elimina; ?>
-      <div class="comments-area">
-        
-      <?php foreach ($comments as $key => $comment_entry): ?>
-        
-          <?php if($comment_entry['news_id'] == $single_news['id']): ?>
-          <h4>Commenti alla news</h4>
-          <h5><?php echo $comment_entry['display_name']; ?></h5>
-          <div class="comment-content">
+        <?php echo $data_pubblicazione; ?>
+        <div class="news-content">
+        <?php echo $single_news['content']; ?>
+        </div>
+        <?php echo $button_modifica .' '. $button_elimina; ?>
+        <div class="comments-area">
           
-            <?php echo $comment_entry['content']; ?>
-              
-          </div>
+        <?php foreach ($comments as $key => $comment_entry): ?>
           
-          <?php if(!empty($comment_entry['replies'])): ?>
-          <div class="replies">
+            <?php if($comment_entry['news_id'] == $single_news['id']): ?>
+            <h4>Commenti alla news</h4>
+            <h5><?php echo $comment_entry['display_name']; ?></h5>
+            <div class="comment-content">
             
-            <?php foreach ($comment_entry['replies'] as $key => $value): ?>
+              <?php echo $comment_entry['content']; ?>
+                
+            </div>
+            
+            <?php if(!empty($comment_entry['replies'])): ?>
+            <div class="replies">
               
-              <h5><?php echo $value['display_name']; ?></h5>
-              <div><?php echo $value['content']; ?> </div>
-        
-            <?php endforeach; ?>
+              <?php foreach ($comment_entry['replies'] as $key => $value): ?>
+                
+                <h5><?php echo $value['display_name']; ?></h5>
+                <div><?php echo $value['content']; ?> </div>
           
-          </div>
-          <?php endif; ?>
-       
-          <?php endif; ?>
-       
-        <?php endforeach; ?>
-      
-      <div><button class="btn btn-success"><a href="<?php echo base_url() . "index.php/Blog/view/${single_news['slug']}"; ?>">Commenta</a></button></div>
-    </div>
-  <hr>
-</div>
+              <?php endforeach; ?>
+            
+            </div>
+            <?php endif; ?>
+         
+            <?php endif; ?>
+         
+          <?php endforeach; ?>
+        
+        <div><button class="btn btn-success"><a href="<?php echo base_url() . "index.php/Blog/view/${single_news['slug']}"; ?>">Commenta</a></button></div>
+      </div>
+    <hr>
+  </div>
+</div> 
 <?php endforeach; ?>
 
 
@@ -107,7 +108,7 @@ foreach($news as $single_news):
 </div>
 
   
-</div>    
+   
 <script type="text/javascript">
 
   news_offset         = 10;
