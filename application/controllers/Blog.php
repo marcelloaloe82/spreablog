@@ -67,7 +67,7 @@ class Blog extends CI_Controller {
 			
 			foreach ($page_data['comments'] as $key => $comment) {
 
-				$replies = $this->comment->get_comments_replies($comment['id']);
+				$replies = $this->comment->get_comment_replies($comment['id']);
 				
 				if($replies)
 					$page_data['comments'][$key]['replies'] = $replies;

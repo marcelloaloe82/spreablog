@@ -1,9 +1,5 @@
 <?php 
 
-
-
-
-
   if(!empty($ruolo_utente) && $ruolo_utente == 'editor'){
 
         $button_modifica = "<button class='btn btn-primary edit-button' data-post-id='${single_news['id']}'>Modifica</button>";
@@ -28,7 +24,7 @@
       <?php echo $single_news['content']; ?>
       </div>
       <?php echo $button_modifica .' '. $button_elimina; ?>
-      <div class="comment-area">
+      <div class="comments-area">
         <?php if($comments): ?>
             <h4>Commenti alla news</h4>
         <?php endif; ?>
