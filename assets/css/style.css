@@ -31,7 +31,7 @@ padding-bottom: 20px;
 }
 
 
-.comment-area{
+.comments-area{
   border: 1px solid lightgray;
   padding: 20px;
   background-color: antiquewhite;
@@ -43,7 +43,7 @@ padding-bottom: 20px;
     color: darkred;
 }
 
-.comment-area h5 {
+.comments-area h5 {
     font-weight: 600;
 }
 
