@@ -285,7 +285,7 @@
       $("#scrivi-news").trigger("click");
 
 
-    $("#loading").on('hidden.bs.modal', function(){
+    $("#loading").on("hidden.bs.modal", function(){
 
       finestra_messaggio(messaggio_risposta);
       datatable.ajax.reload();
@@ -300,7 +300,7 @@
 
     $("#butt-ok").on('click', function(){
 
-      $("#confirm-modal").modal("hide");
+      //$("#confirm-modal").modal("hide");
       
       $.post( delete_uri, function(response){
                
