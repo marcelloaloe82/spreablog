@@ -292,6 +292,12 @@
 
     });
 
+    $("#confirm-modal").on("hidden.bs.modal", function(){
+
+      $("#loading").modal("show"):
+    
+    });
+
     $("#butt-ok").on('click', function(){
 
       $("#confirm-modal").modal("hide");
