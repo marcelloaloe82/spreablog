@@ -29,9 +29,11 @@
       </div>
       <?php echo $button_modifica .' '. $button_elimina; ?>
       <div class="comment-area">
-        <?php foreach ($comments as $key => $comment_entry): ?>
-          <?php if($comment_entry['news_id'] == $single_news['id']): ?>
+        <?php if($comments): ?>
             <h4>Commenti alla news</h4>
+        <?php endif; ?>
+        <?php foreach ($comments as $key => $comment_entry): ?>
+          
             <h5><?php echo $comment_entry['display_name']; ?></h5>
             <div class="comment-content">
             
