@@ -295,13 +295,7 @@
     $("#confirm-modal").on("hidden.bs.modal", function(){
 
       $("#loading").modal("show");
-    
-    });
 
-    $("#butt-ok").on('click', function(){
-
-      //$("#confirm-modal").modal("hide");
-      
       $.post( delete_uri, function(response){
                
          $('#loading').modal('hide');
@@ -328,6 +322,14 @@
          $('#loading').modal('hide');
 
       });
+    
+    });
+
+    $("#butt-ok").on('click', function(){
+
+      $("#confirm-modal").modal("hide");
+      
+      
 
     });
 
