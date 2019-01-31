@@ -40,7 +40,7 @@
               <?php echo $comment_entry['content']; ?>
                 
             </div>
-          <?php endif; ?>
+          
           
           <?php if(!empty($comment_entry['replies'])): ?>
           <div class="replies">
