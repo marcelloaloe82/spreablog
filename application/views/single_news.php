@@ -93,7 +93,7 @@
         Vuoi davvero cancellare la news?
       </div>
       <div class="modal-footer">
-         <button id="butt-ok" type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+         <button id="butt-ok" type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
          <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
       </div>
     </div>
@@ -114,8 +114,8 @@
         Vuoi davvero cancellare la news?
       </div>
       <div class="modal-footer">
-         <button id="butt-ok" type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
-         <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+         <button id="butt-ok" type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
+         
       </div>
     </div>
 
