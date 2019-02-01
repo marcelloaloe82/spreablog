@@ -50,6 +50,12 @@
 
 	$(document).ready( function(){
 
+		$("#message-dialog").on("hidden.bs.modal", function () {
+
+			location.reload();
+		});
+		
+
 		$("#entra").click(function(event){
 
 	    	event.preventDefault();
