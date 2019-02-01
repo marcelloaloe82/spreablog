@@ -9,7 +9,7 @@
     </form>
 
     </div> <!-- /container -->
-	<div id="modale" class="modal fade" role="dialog">
+	<div id="message-dialog" class="modal fade" role="dialog">
 	  <div class="modal-dialog">
 
 		<!-- Modal content-->
@@ -45,20 +45,9 @@
 	</div>
 
 </div>	 
-
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/utils.js"></script>   
 <script type="text/javascript">
 
-	function finestra_messaggio(messaggio, conferma){
-
-	    var html_messaggio = "<p>" + messaggio + "</p>";
-	    
-	    $("#confirm-modal .modal-body").html(html_messaggio);
-
-	    $("#confirm-modal").modal('show');
-
-    
-  	}
-	
 	$(document).ready( function(){
 
 		$("#entra").click(function(event){
@@ -77,14 +66,25 @@
 				
 			}).done(function(response){
 
-	                  $("#login-modal").modal('hide');
-	                  location.reload();
+	        
+	            location.reload();
 	                
 	      }).fail( function(response){
 	        
-	        $("#login-modal").modal('hide');
-	        
-	        finestra_messaggio(response.responseJSON.message);
+	        var messaggio ;
+
+	        try{
+	        	messaggio = response.responseJSON.message;
+
+	        	
+
+	        } catch(exc){
+	        	
+	        	messaggio = response.responseText;
+
+	        }
+
+	        finestra_messaggio(messaggio);
 	        
 	      });
 	    });
