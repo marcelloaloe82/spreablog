@@ -58,10 +58,10 @@ class News extends REST_Controller {
               %s
               </div>
               %s %s
-            </div>
-            <div class=\"comments-area\">
+             <div class=\"comments-area\">
                 <h3>Commenti alla news</h3>
                 %s
+             </div>
             </div>
           </div>
           <hr>";
