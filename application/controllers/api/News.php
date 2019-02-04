@@ -72,74 +72,74 @@ class News extends REST_Controller {
         
         $arr_html_news = []; 
 
-        if($this->session->user)
+        if($this->session->user){
 
             $ruolo_utente = $this->user->get_ruolo( $this->session->user['role_id']);
 
-        if (count($news) > 0){
+            if (count($news) > 0){
 
-            if(!empty($ruolo_utente) && $ruolo_utente == 'editor'){
+                if(!empty($ruolo_utente) && $ruolo_utente == 'editor'){
 
-              $button_modifica = "<button class='btn btn-primary edit-button'>Modifica</button>";
-              $button_elimina  = "<button class='btn btn-primary btn-danger delete-news-button'>Elimina</button>";
+                  $button_modifica = "<button class='btn btn-primary edit-button'>Modifica</button>";
+                  $button_elimina  = "<button class='btn btn-primary btn-danger delete-news-button'>Elimina</button>";
 
-            } else{
+                } else{
 
-                $button_modifica = "";
-                $button_elimina  = "";
-      
-            }
-            
-            foreach($news as $single_news) {
-
-
-                $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($single_news['created_at'])) . "</h4>";
-
-                $html_replies = '';
-
-                $html_comments = '';
-
-                foreach ($comments as $key => $comment) {
+                    $button_modifica = "";
+                    $button_elimina  = "";
+          
+                }
+                
+                foreach($news as $single_news) {
 
 
-                    if($comment['news_id'] == $single_news['id']){
+                    $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($single_news['created_at'])) . "</h4>";
 
-                        
-                        $comment_replies = $this->comment->get_comment_replies($comment['id']);
+                    $html_replies = '';
 
-                        foreach ($comment_replies as $index => $reply) {
-                                
-                            $html_replies .= sprintf($reply_template, $reply['display_name'], $reply['content']);
+                    $html_comments = '';
+
+                    foreach ($comments as $key => $comment) {
+
+
+                        if($comment['news_id'] == $single_news['id']){
+
+                            
+                            $comment_replies = $this->comment->get_comment_replies($comment['id']);
+
+                            foreach ($comment_replies as $index => $reply) {
+                                    
+                                $html_replies .= sprintf($reply_template, $reply['display_name'], $reply['content']);
+
+                            }
+
+                            $html_comments .= sprintf($comment_template, $comment['display_name'], $comment['content'], $html_replies);
 
                         }
-
-                        $html_comments .= sprintf($comment_template, $comment['display_name'], $comment['content'], $html_replies);
-
+                           
                     }
-                       
+
+                    if(empty($html_comments) )
+                        $html_comments = 'Nessun commento per questa news';
+
+                    $arr_html_news[] = sprintf($news_template, 
+                                               $single_news['title'], 
+                                               $data_pubblicazione, 
+                                               $single_news['id'],
+                                               $single_news['content'],
+                                               $html_comments,
+                                               $button_modifica,
+                                               $button_elimina);
+                        }
+              
                 }
 
-                if(empty($html_comments) )
-                    $html_comments = 'Nessun commento per questa news';
 
-                $arr_html_news[] = sprintf($news_template, 
-                                           $single_news['title'], 
-                                           $data_pubblicazione, 
-                                           $single_news['id'],
-                                           $single_news['content'],
-                                           $html_comments,
-                                           $button_modifica,
-                                           $button_elimina);
-                    }
-          
-            }
-
-
-            $str_html_news = implode("", $arr_html_news);
-            
-            $this->set_response($str_html_news, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+                $str_html_news = implode("", $arr_html_news);
+                
+                $this->set_response($str_html_news, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         
-        } else {
+            } else {
             
             $this->set_response(array(), REST_Controller::HTTP_OK); 
         }
