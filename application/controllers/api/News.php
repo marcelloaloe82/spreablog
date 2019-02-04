@@ -52,7 +52,7 @@ class News extends REST_Controller {
 
         $news_template = "<div class=\"row\">
             <div class=\"col-sm-12\">
-              <h2>%s</h2>
+              <h1>%s</h1>
               %s
               <div class=\"news-content\" data-post-id=\"%s\">
               %s
