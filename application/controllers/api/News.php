@@ -130,9 +130,9 @@ class News extends REST_Controller {
                                            $data_pubblicazione, 
                                            $single_news['id'],
                                            $single_news['content'],
-                                           $html_comments,
                                            $button_modifica,
-                                           $button_elimina);
+                                           $button_elimina,
+                                           $html_comments);
                     
           
             }
