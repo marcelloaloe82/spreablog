@@ -165,6 +165,22 @@ foreach($news as $single_news):
 
     $(".delete-news-button").click( delete_button_callback );
 
+    $(window).scroll( function (event) {
+      
+      if ( ($(document).height() <= $(window).scrollTop() + $(window).height()) && !no_more_news){
+        $.get("<?php echo base_url(); ?>index.php/api/news/nextpage/" + news_offset, function(data){
+            if(data.length === 0) no_more_news = true;
+            
+            else{
+              $('.container').append( data );
+              $('.edit-button').on('click', edit_button_callback);
+              $('.delete-news-button').on('click', delete_button_callback);
+            } 
+        });
+        news_offset += 10;
+     } 
+            
+    });
 
 
   });
