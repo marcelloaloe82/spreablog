@@ -133,7 +133,7 @@ class News extends REST_Controller {
                                            $html_comments,
                                            $button_modifica,
                                            $button_elimina);
-                    }
+                    
           
             }
 
