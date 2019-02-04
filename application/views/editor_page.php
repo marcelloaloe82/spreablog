@@ -191,7 +191,7 @@
         if(href.indexOf("reply") > 0){
 
           $("#reply-form").attr("action", href);
-          $("#reply-modal").modal('show');
+          $("#reply-modal").modal({backdrop: "static"});
         }
 
 
