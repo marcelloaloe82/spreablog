@@ -45,7 +45,9 @@ class News extends REST_Controller {
 
         $news = $this->news_model->paged_news($start);
 
-        $html_news = "<div class=\"row\">
+        $comments = $this->comment->all();
+
+        $news_template = "<div class=\"row\">
             <div class=\"col-sm-12\">
               <h2>%s</h2>
               %s
@@ -54,9 +56,20 @@ class News extends REST_Controller {
               </div>
               %s %s
             </div>
+            <div class=\"comments-area\">
+                <h3>Commenti alla news</h3>
+                %s
+            </div>
           </div>
           <hr>";
 
+        $comment_template = '<h5>%s</h5>'.
+                         '<div class=\"comment-content\">%s</div>' .
+                         '<div class=\"replies\">%s</div>';
+
+        $reply_template = '<h5>%s</h5>' .
+                          '<div>%s</div>';
+        
         $arr_html_news = []; 
 
         if($this->session->user)
@@ -82,13 +95,42 @@ class News extends REST_Controller {
 
                 $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($single_news['created_at'])) . "</h4>";
 
-                $arr_html_news[] = sprintf($html_news, 
+                $html_replies = '';
+
+                $html_comments = '';
+
+                foreach ($comments as $key => $comment) {
+
+
+                    if($comment['news_id'] == $single_news['id']){
+
+                        
+                        $comment_replies = $this->comment->get_comment_replies($comment['id']);
+
+                        foreach ($comment_replies as $index => $reply) {
+                                
+                            $html_replies .= sprintf($reply_template, $reply['display_name'], $reply['content']);
+
+                        }
+
+                        $html_comments .= sprintf($comment_template, $comment['display_name'], $comment['content'], $html_replies);
+
+                    }
+                       
+                }
+
+                if(empty($html_comments) )
+                    $html_comments = 'Nessun commento per questa news';
+
+                $arr_html_news[] = sprintf($news_template, 
                                            $single_news['title'], 
                                            $data_pubblicazione, 
                                            $single_news['id'],
                                            $single_news['content'],
+                                           $html_comments,
                                            $button_modifica,
                                            $button_elimina);
+                    }
           
             }
 
