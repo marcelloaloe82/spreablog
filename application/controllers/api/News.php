@@ -27,6 +27,8 @@ class News extends REST_Controller {
         $this->load->library('session');
         $this->load->model('news_model');
         $this->load->model('user');
+        $this->load->model('comment');
+
         $config = array(
             'field' => 'slug',
             'title' => 'title',
