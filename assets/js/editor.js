@@ -85,7 +85,7 @@ function delete_button_callback(){
 
       ajax: {
         
-        url: base_url + 'index.php/api/comments/' + user_id,
+        url: base_url + 'api/comments/' + user_id,
         contentType: false,
         processData: false,
         data: '',
