@@ -25,12 +25,12 @@ class Comments extends REST_Controller {
     }
 
     //lista dei commenti
-    function index_get(){
+    function index_get($user_id){
 
     	if(!empty($this->session->user)){
     		
 
-        	$user_id = $this->session->user['id'];
+        	//$user_id = $this->session->user['id'];
 
         	$comments = $this->comment->all($user_id);
 
