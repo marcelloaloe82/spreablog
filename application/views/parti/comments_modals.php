@@ -67,3 +67,4 @@
          <button id="send-reply" type="button" class="btn btn-default" disabled>Invia</button>
       </div>
     </div>
+  </div>
