@@ -4,6 +4,7 @@
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#users">Utenti</a></li>
     <li><a id="aggiungi-utente" data-toggle="tab" href="#add-user">Aggiungi/Modifica utente</a></li>
+    <li><a id="scrivi-news" data-toggle="tab" href="#editor">Scrivi news</a></li>
     
   </ul>
 
@@ -65,6 +66,29 @@
       </form>
       
     </div>
+
+    <div id="editor" class="tab-pane fade">
+
+        <h2>Scrivi articolo</h2>
+
+        <form id="news-form">
+        
+          <div class="form-group">
+            <input type="text" name="title" id="title" class="form-control" placeholder="Titolo" value="<?php if(!empty($title)) echo $title; ?>">
+          </div>
+        
+        
+          <textarea id="news-text" name="content" class="form-control" rows="5">
+            <?php if(!empty($content)) echo $content; ?>
+          </textarea>
+          <div class="news-buttons">
+            <button id="publish" class="btn btn-primary">Pubblica</button>
+          </div>
+          <input type="hidden" name="id" id="post-id" value="<?php if(!empty($id)) echo $id; ?>">
+          <input type="hidden" id="<?php echo $csrf['name']; ?>" name="<?php echo $csrf['name']; ?>" value="<?php echo $csrf['hash']; ?>">
+        </form>
+        
+    </div>
   <!--end tab content -->
   </div>
 
@@ -120,7 +144,15 @@
 
 </div>    
 </body>
-<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/utils.js"></script>   
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/utils.js"></script>  
+<script type="text/javascript">
+
+csrf_name = '<?php echo $csrf['name']; ?>';
+  user_id = '<?php echo $user_id; ?>';
+  messaggio_risposta = "";
+  delete_uri = "";
+</script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/editor.js"></script>    
 <script type="text/javascript">
 
   operazione = "";
@@ -135,7 +167,7 @@
     return json.data;
   }
 
-  function aggancia_callback(){
+  function aggancia_callback_tabella_utenti(){
 
     $("#utenti .glyphicon.glyphicon-pencil").on('click', function () {
       
@@ -223,7 +255,7 @@
 
     datatable.on("draw.dt", function(){
     
-      aggancia_callback();
+      aggancia_callback_tabella_utenti();
 
     });
 
