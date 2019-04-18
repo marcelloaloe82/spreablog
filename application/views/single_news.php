@@ -143,7 +143,9 @@ $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($
   
 </div>    
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/utils.js"></script>   
+<?php if(in_array($ruolo_utente, ['admin', 'editor'])): ?>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/editor.js"></script>
+<?php endif; ?>
 <script type="text/javascript">
 
   news_offset         = 10;
@@ -177,10 +179,6 @@ $data_pubblicazione = "<h4>Pubblicato il: ". @strftime("%d %B %Y ",  strtotime($
     })
     
 
-    $(".edit-button").click( edit_button_callback );
-
-
-    $(".delete-news-button").click( delete_button_callback );
 
 
     $(".invia-commento").on('submit', function(event){

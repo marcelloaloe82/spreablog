@@ -59,6 +59,10 @@ function delete_button_callback(){
   
   $(document).ready( function(){
 
+    /*per la pagina di modifica singola news */
+    $(".edit-button").click( edit_button_callback );
+    $(".delete-news-button").click( delete_button_callback );
+
 
     tabella_commenti= $("#commenti").DataTable({
       
