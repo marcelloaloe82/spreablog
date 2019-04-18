@@ -17,6 +17,8 @@ class Blog extends CI_Controller {
         if($this->session->user)
 			$this->ruolo_utente = $this->user->get_ruolo( $this->session->user['role_id']);
 
+		else $this->ruolo_utente = '';
+
     }
 
 	public function index()	{
