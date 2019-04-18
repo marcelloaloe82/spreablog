@@ -1,4 +1,4 @@
-<div id="modera" class="tab-pane fade in active">
+<div id="modera" class="tab-pane fade">
       
       <table id="commenti" class="cell-border compact stripe">
           <thead>
