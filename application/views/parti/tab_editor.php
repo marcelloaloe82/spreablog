@@ -36,6 +36,14 @@
           <div class="news-buttons">
             <button id="publish" class="btn btn-primary">Pubblica</button>
           </div>
+
+          <div class="form-group">
+            <select class="form-control" name="interested_users" multiple="">
+              <?php foreach ($users as $user) : ?>
+                <option value="<?php echo $user['id']; ?>"><?php echo $user['nome'] . ' ' . $user['cognome']; ?></option>
+              <?php endforeach; ?>
+            </select> 
+          </div>
           <input type="hidden" name="id" id="post-id" value="<?php if(!empty($id)) echo $id; ?>">
           <input type="hidden" id="<?php echo $csrf['name']; ?>" name="<?php echo $csrf['name']; ?>" value="<?php echo $csrf['hash']; ?>">
         </form>
