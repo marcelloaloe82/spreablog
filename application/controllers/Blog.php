@@ -14,7 +14,8 @@ class Blog extends CI_Controller {
         $this->load->model('comment');
         $this->load->library('session');
         
-		$this->ruolo_utente = $this->user->get_ruolo( $this->session->user['role_id']);
+        if($this->session->user)
+			$this->ruolo_utente = $this->user->get_ruolo( $this->session->user['role_id']);
 
     }
 
