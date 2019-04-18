@@ -24,6 +24,7 @@ class Admin extends CI_Controller {
 		);
 
 		$data['page_title'] = 'Sprea News | Pannello admin';
+		$data['user_id'] = 	$this->session->user['id'];
 		
 		if($this->session->user){
 			
@@ -33,9 +34,10 @@ class Admin extends CI_Controller {
 
 				$data['editor'] = true;
 				$data['ruoli'] = $this->user->ruoli();
-				$data['user_id'] = 	$this->session->user['id'];
 				$data['tab_editor'] = $this->load->view('parti/tab_editor', $data, true);
 				$data['comments_modals'] = $this->load->view('parti/comments_modals', $data, true);
+				$data['users'] = $this->user->all();
+
 				$this->load->view('parti/head', $data);
 				$this->load->view('admin_page', $data);
 				
@@ -44,9 +46,10 @@ class Admin extends CI_Controller {
 			elseif($ruolo_utente == 'editor'){
 				
 				$data['editor'] = true;		
-				$data['user_id'] = 	$this->session->user['id'];
+				
 				$data['tab_editor'] = $this->load->view('parti/tab_editor', $data, true);
 				$data['comments_modals'] = $this->load->view('parti/comments_modals', $data, true);
+				$data['users'] = $this->user->all();
 
 				$this->load->view('parti/head', $data);
 				$this->load->view('editor_page', $data);

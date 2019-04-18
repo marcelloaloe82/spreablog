@@ -38,6 +38,7 @@
           </div>
 
           <div class="form-group">
+            <label for="interested_users">Persone interessate: </label>
             <select class="form-control" name="interested_users" multiple="">
               <?php foreach ($users as $user) : ?>
                 <option value="<?php echo $user['id']; ?>"><?php echo $user['nome'] . ' ' . $user['cognome']; ?></option>
