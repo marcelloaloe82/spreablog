@@ -89,5 +89,10 @@ class Admin extends CI_Controller {
 
 	}
 
+	public function session(){
+
+		echo '<pre>' . print_r($this->session->user, true) . '</pre>';
+	}
+
 
 }
