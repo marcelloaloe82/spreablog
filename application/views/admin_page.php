@@ -4,8 +4,8 @@
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#users">Utenti</a></li>
     <li><a id="aggiungi-utente" data-toggle="tab" href="#add-user">Aggiungi/Modifica utente</a></li>
-    <li><a id="scrivi-news" data-toggle="tab" href="#editor">Scrivi news</a></li>
     <li><a data-toggle="tab" href="#modera">Modera commenti</a></li>
+    <li><a id="scrivi-news" data-toggle="tab" href="#editor">Scrivi news</a></li>
     
   </ul>
 
