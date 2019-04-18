@@ -74,7 +74,24 @@
 
       
  <?php echo $comments_modals; ?>
+  
+  <div id="loading" class="modal fade" role="dialog">
+    <div class="modal-dialog">
 
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Operazione in corso...</h4>
+        </div>
+        <div class="modal-body">
+          <img id="load-gif" src="<?php echo base_url(); ?>assets/img/load-icon.gif">
+        </div>
+        
+      </div>
+
+    </div>
+  </div>
   <div id="message-dialog" class="modal fade" role="dialog">
         
         <div class="modal-dialog">
