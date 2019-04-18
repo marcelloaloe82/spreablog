@@ -50,7 +50,7 @@ class Blog extends CI_Controller {
 		$page_data['csrf'] = ['name' => $this->security->get_csrf_token_name(),
 							  'hash' => $this->security->get_csrf_hash()];
 		
-		$this->load->view('head', $page_data);
+		$this->load->view('parti/head', $page_data);
 		$this->load->view('blog_page', $page_data);
 	
 		
@@ -86,7 +86,7 @@ class Blog extends CI_Controller {
 			$page_data['csrf'] = ['name' => $this->security->get_csrf_token_name(),
 								  'hash' => $this->security->get_csrf_hash()];
 			
-			$this->load->view('head', $page_data);
+			$this->load->view('parti/head', $page_data);
 			$this->load->view('single_news', $page_data);
 		}
 	}

@@ -1,6 +1,6 @@
 <div id="modera" class="tab-pane fade">
       
-      <table id="commenti" class="cell-border compact stripe">
+      <table id="commenti" class="cell-border compact stripe" style="width: 100%;">
           <thead>
             
             <tr>
