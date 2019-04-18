@@ -33,10 +33,6 @@
           <textarea id="news-text" name="content" class="form-control" rows="5">
             <?php if(!empty($content)) echo $content; ?>
           </textarea>
-          <div class="news-buttons">
-            <button id="publish" class="btn btn-primary">Pubblica</button>
-          </div>
-
           <div class="form-group">
             <label for="interested_users">Persone interessate: </label>
             <select class="form-control" name="interested_users" multiple="">
@@ -45,6 +41,10 @@
               <?php endforeach; ?>
             </select> 
           </div>
+          <div class="news-buttons">
+            <button id="publish" class="btn btn-primary">Pubblica</button>
+          </div>
+
           <input type="hidden" name="id" id="post-id" value="<?php if(!empty($id)) echo $id; ?>">
           <input type="hidden" id="<?php echo $csrf['name']; ?>" name="<?php echo $csrf['name']; ?>" value="<?php echo $csrf['hash']; ?>">
         </form>
