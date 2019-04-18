@@ -33,6 +33,8 @@ class Admin extends CI_Controller {
 
 				$data['editor'] = false;
 				$data['ruoli'] = $this->user->ruoli();
+				$data['tab_editor'] = $this->load->view('parti/tab_editor', true);
+				$data['comments_modal'] = $this->load->view('parti/comments_modal', true);
 				$this->load->view('head', $data);
 				$this->load->view('admin_page', $data);
 				
@@ -42,6 +44,8 @@ class Admin extends CI_Controller {
 				
 				$data['editor'] = true;		
 				$data['user_id'] = 	$this->session->user['id'];
+				$data['tab_editor'] = $this->load->view('parti/tab_editor', true);
+				$data['comments_modal'] = $this->load->view('parti/comments_modal', true);
 
 				$this->load->view('head', $data);
 				$this->load->view('editor_page', $data);
