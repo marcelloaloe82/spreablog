@@ -284,7 +284,7 @@ function delete_button_callback(){
 
 
       $.ajax({
-        url: base_url + "index.php/api/news/" + operazione,
+        url: base_url + "api/news/" + operazione,
         type: "POST",
         data: formData, 
         processData: false,
@@ -317,7 +317,7 @@ function delete_button_callback(){
     $("#logout").click(function(event){
 
         event.preventDefault();
-        $.post(base_url + "index.php/api/auth/logout", function(response){
+        $.post(base_url + "api/auth/logout", function(response){
          
           location.reload();
         });
