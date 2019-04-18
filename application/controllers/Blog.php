@@ -14,6 +14,7 @@ class Blog extends CI_Controller {
         $this->load->model('comment');
         $this->load->library('session');
         
+		$this->ruolo_utente = $this->user->get_ruolo( $this->session->user['role_id']);
 
     }
 
@@ -24,8 +25,7 @@ class Blog extends CI_Controller {
 
 		if(!empty($this->session->user)){
 
-			$ruolo_utente = $this->user->get_ruolo( $this->session->user['role_id']);
-			$page_data['ruolo_utente'] = $ruolo_utente;
+			$page_data['ruolo_utente'] = $this->ruolo_utente;
 
 		}
 
@@ -59,6 +59,7 @@ class Blog extends CI_Controller {
 		if($slug != NULL){
 
 			$page_data['page_title'] = 'Sprea News';
+			$page_data['ruolo_utente'] = $this->ruolo_utente;
 
 			$news_id = $this->news_model->get_news_id_from_slug($slug);
 			$page_data['single_news'] = $this->news_model->get($news_id);
