@@ -25,10 +25,14 @@ class Blog extends CI_Controller {
 
 		
 		$page_data = [];
+		$page_data['csrf'] = ['name' => $this->security->get_csrf_token_name(),
+							  'hash' => $this->security->get_csrf_hash() ];
+		$page_data['page_title'] = 'Sprea News';
 
 		if(empty($this->session->user)){
 
-			$this->load->view('login_page');
+			$page_data['page_title'] .= ' | Login';
+			$this->load->view('login_page', $page_data);
 
 			return;
 
@@ -36,7 +40,6 @@ class Blog extends CI_Controller {
 		} else {
 
 			$page_data['ruolo_utente'] = $this->ruolo_utente;
-			$page_data['page_title'] = 'Sprea News';
 			$page_data['news'] = $this->news_model->paged_news(0);
 			
 			$page_data['comments'] = $this->comment->all();
@@ -51,8 +54,6 @@ class Blog extends CI_Controller {
 
 			$page_data['recaptcha'] = true;
 			$page_data['editor'] = false;
-			$page_data['csrf'] = ['name' => $this->security->get_csrf_token_name(),
-								  'hash' => $this->security->get_csrf_hash() ];
 			
 			$this->load->view('parti/head', $page_data);
 			$this->load->view('blog_page', $page_data);
