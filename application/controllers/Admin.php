@@ -9,6 +9,11 @@ class Admin extends CI_Controller {
         $this->load->library('session');
         $this->load->model('user');
         $this->load->model('news_model');
+
+        if($this->session->user)
+			$this->ruolo_utente = $this->user->get_ruolo( $this->session->user['role_id']);
+
+		else $this->ruolo_utente = '';
     }
 
 
@@ -28,8 +33,8 @@ class Admin extends CI_Controller {
 		
 		if($this->session->user){
 			
-			$ruolo_utente = $this->user->get_ruolo( $this->session->user['role_id']);
-			$data['ruolo_utente'] = $ruolo_utente;
+			
+			$data['ruolo_utente'] = $this->ruolo_utente;
 
 			if($ruolo_utente == 'admin'){
 
@@ -82,6 +87,7 @@ class Admin extends CI_Controller {
 		$head_data['page_title'] = 'Sprea News | Pannello admin';
 
 		$news_data['user_id'] = $this->session->user['id'];
+		$news_data['ruolo_utente'] = $this->ruolo_utente;
 
 		$news_data['csrf'] = array(
 				'name' => $this->security->get_csrf_token_name(),
@@ -90,7 +96,7 @@ class Admin extends CI_Controller {
 
 		$news_data['tab_editor'] = $this->load->view('parti/tab_editor', $news_data, true);
 		$news_data['comments_modals'] = $this->load->view('parti/comments_modals', $news_data, true);
-		
+
 		$this->load->view('parti/head', $head_data);
 		$this->load->view('editor_page', $news_data);
 
