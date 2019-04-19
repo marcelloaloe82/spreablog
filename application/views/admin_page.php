@@ -1,6 +1,6 @@
 <div>
+  <button style="float:right;" class="btn btn-default" id="logout">Logout</button>&nbsp;
   <button style="float:right;" class="btn btn-default" id="blog">Vai al blog</button>
-  <button style="float:right;" class="btn btn-default" id="logout">Logout</button>
 </div>
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#users">Utenti</a></li>
@@ -335,7 +335,7 @@
 
 
     $("#blog").click(function(){
-        location.href('<?php echo base_url(); ?>index.php/Blog');
+        location.href = '<?php echo base_url(); ?>index.php/Blog';
     });
     
 
