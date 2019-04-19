@@ -88,6 +88,8 @@ class Admin extends CI_Controller {
 				'hash' => $this->security->get_csrf_hash()
 		);
 
+		$news_data['tab_editor'] = $this->load->view('parti/tab_editor', $news_data, true);
+		
 		$this->load->view('parti/head', $head_data);
 		$this->load->view('editor_page', $news_data);
 
