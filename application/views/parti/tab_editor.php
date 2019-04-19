@@ -1,4 +1,4 @@
-<div id="modera" class="tab-pane fade <?php echo ($ruolo_utente == 'editor' ?  'active' : ''); ?>"  >
+<div id="modera" class="tab-pane fade <?php echo ($ruolo_utente == 'editor' ?  'active' : ''); ?>">
       
       <table id="commenti" class="cell-border compact stripe" style="width: 100%;">
           <thead>
