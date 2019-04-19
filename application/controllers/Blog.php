@@ -31,7 +31,10 @@ class Blog extends CI_Controller {
 
 		if(empty($this->session->user)){
 
+			$page_data['recaptcha'] = false;
+			$page_data['editor'] = false;
 			$page_data['page_title'] .= ' | Login';
+			
 			$this->load->view('parti/head', $page_data);
 			$this->load->view('login_page', $page_data);
 
