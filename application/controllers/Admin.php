@@ -29,6 +29,7 @@ class Admin extends CI_Controller {
 		if($this->session->user){
 			
 			$ruolo_utente = $this->user->get_ruolo( $this->session->user['role_id']);
+			$data['ruolo_utente'] = $ruolo_utente;
 
 			if($ruolo_utente == 'admin'){
 
