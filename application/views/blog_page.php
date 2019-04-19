@@ -131,7 +131,7 @@ foreach($news as $single_news):
 
   
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/utils.js"></script>   
-<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/editor.js"></script>   
+
 <script type="text/javascript">
 
   news_offset         = 10;
