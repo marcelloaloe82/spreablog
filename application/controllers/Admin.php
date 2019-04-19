@@ -87,6 +87,12 @@ class Admin extends CI_Controller {
 		$head_data['page_title'] = 'Sprea News | Pannello admin';
 
 		$news_data['user_id'] = $this->session->user['id'];
+
+		if($this->ruolo_utente == 'admin')
+			$view = 'admin_page';
+
+		else $view = 'editor_page';
+
 		$news_data['ruolo_utente'] = $this->ruolo_utente;
 
 		$news_data['csrf'] = array(
@@ -98,7 +104,7 @@ class Admin extends CI_Controller {
 		$news_data['comments_modals'] = $this->load->view('parti/comments_modals', $news_data, true);
 
 		$this->load->view('parti/head', $head_data);
-		$this->load->view('editor_page', $news_data);
+		$this->load->view($view, $news_data);
 
 	}
 
