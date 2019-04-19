@@ -1,4 +1,5 @@
 <div>
+  <button style="float:right;" class="btn btn-default" id="blog">Vai al blog</button>
   <button style="float:right;" class="btn btn-default" id="logout">Logout</button>
 </div>
   <ul class="nav nav-tabs">
@@ -333,6 +334,9 @@
     });
 
 
+    $("#blog").click(function(){
+        location.href('<?php echo base_url(); ?>index.php/Blog');
+    });
     
 
     $("#logout").click(function(event){

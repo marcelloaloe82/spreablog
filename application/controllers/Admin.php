@@ -61,7 +61,7 @@ class Admin extends CI_Controller {
 			$data['editor'] = false;
 						
 			$this->load->view('parti/head', $data);
-			$this->load->view('login_admin_page');
+			$this->load->view('login_page');
 		}
 		
 

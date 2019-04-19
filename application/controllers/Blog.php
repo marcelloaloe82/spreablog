@@ -26,34 +26,40 @@ class Blog extends CI_Controller {
 		
 		$page_data = [];
 
-		if(!empty($this->session->user)){
+		if(empty($this->session->user)){
+
+			$this->load->view('login_page');
+
+			return;
+
+
+		} else {
 
 			$page_data['ruolo_utente'] = $this->ruolo_utente;
-
-		}
-
-		$page_data['page_title'] = 'Sprea News';
-		$page_data['news'] = $this->news_model->paged_news(0);
-		
-		$page_data['comments'] = $this->comment->all();
-
-
-		foreach ($page_data['comments'] as $index=>$comment) {
-						
-			//var_dump($this->comment->get_comment_replies($comment['id'])); 
-			$page_data['comments'][$index]['replies'] = $this->comment->get_comment_replies($comment['id']);
+			$page_data['page_title'] = 'Sprea News';
+			$page_data['news'] = $this->news_model->paged_news(0);
 			
-		}
+			$page_data['comments'] = $this->comment->all();
 
-		$page_data['recaptcha'] = true;
-		$page_data['editor'] = false;
-		$page_data['csrf'] = ['name' => $this->security->get_csrf_token_name(),
-							  'hash' => $this->security->get_csrf_hash()];
+
+			foreach ($page_data['comments'] as $index=>$comment) {
+							
+				//var_dump($this->comment->get_comment_replies($comment['id'])); 
+				$page_data['comments'][$index]['replies'] = $this->comment->get_comment_replies($comment['id']);
+				
+			}
+
+			$page_data['recaptcha'] = true;
+			$page_data['editor'] = false;
+			$page_data['csrf'] = ['name' => $this->security->get_csrf_token_name(),
+								  'hash' => $this->security->get_csrf_hash() ];
+			
+			$this->load->view('parti/head', $page_data);
+			$this->load->view('blog_page', $page_data);
 		
-		$this->load->view('parti/head', $page_data);
-		$this->load->view('blog_page', $page_data);
-	
-		
+		}	
+
+				
 	}
 
 	public function view($slug=NULL){
