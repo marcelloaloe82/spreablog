@@ -8,7 +8,7 @@ $comment_flag = false;
 foreach($news as $single_news): 
 
 
-  if(!empty($ruolo_utente) && in_array($ruolo_utente, ['editor', 'admin']){
+  if(!empty($ruolo_utente) && in_array($ruolo_utente, ['editor', 'admin'])){
 
         $button_modifica = "<button class='btn btn-primary edit-button' data-post-id='${single_news['id']}'>Modifica</button>";
         $button_elimina  = "<button class='btn btn-primary btn-danger delete-news-button' data-post-id='${single_news['id']}'>Elimina</button>";
