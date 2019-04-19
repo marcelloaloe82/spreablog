@@ -89,6 +89,7 @@ class Admin extends CI_Controller {
 		);
 
 		$news_data['tab_editor'] = $this->load->view('parti/tab_editor', $news_data, true);
+		$news_data['comments_modals'] = $this->load->view('parti/comments_modals', $news_data, true);
 		
 		$this->load->view('parti/head', $head_data);
 		$this->load->view('editor_page', $news_data);
