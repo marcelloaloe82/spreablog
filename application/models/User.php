@@ -18,6 +18,19 @@ class User extends CI_Model {
 		return $this->db->get()->result_array(); 
 	}
 
+	public function utenti_ruoli($ruoli){
+
+		$this->db->select('users.id as id, nome, cognome, email, name as ruolo');
+		
+		$this->db->from('users');
+		
+		$this->db->join('roles', 'users.role_id = roles.id');
+
+		$this->db->where_in('name', $ruoli);
+
+		return $this->db->get()->result_array(); 
+	}
+
 	public function find($username, $password=""){
 
 		$this->db->select('id, nome, cognome, email, role_id');

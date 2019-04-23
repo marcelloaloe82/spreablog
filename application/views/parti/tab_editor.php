@@ -1,4 +1,4 @@
-<div id="modera" class="tab-pane fade <?php echo ($ruolo_utente == 'editor' ?  'active' : ''); ?>">
+<div id="modera" class="tab-pane fade <?php echo ($ruolo_utente == 'editor' ?  'active in' : ''); ?>">
       
       <table id="commenti" class="cell-border compact stripe" style="width: 100%;">
           <thead>
@@ -35,7 +35,7 @@
           </textarea>
           <div class="form-group">
             <label for="interested_users">Persone interessate: </label>
-            <select class="form-control" name="interested_users" multiple="">
+            <select class="form-control" name="interested_authors" id="interested_authors" multiple="">
               <?php foreach ($users as $user) : ?>
                 <option value="<?php echo $user['id']; ?>"><?php echo $user['nome'] . ' ' . $user['cognome']; ?></option>
               <?php endforeach; ?>

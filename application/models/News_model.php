@@ -39,9 +39,10 @@ class News_model extends CI_Model {
 
 	}
 
-	public function paged_news($start){
+	public function paged_news($start, $id_autore){
 
 		$this->db->where('status', 'published');
+		$this->db->where('author_id', $id_autore);
 		$this->db->order_by('created_at', 'desc');
 		$this->db->limit(NEWS_PAGE_SIZE, $start); 
 		return $this->db->get_where('news')->result_array();

@@ -36,11 +36,11 @@ class Admin extends CI_Controller {
 			
 			$data['ruolo_utente'] = $this->ruolo_utente;
 
-			if($ruolo_utente == 'admin'){
+			if($this->ruolo_utente == 'admin'){
 
+				$data['users'] = $this->user->utenti_ruoli(['admin', 'editor']);
 				$data['editor'] = true;
 				$data['ruoli'] = $this->user->ruoli();
-				$data['users'] = $this->user->all();
 				$data['tab_editor'] = $this->load->view('parti/tab_editor', $data, true);
 				$data['comments_modals'] = $this->load->view('parti/comments_modals', $data, true);
 
@@ -49,11 +49,10 @@ class Admin extends CI_Controller {
 				
 			}
 
-			elseif($ruolo_utente == 'editor'){
+			elseif($this->ruolo_utente == 'editor'){
 				
+				$data['users'] = $this->user->utenti_ruoli(['admin', 'editor']);
 				$data['editor'] = true;		
-				
-				$data['users'] = $this->user->all();
 				$data['tab_editor'] = $this->load->view('parti/tab_editor', $data, true);
 				$data['comments_modals'] = $this->load->view('parti/comments_modals', $data, true);
 
@@ -100,6 +99,7 @@ class Admin extends CI_Controller {
 				'hash' => $this->security->get_csrf_hash()
 		);
 
+		$news_data['users'] = $this->user->utenti_ruoli(['admin', 'editor']);
 		$news_data['tab_editor'] = $this->load->view('parti/tab_editor', $news_data, true);
 		$news_data['comments_modals'] = $this->load->view('parti/comments_modals', $news_data, true);
 

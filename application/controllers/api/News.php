@@ -138,7 +138,7 @@ class News extends REST_Controller {
             }
 
 
-            $str_html_news = implode("", $arr_html_news);
+            $str_html_news = implode('', $arr_html_news);
             
             $this->set_response($str_html_news, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         
@@ -192,9 +192,10 @@ class News extends REST_Controller {
          if($this->session->user){
 
              $news_data = [
-                'title'     => $this->post('title'),
-                'content'   => $this->post('content'),
-                'author_id' => $this->session->user['id']
+                'title'                 => $this->post('title'),
+                'content'               => $this->post('content'),
+                'interested_authors'    => $this->post('interested_authors'),
+                'author_id'             => $this->session->user['id']
             ];
 
             $id            = $this->post('id');
@@ -227,12 +228,13 @@ class News extends REST_Controller {
         if($this->session->user){
 
             $news_data = [
-                'title'     => $this->post('title'),
-                'content'   => $this->post('content'),
-                'author_id' => $this->session->user['id'],
-                'slug'      => $this->slug->create_uri($this->post('title')),
-                'status'    => 'published',
-                'created_at'=> @strftime("%Y-%m-%d %H:%M") 
+                'title'                 => $this->post('title'),
+                'content'               => $this->post('content'),
+                'interested_authors'    => $this->post('interested_authors'),
+                'author_id'             => $this->session->user['id'],
+                'slug'                  => $this->slug->create_uri($this->post('title')),
+                'status'                => 'published',
+                'created_at'            => @strftime("%Y-%m-%d %H:%M") 
             ];
 
             $message_ok         = "News pubblicata";
@@ -265,9 +267,10 @@ class News extends REST_Controller {
         if($this->session->user){
 
             $news_data = [
-                'title'     => $this->post('title'),
-                'content'   => $this->post('content'),
-                'author_id' => $this->session->user['id']
+                'title'                     => $this->post('title'),
+                'interested_authors'        => $this->post('interested_authors'),
+                'content'                   => $this->post('content'),
+                'author_id'                 => $this->session->user['id']
             ];
 
             $id =  $this->post('id');

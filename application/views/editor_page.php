@@ -1,5 +1,6 @@
 <div>
-  <button style="float:right;" class="btn btn-default" id="logout">Logout</button>
+  <button style="float:right;" class="btn btn-default" id="logout">Logout</button> &nbsp;
+  <button style="float:right;" class="btn btn-default" id="blog">Vai al blog</button>
 </div>
 
  <ul class="nav nav-tabs">

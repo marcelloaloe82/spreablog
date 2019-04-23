@@ -273,6 +273,7 @@ $(document).ready( function(){
     var formData = new FormData();
     formData.append("content", tinyMCE.activeEditor.getContent());
     formData.append("title", $("#title").val());
+    formData.append("interested_authors", $("#interested_authors").val());
     formData.append(csrf_name, $("#"+csrf_name).val());
 
     var post_id = $("#post-id").val();
@@ -316,6 +317,10 @@ $(document).ready( function(){
     });
 
   });
+
+  $("#blog").click(function(){
+        location.href = base_url + 'Blog';
+    });
 
 
   $("#logout").click(function(event){

@@ -334,19 +334,6 @@
     });
 
 
-    $("#blog").click(function(){
-        location.href = '<?php echo base_url(); ?>index.php/Blog';
-    });
-    
-
-    $("#logout").click(function(event){
-
-        $.post("<?php echo base_url(); ?>index.php/api/auth/logout", function(response){
-         
-          location.reload();
-        });
-    });
-
 
     $("#butt-ok").on('click', function(){
 

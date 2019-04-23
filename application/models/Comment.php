@@ -17,18 +17,43 @@ class Comment extends CI_Model {
 			$this->db->join('news', 'news.id = comments.news_id');
 			$this->db->where(['approved'=> 0, 'author_id'=>$user_id]);
 		
+			$result = $this->db->get()->result_array();
+
+			$this->db->select('comments.id as id, display_name as name, email, ip_address, comments.content as content,  title as news, interested_authors');
+			$this->db->from('comments');
+			$this->db->join('news', 'news.id = comments.news_id');
+			$this->db->where('interested_authors IS NOT NULL');
+
+			$result_interested = $this->db->get()->result_array();
+
+			foreach ($result_interested as $key => $row) {
+				
+				$interested_authors_exploded = explode(',', $row['interested_authors']);
+
+				if(in_array($user_id, $interested_authors_exploded)){
+					
+					unset($row['interested_authors']);
+					$result[] = $row;
+
+				}
+			}
+
+			return $result;
 		
 		} else{
 		
 			$this->db->where('approved = 1 and reply_to IS NULL');
+			return $this->db->get()->result_array();
 		}
 
 		
-		return $this->db->get()->result_array(); 
+		 
 
 		//var_dump($this->db->last_query());
 
 	}
+
+
 
 	public function find($id){
 
