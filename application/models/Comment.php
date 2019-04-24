@@ -23,7 +23,7 @@ class Comment extends CI_Model {
 			$this->db->from('comments');
 			$this->db->join('news', 'news.id = comments.news_id');
 			$this->db->where('interested_authors IS NOT NULL');
-			$this->db->where('author_id', 0);
+			$this->db->where('approved', 0);
 
 			$result_interested = $this->db->get()->result_array();
 
