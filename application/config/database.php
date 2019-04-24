@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'c1sprea_blog',
+	'hostname' => 's0.sprea.it',
+	'username' => 'c1_spreaU',
+	'password' => 'mdiLpt@QYMN7mdiLpt@QYMN7',
+	'database' => 'c1_spreaitDB',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
