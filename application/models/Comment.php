@@ -35,7 +35,7 @@ class Comment extends CI_Model {
 				if(in_array($user_id, $interested_authors_exploded)){
 
 
-					foreach ($result_comments as $key => $row_comments) {
+					/*foreach ($result_comments as $key => $row_comments) {
 						
 						if($row_interested['news.id'] == $row_comments['news.id']){
 							$gia_presente = true;
@@ -43,11 +43,11 @@ class Comment extends CI_Model {
 						}
 					}
 
-					if(!$gia_presente){
+					if(!$gia_presente){*/
 					
 						unset($row_interested['interested_authors']);
 						$result_comments[] = $row_interested;
-					}
+					//}
 				}
 			}
 
