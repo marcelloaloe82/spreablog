@@ -51,7 +51,7 @@ class Comment extends CI_Model {
 				}
 			}
 
-			return $result;
+			return $result_comments;
 		
 		} else{
 		
