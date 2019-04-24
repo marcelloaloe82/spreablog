@@ -37,7 +37,9 @@
             <label for="interested_users">Persone interessate: </label>
             <select class="form-control" name="interested_authors" id="interested_authors" multiple="">
               <?php foreach ($users as $user) : ?>
+                <?php if ($user['id'] != $this->session->user['id']): ?>
                 <option value="<?php echo $user['id']; ?>"><?php echo $user['nome'] . ' ' . $user['cognome']; ?></option>
+                <?php endif; ?>
               <?php endforeach; ?>
             </select> 
           </div>
