@@ -44,7 +44,11 @@ class Blog extends CI_Controller {
 		} else {
 
 			$page_data['ruolo_utente'] = $this->ruolo_utente;
-			$page_data['news'] = $this->news_model->paged_news(0, $this->session->user['id']);
+
+			if($this->ruolo_utente == 'reader' )
+				$page_data['news'] = $this->news_model->paged_news(0);
+
+			else $page_data['news'] = $this->news_model->paged_news(0, $this->session->user['id']);
 			
 			$page_data['comments'] = $this->comment->all();
 
