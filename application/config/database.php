@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 's0.sprea.it',
+	'hostname' => '138.201.30.226',
 	'username' => 'c1_spreaU',
 	'password' => 'mdiLpt@QYMN7mdiLpt@QYMN7',
 	'database' => 'c1_spreaitDB',
