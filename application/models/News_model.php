@@ -39,6 +39,15 @@ class News_model extends CI_Model {
 
 	}
 
+	public function get_interested_authors($news_id){
+
+		$this->db->select('interested_authors');
+		$this->db->from('news');
+		$this->db->where('id', $news_id);
+
+		return $this->db-get()->first_row();
+	}
+
 	public function paged_news($start, $id_autore=''){
 
 		$this->db->where('status', 'published');

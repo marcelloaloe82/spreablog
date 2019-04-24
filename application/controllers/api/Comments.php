@@ -101,6 +101,13 @@ class Comments extends REST_Controller {
                 $this->set_response(['message'=>$message_ok], REST_Controller::HTTP_OK);
                 $this->notifica_email($comment_data['news_id']);
 
+                $interested_authors = explode( ',', $this->news_model->get_interested_authors($comment_data['news_id'])->interested_authors );
+
+                foreach ($interested_authors as $author_id) {
+                     
+                     $this->notifica_email($author_id);
+                }
+
             }catch(Exception $e){
 
                 $error_message = $e->getMessage();

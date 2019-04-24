@@ -99,6 +99,7 @@ class Admin extends CI_Controller {
 				'hash' => $this->security->get_csrf_hash()
 		);
 
+		
 		$news_data['users'] = $this->user->utenti_ruoli(['admin', 'editor']);
 		$news_data['tab_editor'] = $this->load->view('parti/tab_editor', $news_data, true);
 		$news_data['comments_modals'] = $this->load->view('parti/comments_modals', $news_data, true);
